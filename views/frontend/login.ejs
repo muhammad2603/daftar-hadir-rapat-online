@@ -4,11 +4,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/base.css">
 </head>
 
 <body>
-    <h1>Login Page!</h1>
+    <div class="min-h-screen flex items-center justify-center bg-[#0f172a] relative overflow-hidden">
+        <div class="absolute inset-0 opacity-[0.04]" style="background-image: repeating-linear-gradient(0deg, transparent, transparent 39px, rgb(255, 255, 255) 39px, rgb(255, 255, 255) 40px), repeating-linear-gradient(90deg, transparent, transparent 39px, rgb(255, 255, 255) 39px, rgb(255, 255, 255) 40px);"></div>
+        <div class="absolute -top-20 -right-20 w-100 h-100 rounded-full bg-blue-700 opacity-20 blur-[80px]"></div>
+        <div class="absolute -bottom-15 -left-15 w-75 h-75 rounded-full bg-amber-700 opacity-15 blur-[80px]"></div>
+        <div class="relative w-full max-w-md px-4">
+            <div class="text-center mb-5">
+                <div class="hidden sm:inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-600 mb-4 shadow-lg shadow-blue-900/40">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="#2563eb"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-smartphone preview-icon size-10">
+                        <rect width="14" height="20" x="5" y="2" rx="2" ry="2" />
+                        <path d="M12 18h.01" />
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-bold text-white uppercase"><span class="block sm:inline">Daftar</span> Hadir Rapat Online</h1>
+                <p class="text-slate-400 text-sm mt-1">Sistem Presensi Online</p>
+            </div>
+            <div class="bg-white/5 border border-white/10 backdrop-blur-sm rounded-2xl p-8 shadow-2xl">
+                <h2 class="text-white font-semibold text-lg mb-6 text-center">Masuk ke Akun</h2>
+                <form class="space-y-4">
+                    <div>
+                        <label for="username" class="inline-block text-xs font-medium text-slate-400 mb-1.5 uppercase tracking-wider">Username</label>
+                        <div class="input-wrapper relative">
+                            <input
+                                id="username"
+                                type="text"
+                                placeholder="Masukkan Username..."
+                                class="w-full bg-white/10 border border-white/15 rounded-lg pl-10 pr-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors peer"
+                                autofocus
+                                autocomplete="off" />
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                                class="lucide lucide-circle-user-round preview-icon absolute top-1/2 left-2 -translate-y-1/2 text-white peer-focus:text-blue-200">
+                                <path d="M17.925 20.056a6 6 0 0 0-11.851.001" />
+                                <circle cx="12" cy="11" r="4" />
+                                <circle cx="12" cy="12" r="10" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="password" class="block text-xs font-medium text-slate-400 mb-1.5 uppercase tracking-wider">Password</label>
+                        <div class="input-wrapper relative">
+                            <input
+                                id="password"
+                                type="password"
+                                placeholder="Masukkan Password..."
+                                class="w-full bg-white/10 border border-white/15 rounded-lg pl-10 pr-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors peer"
+                                autofocus
+                                autocomplete="off" />
+                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                                class="lucide lucide-key-round preview-icon absolute top-1/2 left-2 -translate-y-1/2 text-white peer-focus:text-blue-200">
+                                <path
+                                    d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
+                                <circle cx="16.5" cy="7.5" r=".5" fill="currentColor" />
+                            </svg>
+                        </div>
+                        <div class="flex justify-end text-white mt-3">
+                            <button
+                                type="button"
+                                class="py-1 px-2 text-sm flex items-center gap-1 bg-white/20 backdrop-blur-md rounded-sm cursor-pointer transition-colors duration-100 ease-in hover:bg-blue-500"
+                                tabindex="-1"
+                                title="Lihat Password">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye preview-icon size-4.5">
+                                    <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg>
+                                <span>Show Password</span>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="button" class="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white font-semibold py-3 rounded-lg transition-colors mt-2 text-sm cursor-pointer">Masuk</button>
+                </form>
+                <div class="mt-6 pt-5 border-t border-white/10"></div>
+            </div>
+            <div class="text-center text-xs text-slate-600 mt-6 space-y-0.5">
+                <p>&copy; <%- (new Date).getFullYear() %> Sistem Daftar Hadir Rapat Online</p>
+                <p>Made by <span class="text-white/80">Muhammad Fattahillah. Mz</span></p>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
