@@ -10,7 +10,9 @@ app.set("view engine", "ejs");
 app.use(express.static('public'));
 
 app.get("/", (req, res) => {
-    res.render("frontend/login");
+    res.render("frontend/login", {
+        title: process.env.SITE_TITLE
+    });
 });
 
 app.listen(port, hostname, () => {
