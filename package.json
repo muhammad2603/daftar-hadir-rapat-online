@@ -7,10 +7,13 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "server": "node --watch --env-file=.env server.js"
+    "server": "node --watch --env-file=.env server.js",
+    "tailwind-dev": "npx @tailwindcss/cli -i ./src/css/input.css -o ./public/css/base.css --watch"
   },
   "dependencies": {
+    "@tailwindcss/cli": "^4.3.3",
     "ejs": "^6.0.1",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "tailwindcss": "^4.3.3"
   }
 }
