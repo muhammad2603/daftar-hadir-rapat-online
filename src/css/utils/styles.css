@@ -1,0 +1,19 @@
+/* Grid Boxes */
+@utility grid-boxes {
+    @apply opacity-[0.04];
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 39px,
+            rgb(255, 255, 255) 39px,
+            rgb(255, 255, 255) 40px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 39px,
+            rgb(255, 255, 255) 39px,
+            rgb(255, 255, 255) 40px
+        );
+}
