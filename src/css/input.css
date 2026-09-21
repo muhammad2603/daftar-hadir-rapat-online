@@ -1,1 +1,3 @@
 @import 'tailwindcss';
+@import './ui/themes.css';
+@import './utils/styles.css';
