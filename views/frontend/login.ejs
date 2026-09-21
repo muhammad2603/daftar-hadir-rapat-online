@@ -9,15 +9,15 @@
 </head>
 
 <body>
-    <div class="min-h-screen flex items-center justify-center bg-[#0f172a] relative overflow-hidden">
-        <div class="absolute inset-0 opacity-[0.04]" style="background-image: repeating-linear-gradient(0deg, transparent, transparent 39px, rgb(255, 255, 255) 39px, rgb(255, 255, 255) 40px), repeating-linear-gradient(90deg, transparent, transparent 39px, rgb(255, 255, 255) 39px, rgb(255, 255, 255) 40px);"></div>
-        <div class="absolute -top-20 -right-20 w-100 h-100 rounded-full bg-blue-700 opacity-20 blur-[80px]"></div>
-        <div class="absolute -bottom-15 -left-15 w-75 h-75 rounded-full bg-amber-700 opacity-15 blur-[80px]"></div>
+    <div class="min-h-screen flex items-center justify-center bg-dark-blue relative overflow-hidden">
+        <div class="absolute inset-0 grid-boxes"></div>
+        <div class="absolute -top-20 -right-20 w-100 h-100 rounded-full bg-secondary opacity-20 blur-[80px]"></div>
+        <div class="absolute -bottom-15 -left-15 w-75 h-75 rounded-full bg-primary opacity-15 blur-[80px]"></div>
         <div class="relative w-full max-w-md px-4">
             <div class="text-center mb-5">
-                <div class="hidden sm:inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-600 mb-4 shadow-lg shadow-blue-900/40">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="#2563eb"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-smartphone preview-icon size-10">
+                <div class="hidden sm:inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-secondary mb-4 shadow-lg shadow-blue-900/40">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-smartphone preview-icon size-10 stroke-secondary">
                         <rect width="14" height="20" x="5" y="2" rx="2" ry="2" />
                         <path d="M12 18h.01" />
                     </svg>
@@ -35,7 +35,7 @@
                                 id="username"
                                 type="text"
                                 placeholder="Masukkan Username..."
-                                class="w-full bg-white/10 border border-white/15 rounded-lg pl-10 pr-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors peer"
+                                class="w-full bg-white/10 border border-white/15 rounded-lg pl-10 pr-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors peer"
                                 autofocus
                                 autocomplete="off" />
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -54,7 +54,7 @@
                                 id="password"
                                 type="password"
                                 placeholder="Masukkan Password..."
-                                class="w-full bg-white/10 border border-white/15 rounded-lg pl-10 pr-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors peer"
+                                class="w-full bg-white/10 border border-white/15 rounded-lg pl-10 pr-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors peer"
                                 autofocus
                                 autocomplete="off" />
                             <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -68,7 +68,7 @@
                         <div class="flex justify-end text-white mt-3">
                             <button
                                 type="button"
-                                class="py-1 px-2 text-sm flex items-center gap-1 bg-white/20 backdrop-blur-md rounded-sm cursor-pointer transition-colors duration-100 ease-in hover:bg-blue-500"
+                                class="py-1 px-2 text-sm flex items-center gap-1 bg-white/20 backdrop-blur-md rounded-sm cursor-pointer transition-colors duration-100 ease-in hover:bg-secondary [&.showed]:bg-secondary"
                                 tabindex="-1"
                                 title="Lihat Password">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -80,7 +80,7 @@
                             </button>
                         </div>
                     </div>
-                    <button type="button" class="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white font-semibold py-3 rounded-lg transition-colors mt-2 text-sm cursor-pointer">Masuk</button>
+                    <button type="button" class="w-full bg-secondary hover:bg-blue-500 disabled:opacity-60 text-white font-semibold py-3 rounded-lg transition-colors mt-2 text-sm cursor-pointer">Masuk</button>
                 </form>
                 <div class="mt-6 pt-5 border-t border-white/10"></div>
             </div>
