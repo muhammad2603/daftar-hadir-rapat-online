@@ -7,6 +7,8 @@ const port = process.env.APP_PORT || 3000;
 
 app.set("view engine", "ejs");
 
+app.use(express.static('public'));
+
 app.get("/", (req, res) => {
     res.render("frontend/login");
 });
