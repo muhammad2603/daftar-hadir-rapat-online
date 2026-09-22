@@ -15,6 +15,10 @@ app.get("/", (req, res) => {
     });
 });
 
+app.get("/dashboard", (req, res) => {
+    res.render("backend/dashboard");
+});
+
 app.listen(port, hostname, () => {
     console.log(`Server listening on http://${hostname}:${port}`);
 });
