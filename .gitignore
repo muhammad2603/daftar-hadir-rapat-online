@@ -6,3 +6,6 @@
 
 # base css
 /public/css/base.css
+
+# database schemas
+/database-schemas.txt
