@@ -6,7 +6,7 @@
     <title>.:: Dashboard ::.</title>
     <link rel="stylesheet" href="/css/base.css">
 </head>
-<body class="min-h-screen bg-blue-50 flex flex-col">
+<body class="h-dvh bg-blue-50 flex flex-col">
     <header class="bg-blue-900 text-white px-6 h-16 flex items-center justify-between shrink-0 shadow-md">
         <div class="flex items-center gap-3">
             <div class="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center">
@@ -31,8 +31,8 @@
             <a href="/logout" class="text-white/50 hover:text-white transition text-xs border border-white/20 rounded-lg px-3 py-1.5 hover:bg-white/10">Keluar</a>
         </div>
     </header>
-    <div class="flex flex-1 overflow-hidden">
-        <nav class="w-56 bg-white border-r border-gray-200 shrink-0 py-4 hidden md:flex flex-col">
+    <div class="flex flex-1 min-h-0">
+        <nav class="w-56 bg-white border-r border-gray-200 shrink-0 overflow-y-auto py-4 hidden md:flex flex-col">
             <div class="px-3 space-y-0.5 flex-1">
                 <a href="/dashboard" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all bg-blue-900 text-white shadow-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -85,7 +85,7 @@
                 </a>
             </div>
         </nav>
-        <main class="flex-1 overflow-y-auto p-6 pb-24 md:pb-6">
+        <main class="flex-1 min-w-0 overflow-y-auto p-6 pb-24 md:pb-6">
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
                 <div class="bg-white rounded-xl border p-4 border-slate-200">
                     <div class="flex items-center justify-between mb-2">
