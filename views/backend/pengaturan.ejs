@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>.:: <%= title %> ::.</title>
+    <link rel="stylesheet" href="/css/base.css">
+</head>
+
+<body class="h-dvh bg-blue-50 flex flex-col">
+    <%- include('./layouts/partials/header.ejs') %>
+    <div class="flex flex-1 min-h-0">
+        <%- include('./layouts/partials/nav.ejs') %>
+        <main class="flex-1 min-w-0 overflow-y-auto p-6 pb-24 md:pb-6 scrollbar-thin scrollbar-thumb-slate-400">
+            <div class="mb-8">
+                <h2 class="text-lg font-bold text-slate-800">Pengaturan</h2>
+                <span class="text-sm text-gray-400 mt-0.5">Lihat informasi akun anda dan pengaturan administrator lainnya</span>
+            </div>
+            <div class="space-y-5">
+                <div class="bg-white rounded-2xl border border-gray-100 p-6 space-y-4">
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-1">Kop Surat Instansi (Default)</h3>
+                        <p class="text-sm text-gray-400 mb-4">Unggah kop surat resmi instansi Anda sebagai kop default. Gambar akan
+                            ditampilkan di bagian atas formulir absensi peserta.</p>
+                        <div class="space-y-4">
+                            <div
+                                class="relative border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all border-gray-200 hover:border-blue-700/70 hover:bg-gray-50">
+                                <input type="file" accept="image/*" class="hidden" id="kopSuratDefault">
+                                <label for="kopSuratDefault" class="cursor-pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-image-plus preview-icon size-10 mx-auto text-gray-300 mb-3">
+                                        <path d="M16 5h6" />
+                                        <path d="M19 2v6" />
+                                        <path d="M21 11.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.5" />
+                                        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+                                        <circle cx="9" cy="9" r="2" />
+                                    </svg>
+                                    <p class="text-sm font-medium text-gray-600">Klik atau seret gambar kop surat ke sini</p>
+                                    <p class="text-xs text-gray-400 mt-1">PNG, JPG, hingga 5MB. Disarankan rasio 4:1.</p>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
+                    <div class="bg-white rounded-2xl border border-gray-100 p-6">
+                        <h3 class="font-semibold text-gray-800 mb-4">Informasi Akun</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400">Username</span>
+                                <span class="font-semibold text-gray-800">fattahillah</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400">Email</span>
+                                <span class="font-mono text-xs text-gray-600">(Email belum ditambahkan)</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400">Role</span>
+                                <span class="font-semibold text-xs text-blue-900 uppercase tracking-wider">Super Admin</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-gray-100 p-6">
+                        <div class="flex justify-between items-center gap-1.5 mb-4">
+                            <h3 class="font-semibold text-gray-800">Daftar User</h3>
+                            <a href="/dashboard/pengaturan/daftar-user" class="py-0.5 px-2 text-xs border border-solid border-blue-300 bg-blue-50 text-blue-600 rounded-sm transition-colors hover:bg-blue-100 hover:border-blue-400">Semua User</a>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between items-center">
+                                <span class="font-semibold text-gray-800">fattahillah (Anda)</span>
+                                <span class="font-semibold text-xs text-blue-900 uppercase tracking-wider">Super Admin</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="font-semibold text-gray-800">susan</span>
+                                <span class="font-semibold text-xs text-blue-900 uppercase tracking-wider">Admin</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="font-semibold text-gray-800">hanypulh</span>
+                                <span class="font-semibold text-xs text-blue-900 uppercase tracking-wider">Admin</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-gray-100 p-6">
+                        <h3 class="font-semibold text-gray-800 mb-4">Keamanan Akun</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400">Two Factor Authentication (2FA)</span>
+                                <a href="/auth/two-factor-auth-activation" class="py-0.5 px-2 text-xs border border-solid border-blue-300 bg-blue-50 text-blue-600 rounded-sm transition-colors hover:bg-blue-100 hover:border-blue-400">Aktifkan</a>
+                                 <!-- <span class="py-0.5 px-2 text-xs border border-solid border-gray-300 bg-gray-50 text-gray-600 rounded-sm select-none">Sudah Aktif</span> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
