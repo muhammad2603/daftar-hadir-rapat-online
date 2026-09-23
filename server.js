@@ -43,6 +43,13 @@ app.get("/dashboard/sesi-rapat/riwayat", (req, res) => {
     });
 });
 
+app.get("/dashboard/sesi-rapat/bagikan-tautan", (req, res) => {
+    res.render("backend/bagikan_tautan", {
+        title: "Bagikan Tautan",
+        currentNav: "bagikan-tautan"
+    });
+});
+
 app.listen(port, hostname, () => {
     console.log(`Server listening on http://${hostname}:${port}`);
 });
