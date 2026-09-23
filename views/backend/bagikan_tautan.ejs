@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>.:: <%= title %> ::.</title>
+    <link rel="stylesheet" href="/css/base.css">
+</head>
+
+<body class="h-dvh bg-blue-50 flex flex-col">
+    <%- include('./layouts/partials/header.ejs') %>
+    <div class="flex flex-1 min-h-0">
+        <%- include('./layouts/partials/nav.ejs') %>
+        <main class="flex-1 min-w-0 overflow-y-auto p-6 pb-24 md:pb-6 scrollbar-thin scrollbar-thumb-slate-400">
+            <div class="mb-8">
+                <h2 class="text-lg font-bold text-slate-800">Bagikan Tautan</h2>
+                <span class="text-sm text-gray-400 mt-0.5">Bagikan sesi rapat Anda yang sedang berlangsung melalui tautan atau kode QR</span>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-white rounded-2xl border border-gray-100 p-6">
+                    <div class="flex items-start gap-2 mb-4">
+                        <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse mt-1.5 shrink-0"></span>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Rapat Statistik dari BPS Batang Hari</h3>
+                            <p class="text-xs text-gray-400 mt-0.5"><time datetime="2026-09-22">22 September 2026</time> · Ruang CoC</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-6 items-start">
+                        <div class="shrink-0">
+                            <div class="p-1 border border-gray-100 rounded-xl bg-white inline-block">
+                                <img
+                                    src="https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=https%3A%2F%2Fstir-chomp-77468054.figma.site%2F%23attend%2F74e5becc-c6ec-453d-b11a-1bcc34b6a449&color=1B3A5C&bgcolor=FFFFFF&margin=20"
+                                    alt="QR Code"
+                                    width="180"
+                                    height="180"
+                                    class="rounded-lg block">
+                            </div>
+                            <p class="text-xs text-gray-400 text-center">Scan QR Code</p>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Tautan Absensi (URL)</p>
+                            <div class="px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-gray-600 font-mono break-all">https://stir-chomp-77468054.figma.site/#attend/74e5becc-c6ec-453d-b11a-1bcc34b6a449</div>
+                            <button class="mt-4 w-full py-2.5 rounded-xl text-sm font-semibold transition bg-blue-900 text-white cursor-pointer hover:bg-blue-hover">Salin Tautan</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
