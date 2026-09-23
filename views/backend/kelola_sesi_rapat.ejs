@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>.:: <%= title %> ::.</title>
+    <link rel="stylesheet" href="/css/base.css">
+</head>
+
+<body class="h-dvh bg-blue-50 flex flex-col">
+    <%- include('./layouts/partials/header.ejs') %>
+    <div class="flex flex-1 min-h-0">
+        <%- include('./layouts/partials/nav.ejs') %>
+        <main class="flex-1 min-w-0 overflow-y-auto p-6 pb-24 md:pb-6 scrollbar-thin scrollbar-thumb-slate-400">
+            <div class="mb-8">
+                <h2 class="text-lg font-bold text-slate-800">Kelola Sesi Rapat</h2>
+                <span class="text-sm text-gray-400 mt-0.5">Tambahkan atau Kelola sesi rapat Anda</span>
+            </div>
+            <div class="flex justify-end mb-4">
+                <button type="button"
+                    class="flex justify-center sm:justify-normal sm:items-center gap-2 mt-3 sm:mt-0 bg-blue-900 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors shadow-sm cursor-pointer hover:bg-blue-hover">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus preview-icon size-5">
+                        <path d="M5 12h14" />
+                        <path d="M12 5v14" />
+                    </svg>
+                    <span>Buat Sesi Rapat</span>
+                </button>
+            </div>
+            <div class="space-y-3">
+                <!-- __COMMENT__ Belum Dimulai -->
+                <div
+                    class="w-full flex flex-col bg-white rounded-xl border border-slate-200 hover:border-secondary hover:shadow-md p-5 text-left transition-all group">
+                    <div class="flex-1 shrink-0">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span
+                                class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+                                <span class="size-1.5 rounded-full bg-gray-500"></span>
+                                <span>Belum Dimulai</span>
+                            </span>
+                        </div>
+                        <h3 class="font-semibold text-slate-800 truncate group-hover:text-secondary transition-colors">Rapat Koordinasi Triwulan</h3>
+                        <p class="text-sm text-gray-500 line-clamp-2 mt-0.5">Evaluasi program kerja, penyusunan rencana anggaran, dan koordinasi pelaksanaan kegiatan antar instansi.</p>
+                        <p class="text-xs text-slate-500 mt-2.5">
+                            <span><time datetime="2026-09-22">22 September 2026</time> • 11:30 • Ruang Command Control</span>
+                        </p>
+                    </div>
+                    <div class="flex flex-row-reverse justify-end max-[381px]:flex-wrap lg:flex-row gap-4 mt-3 shrink-0">
+                        <button data-session-id="1"
+                            class="max-[381px]:grow flex justify-center items-center gap-2 py-2 px-2 border border-solid border-amber-300 text-[11px] rounded-md bg-amber-50 text-amber-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-amber-100 hover:border-amber-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="lucide lucide-clock preview-icon size-4">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M12 6v6l4 2" />
+                            </svg>
+                            <span>Mulai Sesi</span>
+                        </button>
+                        <button data-session-id="1"
+                            class="max-[381px]:grow flex justify-center items-center gap-2 py-2 px-2 border border-solid border-rose-300 text-[11px] rounded-md bg-rose-50 text-rose-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-rose-100 hover:border-rose-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="lucide lucide-trash preview-icon size-4">
+                                <path d="M10 11v6" />
+                                <path d="M14 11v6" />
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                                <path d="M3 6h18" />
+                                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                            </svg>
+                            <span>Hapus Sesi</span>
+                        </button>
+                        <a href="/dashboard/detail-rapat/{rapat-identity}"
+                            class="max-[381px]:grow flex justify-center items-center gap-2 py-2 px-2 border border-solid border-blue-300 text-[11px] rounded-md bg-blue-50 text-blue-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-blue-100 hover:border-blue-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="lucide lucide-scan-eye preview-icon size-4">
+                                <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+                                <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+                                <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+                                <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+                                <circle cx="12" cy="12" r="1" />
+                                <path d="M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0" />
+                            </svg>
+                            <span>Detail</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- __COMMENT__ Sedang Berlangsung -->
+                <div
+                    class="w-full flex flex-col lg:flex-row gap-0 lg:gap-3 bg-white rounded-xl border border-slate-200 hover:border-secondary hover:shadow-md p-5 text-left transition-all group">
+                    <div class="flex-1 shrink-0">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span
+                                class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
+                                <span class="size-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                                <span>Sedang Berlangsung</span>
+                            </span>
+                        </div>
+                        <h3 class="font-semibold text-slate-800 truncate group-hover:text-secondary transition-colors">Rapat
+                            Koordinasi Triwulan
+                        </h3>
+                        <p class="text-sm text-gray-500 line-clamp-2 mt-0.5">Evaluasi program kerja, penyusunan rencana anggaran,
+                            dan koordinasi
+                            pelaksanaan kegiatan antar instansi.</p>
+                        <p class="text-xs text-slate-500 mt-2.5">
+                            <span><time datetime="2026-09-22">22 September 2026</time> • 11:30 • Ruang Command Control</span>
+                        </p>
+                    </div>
+                    <div
+                        class="flex flex-row lg:flex-col gap-3 sm:gap-4 justify-end sm:justify-normal mt-3 shrink-0 w-full lg:w-30">
+                        <button data-session-id="1"
+                            class="flex justify-center items-center gap-2 py-2 px-2 border border-solid border-red-300 text-[11px] rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="lucide lucide-octagon-x preview-icon size-4">
+                                <path d="m15 9-6 6" />
+                                <path
+                                    d="M2.586 16.726A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2h6.624a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586z" />
+                                <path d="m9 9 6 6" />
+                            </svg>
+                            <span>Akhiri Sesi</span>
+                        </button>
+                        <a href="/dashboard/detail-rapat/{rapat-identity}"
+                            class="flex justify-center items-center gap-2 py-2 px-2 border border-solid border-blue-300 text-[11px] rounded-md bg-blue-50 text-blue-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-blue-100 hover:border-blue-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="lucide lucide-scan-eye preview-icon size-4">
+                                <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+                                <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+                                <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+                                <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+                                <circle cx="12" cy="12" r="1" />
+                                <path
+                                    d="M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0" />
+                            </svg>
+                            <span>Detail</span>
+                        </a>
+                    </div>
+                </div>
+                <div
+                    class="w-full flex flex-col lg:flex-row gap-0 lg:gap-3 bg-white rounded-xl border border-slate-200 hover:border-secondary hover:shadow-md p-5 text-left transition-all group">
+                    <div class="flex-1 shrink-0">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span
+                                class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
+                                <span class="size-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                                <span>Sedang Berlangsung</span>
+                            </span>
+                        </div>
+                        <h3 class="font-semibold text-slate-800 truncate group-hover:text-secondary transition-colors">Rapat
+                            Koordinasi Triwulan
+                        </h3>
+                        <p class="text-sm text-gray-500 line-clamp-2 mt-0.5">Evaluasi program kerja, penyusunan rencana anggaran,
+                            dan koordinasi
+                            pelaksanaan kegiatan antar instansi.</p>
+                        <p class="text-xs text-slate-500 mt-2.5">
+                            <span><time datetime="2026-09-22">22 September 2026</time> • 11:30 • Ruang Command Control</span>
+                        </p>
+                    </div>
+                    <div class="flex flex-row lg:flex-col gap-3 sm:gap-4 justify-end sm:justify-normal mt-3 shrink-0 w-full lg:w-30">
+                        <button data-session-id="1"
+                            class="flex justify-center items-center gap-2 py-2 px-2 border border-solid border-red-300 text-[11px] rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="lucide lucide-octagon-x preview-icon size-4">
+                                <path d="m15 9-6 6" />
+                                <path
+                                    d="M2.586 16.726A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2h6.624a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586z" />
+                                <path d="m9 9 6 6" />
+                            </svg>
+                            <span>Akhiri Sesi</span>
+                        </button>
+                        <a href="/dashboard/detail-rapat/{rapat-identity}"
+                            class="flex justify-center items-center gap-2 py-2 px-2 border border-solid border-blue-300 text-[11px] rounded-md bg-blue-50 text-blue-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-blue-100 hover:border-blue-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="lucide lucide-scan-eye preview-icon size-4">
+                                <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+                                <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+                                <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+                                <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+                                <circle cx="12" cy="12" r="1" />
+                                <path d="M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0" />
+                            </svg>
+                            <span>Detail</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
