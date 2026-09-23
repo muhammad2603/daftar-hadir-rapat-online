@@ -36,6 +36,13 @@ app.get("/dashboard/monitor-kehadiran", (req, res) => {
     });
 });
 
+app.get("/dashboard/sesi-rapat/riwayat", (req, res) => {
+    res.render("backend/riwayat_sesi_rapat", {
+        title: "Riwayat Sesi Rapat",
+        currentNav: "riwayat-sesi-rapat"
+    });
+});
+
 app.listen(port, hostname, () => {
     console.log(`Server listening on http://${hostname}:${port}`);
 });
