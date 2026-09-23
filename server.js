@@ -50,6 +50,13 @@ app.get("/dashboard/sesi-rapat/bagikan-tautan", (req, res) => {
     });
 });
 
+app.get("/dashboard/pengaturan", (req, res) => {
+    res.render("backend/pengaturan", {
+        title: "Pengaturan",
+        currentNav: "pengaturan"
+    });
+});
+
 app.listen(port, hostname, () => {
     console.log(`Server listening on http://${hostname}:${port}`);
 });
