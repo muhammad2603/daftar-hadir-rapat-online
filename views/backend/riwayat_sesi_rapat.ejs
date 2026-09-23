@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>.:: <%= title %> ::.</title>
+    <link rel="stylesheet" href="/css/base.css">
+</head>
+
+<body class="h-dvh bg-blue-50 flex flex-col">
+    <%- include('./layouts/partials/header.ejs') %>
+    <div class="flex flex-1 min-h-0">
+        <%- include('./layouts/partials/nav.ejs') %>
+        <main class="flex-1 min-w-0 overflow-y-auto p-6 pb-24 md:pb-6 scrollbar-thin scrollbar-thumb-slate-400">
+            <div class="mb-8">
+                <h2 class="text-lg font-bold text-slate-800">Riwayat Sesi Rapat</h2>
+                <span class="text-sm text-gray-400 mt-0.5">Lihat riwayat sesi rapat Anda yang telah selesai</span>
+            </div>
+            <div class="flex gap-3 mb-5">
+                <div class="w-70 bg-white border border-gray-100 rounded-2xl p-4 text-center">
+                    <p class="text-3xl font-bold text-gray-700">230</p>
+                    <p class="text-xs text-gray-400 mt-0.5">Total Sesi Selesai</p>
+                </div>
+                <div class="w-70 bg-white border border-gray-100 rounded-2xl p-4 text-center">
+                    <p class="text-3xl font-bold text-gray-700">780</p>
+                    <p class="text-xs text-gray-400 mt-0.5">Total Peserta</p>
+                </div>
+            </div>
+            <div class="space-y-2">
+                <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden transition-all">
+                    <button type="button" class="w-full flex items-center justify-between gap-4 px-5 py-4 text-left hover:bg-gray-50/50 transition cursor-pointer focus:outline-none focus:bg-blue-900 group">
+                        <div class="flex items-center gap-4 flex-1 min-w-0">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 flex-wrap mb-2.5">
+                                    <span class="font-semibold text-gray-900 text-sm group-focus:text-white">Rapat Koordinasi Lintas Sektor Q4 2024</span>
+                                    <span class="inline-flex items-center text-[10px] font-semibold px-2 py-0.5 rounded-full border bg-green-100 text-green-500 border-green-200">Selesai</span>
+                                </div>
+                                <div class="flex flex-wrap gap-x-4.5 mt-0.5 text-xs text-gray-400 group-focus:text-white">
+                                    <span>21 September 2026</span>
+                                    <span>Ruang Rapat Utama, Gedung A Lt. 3</span>
+                                    <span>Dr. Ahmad Fauzi, M.Si.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 shrink-0">
+                            <div class="text-right">
+                                <p class="text-lg font-bold text-navy-900 group-focus:text-white">100</p>
+                                <p class="text-[10px] text-gray-400 group-focus:text-white">Total Peserta</p>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="lucide lucide-chevron-down preview-icon size-4 text-gray-400 transition-transform group-focus:text-white">
+                                <path d="m6 9 6 6 6-6" />
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="border-t border-gray-50 h-0">
+                        <div class="px-5 py-3 bg-gray-50/50 grid grid-cols-2 sm:grid-cols-3 gap-5 text-xs">
+                            <div>
+                                <p class="text-gray-400 text-[10px] uppercase tracking-wider mb-0.5">Tanggal</p>
+                                <p class="text-gray-700 font-semibold text-xs leading-snug">21 September 2026</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 text-[10px] uppercase tracking-wider mb-0.5">Lokasi</p>
+                                <p class="text-gray-700 font-semibold text-xs leading-snug">Ruang Rapat Utama, Gedung A Lt. 3</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 text-[10px] uppercase tracking-wider mb-0.5">Pimpinan</p>
+                                <p class="text-gray-700 font-semibold text-xs leading-snug">Dr. Ahmad Fauzi, M.Si.</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 text-[10px] uppercase tracking-wider mb-0.5">Presensi Dimulai</p>
+                                <p class="text-gray-700 font-semibold text-xs leading-snug">13:40</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 text-[10px] uppercase tracking-wider mb-0.5">Presensi Berakhir</p>
+                                <p class="text-gray-700 font-semibold text-xs leading-snug">14:00</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 text-[10px] uppercase tracking-wider mb-0.5">Durasi Presensi</p>
+                                <p class="text-gray-700 font-semibold text-xs leading-snug">20 Menit</p>
+                            </div>
+                            <div class="col-span-full mt-1">
+                                <p class="text-gray-400 text-[10px] uppercase tracking-wider mb-2">Deskripsi Rapat</p>
+                                <p class="text-gray-700 font-semibold text-xs leading-snug">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam commodi cumque, repudiandae necessitatibus explicabo quos tempore ducimus consectetur inventore? Laudantium cum quibusdam suscipit animi fugiat deserunt culpa optio dolorum officia quia libero ex quasi ab placeat obcaecati sed commodi ratione adipisci ipsam tempore nemo ut ea, ducimus maxime. Blanditiis, rem!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
