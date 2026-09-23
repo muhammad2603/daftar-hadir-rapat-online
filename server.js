@@ -17,9 +17,17 @@ app.get("/", (req, res) => {
 
 app.get("/dashboard", (req, res) => {
     res.render("backend/dashboard", {
-        title: "Dashboard"
+        title: "Dashboard",
+        currentNav: "dashboard"
     });
 });
+
+app.get("/dashboard/sesi-rapat/kelola", (req, res) => {
+    res.render("backend/kelola_sesi_rapat", {
+        title: "Kelola Sesi Rapat",
+        currentNav: "kelola-sesi-rapat"
+    });
+})
 
 app.listen(port, hostname, () => {
     console.log(`Server listening on http://${hostname}:${port}`);
