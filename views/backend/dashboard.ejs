@@ -157,7 +157,7 @@
             <div class="flex items-center justify-between mb-5">
                 <div>
                     <h2 class="text-lg font-bold text-slate-800">Sesi Rapat Hari Ini</h2>
-                    <span class="text-sm text-gray-400 mt-0.5">Kelola dan pantau sesi rapat hari ini</span>
+                    <span class="text-sm text-gray-400 mt-0.5">Kelola dan pantau sesi rapat yang sedang berlangsung hari ini</span>
                 </div>
                 <button type="button" class="flex items-center gap-2 bg-blue-900 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors shadow-sm cursor-pointer hover:bg-blue-hover">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -170,10 +170,11 @@
                 </button>
             </div>
             <div class="space-y-3">
+                <!-- __COMMENT__ Data ini hanya Sesi dengan state Sedang Berlangsung saja -->
                 <div class="block w-full bg-white rounded-xl border border-slate-200 hover:border-secondary hover:shadow-md p-5 text-left transition-all group">
                     <div class="flex items-center gap-2 mb-2">
-                        <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
-                            <span class="size-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                        <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
+                            <span class="size-1.5 rounded-full bg-amber-500 animate-pulse"></span>
                             <span>Sedang Berlangsung</span>
                         </span>
                     </div>
@@ -229,12 +230,11 @@
                         </a>
                     </div>
                 </div>
-                <div
-                    class="block w-full bg-white rounded-xl border border-slate-200 hover:border-secondary hover:shadow-md p-5 text-left transition-all group">
+                <div class="block w-full bg-white rounded-xl border border-slate-200 hover:border-secondary hover:shadow-md p-5 text-left transition-all group">
                     <div class="flex items-center gap-2 mb-2">
                         <span
-                            class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
-                            <span class="size-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                            class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
+                            <span class="size-1.5 rounded-full bg-amber-500 animate-pulse"></span>
                             <span>Sedang Berlangsung</span>
                         </span>
                     </div>
