@@ -1,7 +1,14 @@
+<%
+function setCurrActiveNav(currentNav, navNameTarget) {
+    return (currentNav === navNameTarget)
+        ? 'bg-blue-900 text-white shadow-sm'
+        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900';
+}
+%>
 <nav class="w-56 bg-white border-r border-gray-200 shrink-0 overflow-y-auto py-4 hidden md:flex flex-col scrollbar-thin scrollbar-thumb-slate-400">
     <div class="px-3 space-y-0.5 flex-1">
         <a href="/dashboard"
-            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all bg-blue-900 text-white shadow-sm">
+            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all <%= setCurrActiveNav(currentNav, 'dashboard') %>">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                 class="lucide lucide-layout-dashboard preview-icon size-5">
@@ -13,7 +20,7 @@
             <span>Dashboard</span>
         </a>
         <a href="/dashboard/sesi-rapat/kelola"
-            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all <%= setCurrActiveNav(currentNav, 'kelola-sesi-rapat') %>">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                 class="lucide lucide-file-pen preview-icon size-5">
@@ -26,7 +33,7 @@
             <span>Kelola Sesi Rapat</span>
         </a>
         <a href="/dashboard/monitor-kehadiran"
-            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all <%= setCurrActiveNav(currentNav, 'monitor-kehadiran') %>">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                 class="lucide lucide-list-check preview-icon size-5">
@@ -38,7 +45,7 @@
             <span>Monitor Kehadiran</span>
         </a>
         <a href="/dashboard/sesi-rapat/riwayat"
-            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all <%= setCurrActiveNav(currentNav, 'riwayat-sesi-rapat') %>">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                 class="lucide lucide-list preview-icon size-5">
@@ -52,7 +59,7 @@
             <span>Riwayat Sesi Rapat</span>
         </a>
         <a href="/dashboard/sesi-rapat/bagikan-tautan"
-            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all <%= setCurrActiveNav(currentNav, 'bagikan-tautan') %>">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                 class="lucide lucide-qr-code preview-icon size-5">
@@ -72,7 +79,7 @@
             <span>Bagikan Tautan</span>
         </a>
         <a href="/dashboard/pengaturan"
-            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all <%= setCurrActiveNav(currentNav, 'pengaturan') %>">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                 class="lucide lucide-settings preview-icon size-5">
