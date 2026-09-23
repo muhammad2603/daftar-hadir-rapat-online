@@ -27,7 +27,14 @@ app.get("/dashboard/sesi-rapat/kelola", (req, res) => {
         title: "Kelola Sesi Rapat",
         currentNav: "kelola-sesi-rapat"
     });
-})
+});
+
+app.get("/dashboard/monitor-kehadiran", (req, res) => {
+    res.render("backend/monitor_kehadiran", {
+        title: "Monitor Kehadiran",
+        currentNav: "monitor-kehadiran"
+    });
+});
 
 app.listen(port, hostname, () => {
     console.log(`Server listening on http://${hostname}:${port}`);
