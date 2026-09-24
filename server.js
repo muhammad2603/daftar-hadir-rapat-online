@@ -36,6 +36,13 @@ app.get("/dashboard/monitor-kehadiran", (req, res) => {
     });
 });
 
+app.get("/dashboard/monitor-kehadiran/abc-def", (req, res) => {
+    res.render("backend/live_view_kehadiran", {
+        title: "Live View Kehadiran",
+        currentNav: "monitor-kehadiran"
+    })
+})
+
 app.get("/dashboard/sesi-rapat/riwayat", (req, res) => {
     res.render("backend/riwayat_sesi_rapat", {
         title: "Riwayat Sesi Rapat",
