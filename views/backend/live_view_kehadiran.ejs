@@ -141,6 +141,7 @@
                 </div>
             </div>
         </main>
+        <!-- __COMMENT__ Pop Up untuk menampilkan kode QR atau salin tautan -->
         <div class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
             <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
                 <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
@@ -178,6 +179,35 @@
                         <button type="button" class="shrink-0 px-4 py-2.5 rounded-xl text-sm font-semibold transition bg-blue-900 text-white cursor-pointer hover:bg-blue-hover">Salin</button>
                     </div>
                     <p class="text-xs text-amber-600 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2">Catatan: Tautan ini hanya aktif selama sesi rapat berlangsung.</p>
+                </div>
+            </div>
+        </div>
+        <!-- __COMMENT__ Pop Up untuk menampilkan foto presensi peserta -->
+        <div class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+                <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+                    <div>
+                        <h2 class="font-display text-lg font-bold text-gray-900">Foto Presensi</h2>
+                        <p class="text-xs text-gray-400 mt-0.5 truncate max-w-70">Nama Peserta: Susan Shannon</p>
+                    </div>
+                    <button title="Tutup"
+                        class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 cursor-pointer hover:bg-gray-100 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-x preview-icon size-5">
+                            <path d="M18 6 6 18" />
+                            <path d="m6 6 12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="p-6 space-y-5">
+                    <div class="flex flex-col items-center">
+                        <div class="p-3 border-2 border-gray-100 rounded-2xl bg-white">
+                            <img src="https://sisi.id/wp-content/uploads/2022/11/28-Nov-FORCA-ESS-Cegah-Risiko-Kehilangan-Data-Presensi-dan-Aktivitas-Produktif-Karyawan-1080px-web.jpg"
+                                alt="Foto Presensi Susan Shannon" width="200" height="200" class="rounded-lg">
+                        </div>
+                        <p class="font-semibold text-sm text-gray-400 mt-4.5">Waktu Hadir: 13.45</p>
+                    </div>
                 </div>
             </div>
         </div>
