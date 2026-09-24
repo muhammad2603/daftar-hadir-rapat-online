@@ -50,6 +50,13 @@ app.get("/dashboard/sesi-rapat/detail/abc-def", (req, res) => {
     });
 });
 
+app.get("/dashboard/sesi-rapat/edit/abc-def", (req, res) => {
+    res.render("backend/edit_sesi_rapat", {
+        title: "Edit Sesi Rapat",
+        currentNav: "kelola-sesi-rapat"
+    });
+});
+
 app.get("/dashboard/sesi-rapat/riwayat", (req, res) => {
     res.render("backend/riwayat_sesi_rapat", {
         title: "Riwayat Sesi Rapat",
