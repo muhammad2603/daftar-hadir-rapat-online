@@ -57,6 +57,13 @@ app.get("/dashboard/pengaturan", (req, res) => {
     });
 });
 
+app.get("/dashboard/sesi-rapat/create", (req, res) => {
+    res.render("backend/form_buat_sesi_rapat", {
+        title: "Buat Sesi Rapat Baru",
+        currentNav: "kelola-sesi-rapat"
+    });
+});
+
 app.listen(port, hostname, () => {
     console.log(`Server listening on http://${hostname}:${port}`);
 });
