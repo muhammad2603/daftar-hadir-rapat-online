@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>.:: <%= title %> ::.</title>
+    <link rel="stylesheet" href="/css/base.css">
+</head>
+
+<body class="h-dvh bg-blue-50 flex flex-col">
+    <%- include('./layouts/partials/header.ejs') %>
+    <div class="flex flex-1 min-h-0">
+        <%- include('./layouts/partials/nav.ejs') %>
+        <main class="flex-1 min-w-0 overflow-y-auto p-6 pb-24 md:pb-6 scrollbar-thin scrollbar-thumb-slate-400">
+            <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-md overflow-y-auto">
+                <div class="header-form px-6 py-5 border-b border-slate-100">
+                    <h1 class="font-bold text-lg text-slate-800">Buat Sesi Rapat</h1>
+                </div>
+                <div class="form-body px-6 py-5 space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-3">
+                        <div>
+                            <label for="judulRapat" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Judul Rapat <span class="font-semibold text-red-500">*</span></label>
+                            <input type="text" placeholder="Masukkan Judul Rapat..." id="judulRapat" autocomplete="off" class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                        </div>
+                        <div>
+                            <label for="tanggalRapat" class="block text-xs font-medium text-slate-600 mb-1.5">Tanggal Rapat <span
+                                    class="font-semibold text-red-500">*</span></label>
+                            <input type="date" id="tanggalRapat" class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label for="waktuMulaiPresensi" class="block text-xs font-medium text-slate-600 mb-1.5">Waktu Presensi Dimulai <span class="font-semibold text-red-500">*</span></label>
+                            <input type="time" id="waktuMulaiPresensi" class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                        </div>
+                        <div>
+                            <label for="waktuAkhirPresensi" class="block text-xs font-medium text-slate-600 mb-1.5">Waktu Presensi Berakhir <span class="font-semibold text-red-500">*</span></label>
+                            <input type="time" id="waktuAkhirPresensi" class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="ruangRapat" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Lokasi / Ruang <span class="font-semibold text-red-500">*</span></label>
+                        <input type="text" placeholder="Masukkan Lokasi / Ruang Rapat..." id="ruangRapat" autocomplete="off" class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                    </div>
+                    <div>
+                        <label for="agendaRapat" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Agenda Rapat</label>
+                        <textarea id="agendaRapat" rows="4" placeholder="Masukkan Topik yang Akan Dibahas..." class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors resize-none"></textarea>
+                    </div>
+                    <div>
+                        <span class="block text-xs font-medium text-slate-600 mb-1.5">Kop Surat (Opsional)</span>
+                        <label for="kopSurat" class="block border-2 border-dashed border-slate-200 rounded-lg py-8 px-4 text-center transition-all hover:border-blue-700/70 hover:bg-gray-50">
+                            <div class="cursor-pointer flex flex-col items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    class="lucide lucide-arrow-up-from-line preview-icon text-slate-400">
+                                    <path d="m18 9-6-6-6 6" />
+                                    <path d="M12 3v14" />
+                                    <path d="M5 21h14" />
+                                </svg>
+                                <span class="text-xs text-slate-500">Klik atau seret gambar kop surat ke sini</span>
+                                <span class="text-xs text-slate-400">PNG, JPG, hingga 5MB. Disarankan rasio 4:1.</span>
+                                <span class="text-xs text-slate-400">Catatan: Jika note tidak diupload, maka akan diisi dengan kop default.</span>
+                                <input type="file" id="kopSurat" accept="image/*" class="hidden">
+                            </div>
+                        </label>
+                    </div>
+                    <div class="flex gap-3 pt-2">
+                        <a href="/dashboard/sesi-rapat/kelola" class="flex-1 border border-slate-200 text-slate-600 hover:bg-slate-50 font-semibold text-center py-2.5 rounded-xl text-sm transition-colors">Batalkan</a>
+                        <button type="button" class="flex-1 bg-blue-900 hover:bg-blue-hover text-white font-semibold py-2.5 rounded-xl text-sm transition-colors cursor-pointer">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
