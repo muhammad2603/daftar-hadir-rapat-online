@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>.:: <%= title %> ::.</title>
+    <link rel="stylesheet" href="/css/base.css">
+</head>
+
+<body class="h-dvh bg-blue-50 flex flex-col">
+    <%- include('./layouts/partials/header.ejs') %>
+    <div class="flex flex-1 min-h-0">
+        <%- include('./layouts/partials/nav.ejs') %>
+        <main class="flex-1 min-w-0 overflow-y-auto p-6 pb-24 md:pb-6 scrollbar-thin scrollbar-thumb-slate-400">
+            <div class="mb-8">
+                <h2 class="text-lg font-bold text-slate-800">Daftar User</h2>
+                <span class="text-sm text-gray-400 mt-0.5">Lihat daftar user yang digunakan untuk login ke Dashboard</span>
+            </div>
+            <div class="space-y-6">
+                <button
+                    class="flex justify-center sm:justify-normal sm:items-center gap-2 mt-3 sm:mt-0 ml-auto bg-blue-900 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors shadow-sm cursor-pointer hover:bg-blue-hover">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus preview-icon size-5">
+                        <path d="M5 12h14" />
+                        <path d="M12 5v14" />
+                    </svg>
+                    <span>Tambah User Baru</span>
+                </button>
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-gray-100">
+                                    <th class="text-left py-2.5 px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider w-10">No</th>
+                                    <th class="text-left py-2.5 px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Username</th>
+                                    <th class="text-left py-2.5 px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Email</th>
+                                    <th class="text-left py-2.5 px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Role</th>
+                                    <th class="text-left py-2.5 px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Terakhir Login</th>
+                                    <th class="text-left py-2.5 px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider w-28">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-50">
+                                <tr class="hover:bg-gray-50/50 transition-colors group">
+                                    <td class="py-3 px-3 text-gray-400 text-xs">1</td>
+                                    <td class="py-3 px-3"><p class="font-medium text-gray-900">fattahillah (Anda)</p></td>
+                                    <td class="py-3 px-3 text-gray-600 text-xs leading-snug max-w-40">(Email belum ditambahkan)</td>
+                                    <td class="py-3 px-3 font-semibold text-gray-600 text-xs uppercase">Super Admin</td>
+                                    <td class="py-3 px-3 text-gray-600 text-xs">2026-09-24 20:34:12</td>
+                                    <td class="py-3 px-3">
+                                        <!-- __COMMENT__ User yang sedang login tidak dapat menghapus akunnya -->
+                                        <div class="flex justify-end gap-2">
+                                            <button
+                                                type="button"
+                                                title="Edit"
+                                                class="flex justify-center items-center gap-2 py-2 px-2 border border-solid border-purple-300 text-xs rounded-md bg-purple-50 text-purple-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-purple-100 hover:border-purple-400">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="lucide lucide-user-round-pen preview-icon size-3.5">
+                                                    <path d="M2 21a8 8 0 0 1 10.821-7.487" />
+                                                    <path
+                                                        d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" />
+                                                    <circle cx="10" cy="8" r="5" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50/50 transition-colors group">
+                                    <td class="py-3 px-3 text-gray-400 text-xs">2</td>
+                                    <td class="py-3 px-3"><p class="font-medium text-gray-900">susan</p></td>
+                                    <td class="py-3 px-3 text-gray-600 text-xs leading-snug max-w-40">susanss@gmail.com</td>
+                                    <td class="py-3 px-3 font-semibold text-gray-600 text-xs uppercase">Admin</td>
+                                    <td class="py-3 px-3 text-gray-600 text-xs">2026-09-22 14:08:45</td>
+                                    <td class="py-3 px-3">
+                                        <div class="flex justify-end gap-2">
+                                            <button type="button" title="Hapus Akun"
+                                                class="flex justify-center items-center gap-2 py-2 px-2 border border-solid border-red-300 text-xs rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="lucide lucide-user-round-minus preview-icon size-3.5">
+                                                    <path d="M2 21a8 8 0 0 1 13.292-6" />
+                                                    <circle cx="10" cy="8" r="5" />
+                                                    <path d="M22 19h-6" />
+                                                </svg>
+                                            </button>
+                                            <button
+                                                type="button"
+                                                title="Edit"
+                                                class="flex justify-center items-center gap-2 py-2 px-2 border border-solid border-purple-300 text-xs rounded-md bg-purple-50 text-purple-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-purple-100 hover:border-purple-400">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="lucide lucide-user-round-pen preview-icon size-3.5">
+                                                    <path d="M2 21a8 8 0 0 1 10.821-7.487" />
+                                                    <path
+                                                        d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" />
+                                                    <circle cx="10" cy="8" r="5" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50/50 transition-colors group">
+                                    <td class="py-3 px-3 text-gray-400 text-xs">3</td>
+                                    <td class="py-3 px-3"><p class="font-medium text-gray-900">hanypulh</p></td>
+                                    <td class="py-3 px-3 text-gray-600 text-xs leading-snug max-w-40">hanypulhuda23@gmail.com</td>
+                                    <td class="py-3 px-3 font-semibold text-gray-600 text-xs uppercase">Admin</td>
+                                    <td class="py-3 px-3 text-gray-600 text-xs">2026-09-24 16:56:08</td>
+                                    <td class="py-3 px-3">
+                                        <div class="flex justify-end gap-2">
+                                            <button type="button" title="Hapus Akun"
+                                                class="flex justify-center items-center gap-2 py-2 px-2 border border-solid border-red-300 text-xs rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="lucide lucide-user-round-minus preview-icon size-3.5">
+                                                    <path d="M2 21a8 8 0 0 1 13.292-6" />
+                                                    <circle cx="10" cy="8" r="5" />
+                                                    <path d="M22 19h-6" />
+                                                </svg>
+                                            </button>
+                                            <button
+                                                type="button"
+                                                title="Edit"
+                                                class="flex justify-center items-center gap-2 py-2 px-2 border border-solid border-purple-300 text-xs rounded-md bg-purple-50 text-purple-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-purple-100 hover:border-purple-400">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="lucide lucide-user-round-pen preview-icon size-3.5">
+                                                    <path d="M2 21a8 8 0 0 1 10.821-7.487" />
+                                                    <path
+                                                        d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" />
+                                                    <circle cx="10" cy="8" r="5" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- __COMMENT__ Pop Up Form Tambah User -->
+        <div class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
+                <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+                    <h2 class="font-display text-xl font-bold text-gray-900">Tambah User</h2>
+                    <button
+                        title="Tutup"
+                        class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-x preview-icon size-5">
+                            <path d="M18 6 6 18" />
+                            <path d="m6 6 12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="form-body p-6 space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="username" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Username <span
+                                    class="font-semibold text-red-500">*</span></label>
+                            <input type="text" placeholder="Masukkan Username..." id="username" autocomplete="off"
+                                class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                        </div>
+                        <div>
+                            <label for="password" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Password <span class="font-semibold text-red-500">*</span></label>
+                            <input type="password"
+                                id="password"
+                                placeholder="Masukkan Password..."
+                                autocomplete="off"
+                                class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="email" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Email <span
+                                    class="font-semibold text-red-500">*</span></label>
+                            <input type="email" id="email" placeholder="example@gmail.com" autocomplete="off"
+                                class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                        </div>
+                        <div>
+                            <label for="role" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Role <span
+                                    class="font-semibold text-red-500">*</span></label>
+                            <select
+                                id="role"
+                                class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                                <option value="#">Pilih Role:</option>
+                                <option value="1">superadmin</option>
+                                <option value="2">admin</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 pt-2">
+                        <button class="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition">Batalkan</button>
+                        <button class="flex-1 py-2.5 bg-blue-900 text-white rounded-xl text-sm font-semibold hover:bg-blue-hover transition cursor-pointer disabled:opacity-60">Tambahkan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- __COMMENT__ Pop Up Form Edit User -->
+        <div class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
+                <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+                    <h2 class="font-display text-xl font-bold text-gray-900">Edit User Anda</h2>
+                    <button title="Tutup"
+                        class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-x preview-icon size-5">
+                            <path d="M18 6 6 18" />
+                            <path d="m6 6 12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="form-body p-6 space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="editUsername" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Username <span
+                                    class="font-semibold text-red-500">*</span></label>
+                            <input type="text" placeholder="Masukkan Username..." id="editUsername" autocomplete="off"
+                                class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                        </div>
+                        <div>
+                            <label for="editPassword" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Password <span
+                                    class="font-semibold text-red-500">*</span></label>
+                            <input type="password" id="editPassword" placeholder="Masukkan Password..." autocomplete="off"
+                                class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="editEmail" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Email <span
+                                class="font-semibold text-red-500">*</span></label>
+                        <input type="email" id="editEmail" placeholder="example@gmail.com" autocomplete="off"
+                            class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                    </div>
+                    <div class="flex gap-3 pt-2">
+                        <button
+                            class="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition">Batalkan</button>
+                        <button
+                            class="flex-1 py-2.5 bg-blue-900 text-white rounded-xl text-sm font-semibold hover:bg-blue-hover transition cursor-pointer disabled:opacity-60">Perbarui</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
