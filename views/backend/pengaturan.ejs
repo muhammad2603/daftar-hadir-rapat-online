@@ -23,7 +23,11 @@
                         <h3 class="font-semibold text-gray-800 mb-1">Kop Surat Instansi (Default)</h3>
                         <p class="text-sm text-gray-400 mb-4">Unggah kop surat resmi instansi Anda sebagai kop default. Gambar akan
                             ditampilkan di bagian atas formulir absensi peserta.</p>
-                        <div class="space-y-4">
+                        <div>
+                            <!--
+                            __COMMENT__ Kop surat default hanya memiliki batas 1 file,
+                            karena kop surat dinamis yang bisa dipisahkan saat membuat sesi rapat baru.
+                            -->
                             <div
                                 class="relative border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all border-gray-200 hover:border-blue-700/70 hover:bg-gray-50">
                                 <input type="file" accept="image/*" class="hidden" id="kopSuratDefault">
@@ -40,6 +44,23 @@
                                     <p class="text-sm font-medium text-gray-600">Klik atau seret gambar kop surat ke sini</p>
                                     <p class="text-xs text-gray-400 mt-1">PNG, JPG, hingga 5MB. Disarankan rasio 4:1.</p>
                                 </label>
+                            </div>
+                            <!-- __COMMENT__ Gunakan blok ini ketika kop surat default telah ditambahkan -->
+                            <div class="w-fit mx-auto hidden">
+                                <img src="/uploads/kop-surat/contoh-kop-surat.png" alt="Kop Surat Rapat Finalisasi APBD Tahun 2026"
+                                    class="w-full h-40 aspect-4/1 object-contain border border-slate-200 rounded-lg p-2 bg-slate-50">
+                                <button type="button"
+                                    class="flex justify-center items-center gap-2 mt-4 ml-auto py-1 px-2 border border-solid border-red-300 text-xs rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-file-minus preview-icon size-3">
+                                        <path
+                                            d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+                                        <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+                                        <path d="M9 15h6" />
+                                    </svg>
+                                    <span>Hapus Kop Surat</span>
+                                </button>
                             </div>
                         </div>
                     </div>
