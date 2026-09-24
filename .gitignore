@@ -9,3 +9,7 @@
 
 # database schemas
 /database-schemas.txt
+
+# All files on /public/uploads/kop-surat
+/public/uploads/kop-surat/*
+!/public/uploads/kop-surat/.gitkeep
