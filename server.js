@@ -92,6 +92,12 @@ app.get("/dashboard/sesi-rapat/create", (req, res) => {
     });
 });
 
+app.get("/daftar-kehadiran/abc-def", (req, res) => {
+    res.render("frontend/daftar_kehadiran", {
+        title: "Formulir Daftar Kehadiran"
+    });
+});
+
 app.listen(port, hostname, () => {
     console.log(`Server listening on http://${hostname}:${port}`);
 });
