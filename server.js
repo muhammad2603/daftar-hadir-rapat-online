@@ -78,6 +78,13 @@ app.get("/dashboard/pengaturan", (req, res) => {
     });
 });
 
+app.get("/dashboard/pengaturan/daftar-user", (req, res) => {
+    res.render("backend/daftar_user", {
+        title: "Daftar User",
+        currentNav: "pengaturan"
+    });
+});
+
 app.get("/dashboard/sesi-rapat/create", (req, res) => {
     res.render("backend/form_buat_sesi_rapat", {
         title: "Buat Sesi Rapat Baru",
