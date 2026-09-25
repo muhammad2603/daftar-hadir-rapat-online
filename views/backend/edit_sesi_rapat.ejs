@@ -10,117 +10,118 @@
 
 <body class="h-dvh bg-blue-50 flex flex-col">
     <%- include('./layouts/partials/header.ejs') %>
-        <div class="flex flex-1 min-h-0">
-            <%- include('./layouts/partials/nav.ejs') %>
-                <main class="flex-1 min-w-0 overflow-y-auto p-6 pb-24 md:pb-6 scrollbar-thin scrollbar-thumb-slate-400">
-                    <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-md overflow-y-auto">
-                        <div class="header-form px-6 py-5 border-b border-slate-100">
-                            <h1 class="font-bold text-lg text-slate-800 mb-1.5">Edit Sesi Rapat</h1>
-                            <p class="text-xs text-slate-600">Mengedit: <span class="font-semibold mr-1.5">#1</span>•<span class="font-semibold ml-1.5">Rapat Finalisasi APBD Tahun 2026</span></p>
+    <div class="flex flex-1 min-h-0">
+        <%- include('./layouts/partials/nav.ejs') %>
+        <main class="flex-1 min-w-0 overflow-y-auto p-6 pb-24 md:pb-6 scrollbar-thin scrollbar-thumb-slate-400">
+            <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-md overflow-y-auto">
+                <div class="header-form px-6 py-5 border-b border-slate-100">
+                    <h1 class="font-bold text-lg text-slate-800 mb-1.5">Edit Sesi Rapat</h1>
+                    <p class="text-xs text-slate-600">Mengedit: <span class="font-semibold mr-1.5">#1</span>•<span class="font-semibold ml-1.5">Rapat Finalisasi APBD Tahun 2026</span></p>
+                </div>
+                <div class="form-body px-6 py-5 space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-3">
+                        <div>
+                            <label for="judulRapat"
+                                class="inline-block text-xs font-medium text-slate-600 mb-1.5">Judul Rapat <span
+                                    class="font-semibold text-red-500">*</span></label>
+                            <input type="text" placeholder="Masukkan Judul Rapat..." id="judulRapat"
+                                value="Rapat Finalisasi APBD Tahun 2026"
+                                autocomplete="off"
+                                class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
                         </div>
-                        <div class="form-body px-6 py-5 space-y-4">
-                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-3">
-                                <div>
-                                    <label for="judulRapat"
-                                        class="inline-block text-xs font-medium text-slate-600 mb-1.5">Judul Rapat <span
-                                            class="font-semibold text-red-500">*</span></label>
-                                    <input type="text" placeholder="Masukkan Judul Rapat..." id="judulRapat"
-                                        value="Rapat Finalisasi APBD Tahun 2026"
-                                        autocomplete="off"
-                                        class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
-                                </div>
-                                <div>
-                                    <label for="tanggalRapat"
-                                        class="block text-xs font-medium text-slate-600 mb-1.5">Tanggal Rapat <span
-                                            class="font-semibold text-red-500">*</span></label>
-                                    <input type="date" id="tanggalRapat"
-                                        value="2026-09-22"
-                                        class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
-                                </div>
+                        <div>
+                            <label for="tanggalRapat"
+                                class="block text-xs font-medium text-slate-600 mb-1.5">Tanggal Rapat <span
+                                    class="font-semibold text-red-500">*</span></label>
+                            <input type="date" id="tanggalRapat"
+                                value="2026-09-22"
+                                class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label for="waktuMulaiPresensi"
+                                class="block text-xs font-medium text-slate-600 mb-1.5">Waktu Presensi Dimulai
+                                <span class="font-semibold text-red-500">*</span></label>
+                            <input type="time" id="waktuMulaiPresensi"
+                                value="13:40"
+                                class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                        </div>
+                        <div>
+                            <label for="waktuAkhirPresensi"
+                                class="block text-xs font-medium text-slate-600 mb-1.5">Waktu Presensi Berakhir
+                                <span class="font-semibold text-red-500">*</span></label>
+                            <input type="time" id="waktuAkhirPresensi"
+                                value="14:00"
+                                class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="ruangRapat"
+                            class="inline-block text-xs font-medium text-slate-600 mb-1.5">Lokasi / Ruang <span
+                                class="font-semibold text-red-500">*</span></label>
+                        <input type="text" placeholder="Masukkan Lokasi / Ruang Rapat..." id="ruangRapat"
+                            value="Ruang Command Control (CoC)"
+                            autocomplete="off"
+                            class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                    </div>
+                    <div>
+                        <label for="agendaRapat"
+                            class="inline-block text-xs font-medium text-slate-600 mb-1.5">Agenda Rapat</label>
+                        <textarea id="agendaRapat" rows="4" placeholder="Masukkan Topik yang Akan Dibahas..."
+                            class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors resize-none">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam commodi cumque, repudiandae necessitatibus explicabo quos tempore ducimus consectetur inventore? Laudantium cum quibusdam suscipit animi fugiat deserunt culpa optio dolorum officia quia libero ex quasi ab placeat obcaecati sed commodi ratione adipisci ipsam tempore nemo ut ea, ducimus maxime. Blanditiis, rem!</textarea>
+                    </div>
+                    <div>
+                        <span class="block text-xs font-medium text-slate-600 mb-1.5">Kop Surat
+                            (Opsional)</span>
+                        <input type="file" id="kopSuratDefault" accept="image/*" class="hidden">
+                        <label for="kopSuratDefault" id="dropFileZone"
+                            class="hidden border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all border-gray-200 hover:border-blue-700/70 hover:bg-gray-50">
+                            <div class="cursor-pointer flex flex-col items-center gap-2 pointer-events-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    class="lucide lucide-arrow-up-from-line preview-icon text-slate-400 pointer-events-none">
+                                    <path d="m18 9-6-6-6 6" />
+                                    <path d="M12 3v14" />
+                                    <path d="M5 21h14" />
+                                </svg>
+                                <span class="text-xs text-slate-500 pointer-events-none">Klik atau seret gambar kop surat ke sini</span>
+                                <span class="text-xs text-slate-400 pointer-events-none">PNG, JPG, hingga 5MB. Disarankan rasio 4:1.</span>
+                                <span class="text-xs text-slate-400 pointer-events-none">Catatan: Jika note tidak diupload, maka akan diisi
+                                    dengan kop default.</span>
                             </div>
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label for="waktuMulaiPresensi"
-                                        class="block text-xs font-medium text-slate-600 mb-1.5">Waktu Presensi Dimulai
-                                        <span class="font-semibold text-red-500">*</span></label>
-                                    <input type="time" id="waktuMulaiPresensi"
-                                        value="13:40"
-                                        class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
-                                </div>
-                                <div>
-                                    <label for="waktuAkhirPresensi"
-                                        class="block text-xs font-medium text-slate-600 mb-1.5">Waktu Presensi Berakhir
-                                        <span class="font-semibold text-red-500">*</span></label>
-                                    <input type="time" id="waktuAkhirPresensi"
-                                        value="14:00"
-                                        class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
-                                </div>
-                            </div>
-                            <div>
-                                <label for="ruangRapat"
-                                    class="inline-block text-xs font-medium text-slate-600 mb-1.5">Lokasi / Ruang <span
-                                        class="font-semibold text-red-500">*</span></label>
-                                <input type="text" placeholder="Masukkan Lokasi / Ruang Rapat..." id="ruangRapat"
-                                    value="Ruang Command Control (CoC)"
-                                    autocomplete="off"
-                                    class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
-                            </div>
-                            <div>
-                                <label for="agendaRapat"
-                                    class="inline-block text-xs font-medium text-slate-600 mb-1.5">Agenda Rapat</label>
-                                <textarea id="agendaRapat" rows="4" placeholder="Masukkan Topik yang Akan Dibahas..."
-                                    class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors resize-none">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam commodi cumque, repudiandae necessitatibus explicabo quos tempore ducimus consectetur inventore? Laudantium cum quibusdam suscipit animi fugiat deserunt culpa optio dolorum officia quia libero ex quasi ab placeat obcaecati sed commodi ratione adipisci ipsam tempore nemo ut ea, ducimus maxime. Blanditiis, rem!</textarea>
-                            </div>
-                            <div>
-                                <span class="block text-xs font-medium text-slate-600 mb-1.5">Kop Surat
-                                    (Opsional)</span>
-                                <label for="kopSurat"
-                                    class="hidden border-2 border-dashed border-slate-200 rounded-lg py-8 px-4 text-center transition-all hover:border-blue-700/70 hover:bg-gray-50">
-                                    <div class="cursor-pointer flex flex-col items-center gap-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
-                                            viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="lucide lucide-arrow-up-from-line preview-icon text-slate-400">
-                                            <path d="m18 9-6-6-6 6" />
-                                            <path d="M12 3v14" />
-                                            <path d="M5 21h14" />
-                                        </svg>
-                                        <span class="text-xs text-slate-500">Klik atau seret gambar kop surat ke
-                                            sini</span>
-                                        <span class="text-xs text-slate-400">PNG, JPG, hingga 5MB. Disarankan rasio
-                                            4:1.</span>
-                                        <span class="text-xs text-slate-400">Catatan: Jika note tidak diupload, maka
-                                            akan diisi dengan kop default.</span>
-                                        <input type="file" id="kopSurat" accept="image/*" class="hidden">
-                                    </div>
-                                </label>
-                                <!-- __COMMENT__ Gunakan blok ini ketika kop surat bukan default -->
-                                <div>
-                                    <img src="/uploads/kop-surat/contoh-kop-surat.png" alt="Kop Surat Rapat Finalisasi APBD Tahun 2026"
-                                        class="w-full aspect-4/1 object-contain border border-slate-200 rounded-lg p-2 bg-slate-50">
-                                    <button type="button" class="flex justify-center items-center gap-2 mt-4 ml-auto py-1 px-2 border border-solid border-red-300 text-xs rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                            class="lucide lucide-file-minus preview-icon size-3">
-                                            <path
-                                                d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
-                                            <path d="M14 2v5a1 1 0 0 0 1 1h5" />
-                                            <path d="M9 15h6" />
-                                        </svg>
-                                        <span>Hapus Kop Surat</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="flex gap-3 pt-2">
-                                <a href="/dashboard/sesi-rapat/kelola"
-                                    class="flex-1 border border-slate-200 text-slate-600 hover:bg-slate-50 font-semibold text-center py-2.5 rounded-xl text-sm transition-colors">Batalkan</a>
-                                <button type="button"
-                                    class="flex-1 bg-blue-900 hover:bg-blue-hover text-white font-semibold py-2.5 rounded-xl text-sm transition-colors cursor-pointer">Perbarui</button>
+                        </label>
+                        <!-- __COMMENT__ Gunakan blok ini ketika kop surat bukan default -->
+                        <div id="previewKopSurat" class="w-fit mx-auto">
+                            <img id="previewImg" src="/uploads/kop-surat/contoh-kop-surat.png" alt="Kop Surat Default"
+                                class="w-full h-40 aspect-4/1 object-contain border border-slate-200 rounded-lg p-2 bg-slate-50">
+                            <div class="btn-kop-surat-actions flex justify-end gap-3">
+                                <button type="button" id="hapusKopSurat"
+                                    class="flex justify-center items-center gap-2 mt-4 py-1 px-2 border border-solid border-red-300 text-sm rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-file-minus preview-icon size-3">
+                                        <path
+                                            d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+                                        <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+                                        <path d="M9 15h6" />
+                                    </svg>
+                                    <span>Hapus</span>
+                                </button>
                             </div>
                         </div>
                     </div>
-                </main>
-        </div>
+                    <div class="flex gap-3 pt-2">
+                        <a href="/dashboard/sesi-rapat/kelola"
+                            class="flex-1 border border-slate-200 text-slate-600 hover:bg-slate-50 font-semibold text-center py-2.5 rounded-xl text-sm transition-colors">Batalkan</a>
+                        <button type="button"
+                            class="flex-1 bg-blue-900 hover:bg-blue-hover text-white font-semibold py-2.5 rounded-xl text-sm transition-colors cursor-pointer">Perbarui</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/js/drag-n-drop.js"></script>
 </body>
 
 </html>
