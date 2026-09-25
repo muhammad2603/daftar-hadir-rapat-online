@@ -24,43 +24,54 @@
                         <p class="text-sm text-gray-400 mb-4">Unggah kop surat resmi instansi Anda sebagai kop default. Gambar akan
                             ditampilkan di bagian atas formulir absensi peserta.</p>
                         <div>
-                            <!--
-                            __COMMENT__ Kop surat default hanya memiliki batas 1 file,
-                            karena kop surat dinamis yang bisa dipisahkan saat membuat sesi rapat baru.
-                            -->
-                            <div
-                                class="relative border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all border-gray-200 hover:border-blue-700/70 hover:bg-gray-50">
-                                <input type="file" accept="image/*" class="hidden" id="kopSuratDefault">
-                                <label for="kopSuratDefault" class="cursor-pointer">
+                            <div class="kop-surat-upload">
+                                <input type="file" accept="image/*" class="hidden" id="kopSuratDefault" hidden>
+                                <label for="kopSuratDefault" id="dropFileZone" class="block border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all border-gray-200 hover:border-blue-700/70 hover:bg-gray-50">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        class="lucide lucide-image-plus preview-icon size-10 mx-auto text-gray-300 mb-3">
+                                        class="lucide lucide-image-plus preview-icon size-10 mx-auto text-gray-300 mb-3 pointer-events-none">
                                         <path d="M16 5h6" />
                                         <path d="M19 2v6" />
                                         <path d="M21 11.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.5" />
                                         <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
                                         <circle cx="9" cy="9" r="2" />
                                     </svg>
-                                    <p class="text-sm font-medium text-gray-600">Klik atau seret gambar kop surat ke sini</p>
-                                    <p class="text-xs text-gray-400 mt-1">PNG, JPG, hingga 5MB. Disarankan rasio 4:1.</p>
+                                    <p class="text-sm font-medium text-gray-600 pointer-events-none">Klik atau seret gambar kop surat ke sini</p>
+                                    <p class="text-xs text-gray-400 mt-1 pointer-events-none">PNG, JPG, hingga 5MB. Disarankan rasio 4:1.</p>
                                 </label>
                             </div>
-                            <!-- __COMMENT__ Gunakan blok ini ketika kop surat default telah ditambahkan -->
-                            <div class="w-fit mx-auto hidden">
-                                <img src="/uploads/kop-surat/contoh-kop-surat.png" alt="Kop Surat Rapat Finalisasi APBD Tahun 2026"
+                            <div id="previewKopSurat" class="w-fit mx-auto hidden">
+                                <img id="previewImg" alt="Kop Surat Default"
                                     class="w-full h-40 aspect-4/1 object-contain border border-slate-200 rounded-lg p-2 bg-slate-50">
-                                <button type="button"
-                                    class="flex justify-center items-center gap-2 mt-4 ml-auto py-1 px-2 border border-solid border-red-300 text-xs rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        class="lucide lucide-file-minus preview-icon size-3">
-                                        <path
-                                            d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
-                                        <path d="M14 2v5a1 1 0 0 0 1 1h5" />
-                                        <path d="M9 15h6" />
-                                    </svg>
-                                    <span>Hapus Kop Surat</span>
-                                </button>
+                                <div class="btn-kop-surat-actions flex justify-end gap-3">
+                                    <button type="button"
+                                        id="hapusKopSurat"
+                                        class="flex justify-center items-center gap-2 mt-4 py-1 px-2 border border-solid border-red-300 text-sm rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-file-minus preview-icon size-3">
+                                            <path
+                                                d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+                                            <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+                                            <path d="M9 15h6" />
+                                        </svg>
+                                        <span>Hapus Kop Surat</span>
+                                    </button>
+                                    <button type="button"
+                                        id="submitKopSurat"
+                                        class="flex justify-center items-center gap-2 mt-4 py-1 px-2 border border-solid text-sm rounded-md bg-blue-900 text-white cursor-pointer transition-colors duration-150 ease-in hover:bg-blue-hover">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-file-pen preview-icon size-3">
+                                            <path
+                                                d="M12.659 22H18a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v9.34" />
+                                            <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+                                            <path
+                                                d="M10.378 12.622a1 1 0 0 1 3 3.003L8.36 20.637a2 2 0 0 1-.854.506l-2.867.837a.5.5 0 0 1-.62-.62l.836-2.869a2 2 0 0 1 .506-.853z" />
+                                        </svg>
+                                        <span>Perbarui Kop Surat</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -109,7 +120,7 @@
                             <div class="flex justify-between items-center">
                                 <span class="text-gray-400">Two Factor Authentication (2FA)</span>
                                 <a href="/auth/two-factor-auth-activation" class="py-0.5 px-2 text-xs border border-solid border-blue-300 bg-blue-50 text-blue-600 rounded-sm transition-colors hover:bg-blue-100 hover:border-blue-400">Aktifkan</a>
-                                 <!-- <span class="py-0.5 px-2 text-xs border border-solid border-gray-300 bg-gray-50 text-gray-600 rounded-sm select-none">Sudah Aktif</span> -->
+                                <!-- <span class="py-0.5 px-2 text-xs border border-solid border-gray-300 bg-gray-50 text-gray-600 rounded-sm select-none">Sudah Aktif</span> -->
                             </div>
                         </div>
                     </div>
@@ -117,6 +128,7 @@
             </div>
         </main>
     </div>
+    <script src="/js/drag-n-drop.js"></script>
 </body>
 
 </html>
