@@ -128,6 +128,24 @@
             </div>
         </main>
     </div>
+    <!-- Pop Up informasi untuk kegagalan aktivasi Two Factor Authentication -->
+    <div class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+            <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+                <div>
+                    <h2 class="font-display text-lg font-bold text-gray-900">Aktivasi Gagal</h2>
+                    <p class="text-sm text-gray-400 mt-0.5">Two Factor Authentication tidak dapat diaktifkan</p>
+                </div>
+            </div>
+            <div class="py-5 px-6 text-sm text-gray-400">
+                <p class="font-medium">Pastikan Email telah ditambahkan pada akun anda.</p>
+            </div>
+            <div class="p-3 flex justify-end gap-3">
+                <button type="button"
+                    class="border border-slate-200 text-slate-600 font-semibold py-2.5 px-6 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50">Tutup</button>
+            </div>
+        </div>
+    </div>
     <script src="/js/drag-n-drop.js"></script>
 </body>
 
