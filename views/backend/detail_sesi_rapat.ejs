@@ -82,7 +82,7 @@
                         <p class="text-xs text-slate-500 mb-1">Salin dan bagikan tautan berikut:</p>
                         <p class="text-xs font-mono text-slate-700 break-all">https://hook-grasp-29343154.figma.site/#attend/15dj67hqmucagoxr</p>
                     </div>
-                    <button class="w-full py-2.5 rounded-xl text-sm font-semibold transition bg-blue-900 text-white cursor-pointer hover:bg-blue-hover">Salin Tautan</button>
+                    <button id="copyLink" data-link="https://hook-grasp-29343154.figma.site/#attend/15dj67hqmucagoxr" class="w-full py-2.5 rounded-xl text-sm font-semibold transition bg-blue-900 text-white cursor-copy hover:not-disabled:bg-blue-hover disabled:opacity-40">Salin Tautan</button>
                 </div>
                 <div class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col items-center">
                     <div class="flex items-center gap-2 mb-4 self-start">
@@ -213,6 +213,7 @@
             </div>
         </div>
     </div>
+    <script src="/js/copy-link.js"></script>
 </body>
 
 </html>
