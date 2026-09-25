@@ -13,3 +13,7 @@
 # All files on /public/uploads/kop-surat
 /public/uploads/kop-surat/*
 !/public/uploads/kop-surat/.gitkeep
+
+# Storage
+/storage/signatures/*
+!/storage/signatures/.gitkeep
