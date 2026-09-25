@@ -48,5 +48,8 @@ document.addEventListener("DOMContentLoaded", () => {
         previewImgEl.removeAttribute("src");
         previewKopSuratWrapper.classList.add("hidden");
         dropFileZone.classList.remove("hidden");
+        if (!dropFileZone.classList.contains("block")) {
+            dropFileZone.classList.add("block");
+        }
     });
 });
