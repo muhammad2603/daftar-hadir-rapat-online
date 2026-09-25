@@ -18,7 +18,7 @@
             class="w-full max-h-40 aspect-4/1 object-contain object-center">
     </div>
     <div class="max-w-2xl mx-auto px-4 py-8">
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="hidden bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="py-5 px-6 bg-blue-900">
                 <p class="text-blue-200 text-xs uppercase tracking-wider mb-1">Undangan Rapat</p>
                 <h1 class="text-white text-xl font-bold">Rapat Finalisasi APBD Tahun 2026</h1>
@@ -96,6 +96,46 @@
             <div class="mt-4 px-6 pb-6">
                 <button type="button" class="w-full bg-blue-900 hover:bg-blue-hover text-white font-semibold py-2.5 rounded-xl transition-colors cursor-pointer">Daftarkan Kehadiran Saya</button>
             </div>
+        </div>
+        <div class="space-y-5">
+            <div>
+                <h2 class="text-lg font-bold text-slate-800 mb-1">Data Diri Peserta</h2>
+                <p class="text-sm text-slate-500">Isi formulir di bawah ini untuk mendaftarkan kehadiran Anda.</p>
+            </div>
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+                <div>
+                    <label for="namaLengkap" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Nama Lengkap <span
+                            class="font-semibold text-red-500">*</span></label>
+                    <input type="text" placeholder="Masukkan nama sesuai identitas..." id="namaLengkap" autocomplete="off"
+                        class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label for="organisasi" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Instansi / Organisasi</label>
+                        <input type="text" placeholder="Masukkan nama instansi atau organisasi..." id="organisasi" autocomplete="off"
+                            class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                    </div>
+                    <div>
+                        <label for="jabatan" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Jabatan</label>
+                        <input type="text" placeholder="Masukkan nama instansi atau organisasi..." id="jabatan" autocomplete="off"
+                            class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                <h3 class="font-semibold text-slate-800 mb-1 text-sm">Tanda Tangan <span class="font-semibold text-red-500">*</span></h3>
+                <p class="text-xs text-slate-500 mb-3">Tanda tangani pada area di bawah ini menggunakan mouse atau layar sentuh.</p>
+                <div class="flex flex-col gap-2">
+                    <div class="relative border-2 border-dashed border-slate-300 rounded-lg bg-slate-50 overflow-hidden">
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <span class="text-slate-400 text-sm">Tanda Tangan Disini</span>
+                        </div>
+                        <canvas id="signaturePad" width="600" height="200" class="w-full h-37.5 cursor-pen-tool"></canvas>
+                        <div class="absolute bottom-8 left-6 right-6 border-b border-slate-300"></div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="w-full bg-blue-900 hover:bg-blue-hover disabled:opacity-60 text-white font-semibold py-3.5 rounded-xl transition-colors text-sm shadow-md cursor-pointer">Kirim & Konfirmasi Kehadiran</button>
         </div>
     </div>
 </body>
