@@ -49,21 +49,41 @@
                     </div>
                     <div>
                         <span class="block text-xs font-medium text-slate-600 mb-1.5">Kop Surat (Opsional)</span>
-                        <label for="kopSurat" class="block border-2 border-dashed border-slate-200 rounded-lg py-8 px-4 text-center transition-all hover:border-blue-700/70 hover:bg-gray-50">
-                            <div class="cursor-pointer flex flex-col items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                    class="lucide lucide-arrow-up-from-line preview-icon text-slate-400">
-                                    <path d="m18 9-6-6-6 6" />
-                                    <path d="M12 3v14" />
-                                    <path d="M5 21h14" />
-                                </svg>
-                                <span class="text-xs text-slate-500">Klik atau seret gambar kop surat ke sini</span>
-                                <span class="text-xs text-slate-400">PNG, JPG, hingga 5MB. Disarankan rasio 4:1.</span>
-                                <span class="text-xs text-slate-400">Catatan: Jika note tidak diupload, maka akan diisi dengan kop default.</span>
-                                <input type="file" id="kopSurat" accept="image/*" class="hidden">
+                        <div>
+                            <input type="file" id="kopSuratDefault" accept="image/*" class="hidden">
+                            <label for="kopSuratDefault" id="dropFileZone" class="block border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all border-gray-200 hover:border-blue-700/70 hover:bg-gray-50">
+                                <div class="cursor-pointer flex flex-col items-center gap-2 pointer-events-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-arrow-up-from-line preview-icon text-slate-400 pointer-events-none">
+                                        <path d="m18 9-6-6-6 6" />
+                                        <path d="M12 3v14" />
+                                        <path d="M5 21h14" />
+                                    </svg>
+                                    <span class="text-xs text-slate-500 pointer-events-none">Klik atau seret gambar kop surat ke sini</span>
+                                    <span class="text-xs text-slate-400 pointer-events-none">PNG, JPG, hingga 5MB. Disarankan rasio 4:1.</span>
+                                    <span class="text-xs text-slate-400 pointer-events-none">Catatan: Jika note tidak diupload, maka akan diisi dengan kop default.</span>
+                                </div>
+                            </label>
+                        </div>
+                        <div id="previewKopSurat" class="w-fit mx-auto hidden">
+                            <img id="previewImg" alt="Kop Surat Default"
+                                class="w-full h-40 aspect-4/1 object-contain border border-slate-200 rounded-lg p-2 bg-slate-50">
+                            <div class="btn-kop-surat-actions flex justify-end gap-3">
+                                <button type="button" id="hapusKopSurat"
+                                    class="flex justify-center items-center gap-2 mt-4 py-1 px-2 border border-solid border-red-300 text-sm rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-file-minus preview-icon size-3">
+                                        <path
+                                            d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+                                        <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+                                        <path d="M9 15h6" />
+                                    </svg>
+                                    <span>Hapus</span>
+                                </button>
                             </div>
-                        </label>
+                        </div>
                     </div>
                     <div class="flex gap-3 pt-2">
                         <a href="/dashboard/sesi-rapat/kelola" class="flex-1 border border-slate-200 text-slate-600 hover:bg-slate-50 font-semibold text-center py-2.5 rounded-xl text-sm transition-colors">Batalkan</a>
@@ -73,6 +93,7 @@
             </div>
         </main>
     </div>
+    <script src="/js/drag-n-drop.js"></script>
 </body>
 
 </html>
