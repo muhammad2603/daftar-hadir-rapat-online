@@ -171,7 +171,7 @@
                     </div>
                     <div class="flex gap-2">
                         <div class="flex-1 min-w-0 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-gray-600 font-mono truncate">https://stir-chomp-77468054.figma.site/#attend/1582e23b-55da-4df4-a322-81adafd3a135</div>
-                        <button type="button" class="shrink-0 px-4 py-2.5 rounded-xl text-sm font-semibold transition bg-blue-900 text-white cursor-pointer hover:bg-blue-hover">Salin</button>
+                        <button type="button" id="copyLink" data-link="https://stir-chomp-77468054.figma.site/#attend/1582e23b-55da-4df4-a322-81adafd3a135" class="shrink-0 px-4 py-2.5 rounded-xl text-sm font-semibold transition bg-blue-900 text-white cursor-copy hover:not-disabled:bg-blue-hover disabled:opacity-40">Salin</button>
                     </div>
                     <p class="text-xs text-amber-600 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2">Catatan: Tautan ini hanya aktif selama sesi rapat berlangsung.</p>
                 </div>
@@ -236,6 +236,7 @@
             </div>
         </div>
     </div>
+    <script src="/js/copy-link.js"></script>
 </body>
 
 </html>
