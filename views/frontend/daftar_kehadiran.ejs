@@ -127,17 +127,21 @@
                 <p class="text-xs text-slate-500 mb-3">Tanda tangani pada area di bawah ini menggunakan mouse atau layar sentuh.</p>
                 <div class="flex flex-col gap-2">
                     <div class="relative border-2 border-dashed border-slate-300 rounded-lg bg-slate-50 overflow-hidden">
-                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <div id="ttdText" class="absolute inset-0 flex items-center justify-center pointer-events-none">
                             <span class="text-slate-400 text-sm">Tanda Tangan Disini</span>
                         </div>
                         <canvas id="signaturePad" width="600" height="200" class="w-full h-37.5 cursor-pen-tool"></canvas>
                         <div class="absolute bottom-8 left-6 right-6 border-b border-slate-300"></div>
                     </div>
                 </div>
+                <div id="resetTtd" class="hidden justify-end mt-4">
+                    <button class="py-1 px-2.5 border border-solid border-red-300 text-[11px] rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">Ulangi Tanda Tangan</button>
+                </div>
             </div>
             <button type="submit" class="w-full bg-blue-900 hover:bg-blue-hover disabled:opacity-60 text-white font-semibold py-3.5 rounded-xl transition-colors text-sm shadow-md cursor-pointer">Kirim & Konfirmasi Kehadiran</button>
         </div>
     </div>
+    <script type="module" src="/js/signature-pad.js"></script>
 </body>
 
 </html>
