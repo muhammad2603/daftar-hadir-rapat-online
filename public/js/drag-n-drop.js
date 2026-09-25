@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const previewKopSuratWrapper = document.getElementById("previewKopSurat");
     const previewImgEl = document.getElementById("previewImg");
     const fileInput = document.getElementById("kopSuratDefault");
+    const hapusKopSuratBtn = document.getElementById("hapusKopSurat");
 
     dropFileZone.addEventListener("dragover", (event) => {
         event.preventDefault();
@@ -40,5 +41,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const imageUrl = URL.createObjectURL(file);
             previewImgEl.src = imageUrl;
         }
+    });
+
+    hapusKopSuratBtn.addEventListener("click", () => {
+        fileInput.value = '';
+        previewImgEl.removeAttribute("src");
+        previewKopSuratWrapper.classList.add("hidden");
+        dropFileZone.classList.remove("hidden");
     });
 });
