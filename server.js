@@ -1,6 +1,7 @@
 import express from 'express';
 import sharp from 'sharp';
 import fs from 'fs';
+import { getSVG } from 'qreator/lib/svg';
 
 const app = express();
 
@@ -117,6 +118,17 @@ app.get("/api/test/simpan-tanda-tangan", async (req, res) => {
         res.send("Signature berhasil tersimpan. Cek file signature.png difolder storage/signatures!");
     } catch (error) {
         res.send("Gagal menyimpan gambar Signature! ;( Cek konfigurasi Sharp Anda!");
+    }
+});
+
+// __COMMENT__ Contoh API QR Generator menggunakan Qreator
+app.get("/api/test/qr-generator", async (req, res) => {
+    try {
+        const url = "https://localhost:3000/daftar-kehadiran/abc-def";
+        const qrSvg = await getSVG(url);
+        res.type("svg").send(qrSvg);
+    } catch (error) {
+        res.send("Error:")
     }
 });
 
