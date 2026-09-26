@@ -14,8 +14,14 @@
     "@tailwindcss/cli": "^4.3.3",
     "ejs": "^6.0.1",
     "express": "^5.2.1",
+    "qreator": "^10.0.2",
     "sharp": "^0.35.4",
     "signature_pad": "^5.1.4",
     "tailwindcss": "^4.3.3"
+  },
+  "overrides": {
+    "qreator": {
+      "sharp": "0.35.4"
+    }
   }
 }
