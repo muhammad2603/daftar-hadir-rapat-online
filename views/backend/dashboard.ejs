@@ -104,8 +104,7 @@
                                 <span>Sedang Berlangsung</span>
                             </span>
                         </div>
-                        <h3 class="font-semibold text-slate-800 truncate group-hover:text-secondary transition-colors">Rapat Koordinasi Triwulan
-                        </h3>
+                        <h3 class="font-semibold text-slate-800 truncate group-hover:text-secondary transition-colors">Rapat Koordinasi Triwulan</h3>
                         <p class="text-sm text-gray-500 line-clamp-2 mt-0.5">Evaluasi program kerja, penyusunan rencana anggaran, dan koordinasi
                             pelaksanaan kegiatan antar instansi.</p>
                         <p class="text-xs text-slate-500 mt-2.5">
@@ -115,7 +114,9 @@
                     <div class="flex flex-row lg:flex-col gap-3 sm:gap-4 justify-end sm:justify-normal mt-3 shrink-0 w-full lg:w-30">
                         <button
                             data-session-id="1"
-                            class="flex justify-center items-center gap-2 py-2 px-2 border border-solid border-red-300 text-[11px] rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">
+                            data-pop-up-type="popUpConfirm"
+                            data-pop-up-message="Rapat Koordinasi Triwulan"
+                            class="pop-up-btn flex justify-center items-center gap-2 py-2 px-2 border border-solid border-red-300 text-[11px] rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                 class="lucide lucide-octagon-x preview-icon size-4">
@@ -145,32 +146,21 @@
             </div>
         </main>
     </div>
-    <!-- Pop Up konfirmasi untuk mengakhiri sesi -->
-    <div class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+    <div id="popUpConfirm" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
-            <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
-                <div>
-                    <h2 class="font-display text-lg font-bold text-gray-900">Konfirmasi</h2>
-                    <p class="text-sm text-gray-400 mt-0.5 max-w-70">Apakah Anda yakin ingin mengakhiri sesi?</p>
-                </div>
-                <button title="Tutup"
-                    class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 cursor-pointer hover:bg-gray-100 transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="lucide lucide-x preview-icon size-5">
-                        <path d="M18 6 6 18" />
-                        <path d="m6 6 12 12" />
-                    </svg>
-                </button>
+            <div class="px-6 py-5 border-b border-gray-100">
+                <h2 class="font-display text-lg font-bold text-gray-900">Konfirmasi</h2>
+                <p class="text-sm text-gray-400 mt-0.5 max-w-70">Apakah Anda yakin ingin mengakhiri sesi?</p>
             </div>
             <div class="py-5 px-6 text-sm text-gray-400">
-                <p class="font-medium">Lorem ipsum dolor sit amet consectetur, adipisicing elit?</p>
+                <p class="font-medium message">Lorem ipsum dolor sit amet consectetur, adipisicing elit?</p>
             </div>
             <div class="p-3 flex justify-end gap-3">
-                <button type="button" class="border border-slate-200 text-slate-600 font-semibold py-2.5 px-6 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50">Batal</button>
-                <button type="button" class="bg-red-500 text-white font-semibold py-2.5 px-8 rounded-xl text-sm transition-colors cursor-pointer hover:bg-red-600">Ya</button>
+                <button type="button" class="btn-close-pop-up border border-slate-200 text-slate-600 font-semibold py-2.5 px-6 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50">Batal</button>
+                <button type="button" class="btn-confirm-pop-up bg-red-500 text-white font-semibold py-2.5 px-8 rounded-xl text-sm transition-colors cursor-pointer hover:bg-red-600">Ya</button>
             </div>
         </div>
     </div>
+    <script type="module" src="/js/pages/dashboard.js"></script>
 </body>
 </html>
