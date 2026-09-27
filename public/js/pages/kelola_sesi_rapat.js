@@ -44,6 +44,10 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.addEventListener("click", function () {
             /** @type {HTMLButtonElement} */
             const currBtn = this;
+            /** @type {HTMLButtonElement} */
+            const nextBtn = currBtn.nextElementSibling;
+            // __COMMENT__ Tombol setelah mulai sesi harus diberikan disabled agar tidak terjadi race condition disisi frontend UI
+            nextBtn.disabled = true;
             // __COMMENT__ Animasi loading state
             currBtn.disabled = true;
             currBtn.firstElementChild.classList.add("hidden");
@@ -57,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 currBtn.firstElementChild.remove();
                 currBtn.firstElementChild.classList.remove("hidden");
                 currBtn.removeAttribute("disabled");
+                nextBtn.removeAttribute("disabled");
                 console.log("Sesi telah berlangsung...")
             }, 5000);
         });
@@ -66,6 +71,8 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.addEventListener("click", async function () {
             /** @type {HTMLButtonElement} */
             const currBtn = this;
+            /** @type {HTMLButtonElement} */
+            const previousBtn = currBtn.previousElementSibling;
             const popUpType = currBtn.dataset.popUpType;
             const messageText = currBtn.dataset.popUpMessage;
             const popUpWindowEl = document.getElementById(popUpType);
@@ -77,6 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             if (confirmed) {
                 popUp.closePopUp(popUpWindowEl);
+                // __COMMENT__ Tombol sebelum hapus sesi harus diberikan disabled agar tidak terjadi race condition disisi frontend UI
+                previousBtn.disabled = true;
                 // __COMMENT__ Animasi loading state
                 currBtn.disabled = true;
                 currBtn.firstElementChild.classList.add("hidden");
@@ -90,6 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     currBtn.firstElementChild.remove();
                     currBtn.firstElementChild.classList.remove("hidden")
                     currBtn.removeAttribute("disabled");
+                    previousBtn.removeAttribute("disabled");
                     console.log("Sesi berhasil dihapus secara permanen.");
                 }, 5000);
             }
