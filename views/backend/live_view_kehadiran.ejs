@@ -60,8 +60,7 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-3 shrink-0">
-                        <!-- TODO Button ini akan menampilkan Pop Up dengan menampilkan QR Code dan Tautan -->
-                        <button type="button" class="flex items-center gap-1.5 px-3 py-2 border border-blue-900/20 text-blue-900 text-xs font-medium rounded-xl hover:bg-blue-50 transition cursor-pointer">
+                        <button id="btnShowQrCode" type="button" class="flex items-center gap-1.5 px-3 py-2 border border-blue-900/20 text-blue-900 text-xs font-medium rounded-xl hover:bg-blue-50 transition cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                 class="size-4">
@@ -73,7 +72,7 @@
                             </svg>
                             <span>Bagikan</span>
                         </button>
-                        <button type="button" class="flex items-center gap-1.5 px-3 py-2 bg-red-50 text-red-600 text-xs font-semibold border border-solid border-red-300 rounded-xl cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">Akhiri Sesi</button>
+                        <button id="btnEndSession" type="button" class="flex items-center gap-1.5 px-3 py-2 bg-red-50 text-red-600 text-xs font-semibold border border-solid border-red-300 rounded-xl cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">Akhiri Sesi</button>
                     </div>
                 </div>
                 <div class="flex items-center justify-between px-4 py-3 rounded-xl border bg-amber-50 border-amber-200">
@@ -136,15 +135,14 @@
                 </div>
             </div>
         </main>
-        <!-- __COMMENT__ Pop Up untuk menampilkan kode QR atau salin tautan -->
-        <div class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+        <div id="qrCode" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
             <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
                 <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
                     <div>
                         <h2 class="font-display text-lg font-bold text-gray-900">Bagikan Tautan Absensi</h2>
                         <p class="text-xs text-gray-400 mt-0.5 truncate max-w-70">Rapat Finalisasi APBD Tahun 2026</p>
                     </div>
-                    <button title="Tutup" class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 cursor-pointer hover:bg-gray-100 transition">
+                    <button id="btnCloseQrCode" title="Tutup" class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 cursor-pointer hover:bg-gray-100 transition">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="lucide lucide-x preview-icon size-5">
@@ -177,12 +175,12 @@
                 </div>
             </div>
         </div>
-        <!-- __COMMENT__ Pop Up untuk menampilkan foto presensi peserta -->
+        <!-- __COMMENT__ Pop Up untuk menampilkan foto tanda tangan peserta -->
         <div class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
             <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
                 <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
                     <div>
-                        <h2 class="font-display text-lg font-bold text-gray-900">Foto Presensi</h2>
+                        <h2 class="font-display text-lg font-bold text-gray-900">Tanda Tangan Peserta</h2>
                         <p class="text-xs text-gray-400 mt-0.5 truncate max-w-70">Nama Peserta: Susan Shannon</p>
                     </div>
                     <button title="Tutup"
@@ -198,45 +196,17 @@
                 <div class="p-6 space-y-5">
                     <div class="flex flex-col items-center">
                         <div class="p-3 border-2 border-gray-100 rounded-2xl bg-white">
-                            <img src="https://sisi.id/wp-content/uploads/2022/11/28-Nov-FORCA-ESS-Cegah-Risiko-Kehilangan-Data-Presensi-dan-Aktivitas-Produktif-Karyawan-1080px-web.jpg"
-                                alt="Foto Presensi Susan Shannon" width="200" height="200" class="rounded-lg">
+                            <img src="https://i.pinimg.com/736x/f0/a9/93/f0a993fdc4e1d81651f1d820c746fc3f.jpg"
+                                alt="Tanda tangan Susan Shannon" width="200" height="200" class="rounded-lg">
                         </div>
                         <p class="font-semibold text-sm text-gray-400 mt-4.5">Waktu Hadir: 13.45</p>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Pop Up konfirmasi untuk mengakhiri sesi -->
-        <div class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
-                <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
-                    <div>
-                        <h2 class="font-display text-lg font-bold text-gray-900">Konfirmasi</h2>
-                        <p class="text-sm text-gray-400 mt-0.5 max-w-70">Apakah Anda yakin ingin mengakhiri sesi?</p>
-                    </div>
-                    <button title="Tutup"
-                        class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 cursor-pointer hover:bg-gray-100 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-x preview-icon size-5">
-                            <path d="M18 6 6 18" />
-                            <path d="m6 6 12 12" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="py-5 px-6 text-sm text-gray-400">
-                    <p class="font-medium">Lorem ipsum dolor sit amet consectetur, adipisicing elit?</p>
-                </div>
-                <div class="p-3 flex justify-end gap-3">
-                    <button type="button"
-                        class="border border-slate-200 text-slate-600 font-semibold py-2.5 px-6 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50">Batal</button>
-                    <button type="button"
-                        class="bg-red-500 text-white font-semibold py-2.5 px-8 rounded-xl text-sm transition-colors cursor-pointer hover:bg-red-600">Ya</button>
-                </div>
-            </div>
-        </div>
     </div>
     <script src="/js/copy-link.js"></script>
+    <script type="module" src="/js/pages/live_view_kehadiran.js"></script>
 </body>
 
 </html>
