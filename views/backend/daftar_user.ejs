@@ -42,19 +42,18 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-50">
-                                <tr class="hover:bg-gray-50/50 transition-colors group">
+                                <tr data-user='{"id": "1","username":"fattahillah","email":""}' class="user-row hover:bg-gray-50/50 transition-colors group">
                                     <td class="py-3 px-3 text-gray-400 text-xs">1</td>
                                     <td class="py-3 px-3"><p class="font-medium text-gray-900">fattahillah (Anda)</p></td>
                                     <td class="py-3 px-3 text-gray-600 text-xs leading-snug max-w-40">(Email belum ditambahkan)</td>
                                     <td class="py-3 px-3 font-semibold text-gray-600 text-xs uppercase">Super Admin</td>
                                     <td class="py-3 px-3 text-gray-600 text-xs">2026-09-24 20:34:12</td>
                                     <td class="py-3 px-3">
-                                        <!-- __COMMENT__ User yang sedang login tidak dapat menghapus akunnya -->
                                         <div class="flex justify-end gap-2">
                                             <button
                                                 type="button"
                                                 title="Edit"
-                                                class="flex justify-center items-center gap-2 py-2 px-2 border border-solid border-purple-300 text-xs rounded-md bg-purple-50 text-purple-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-purple-100 hover:border-purple-400">
+                                                class="btn-edit-user flex justify-center items-center gap-2 py-2 px-2 border border-solid border-purple-300 text-xs rounded-md bg-purple-50 text-purple-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-purple-100 hover:border-purple-400">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                                     class="lucide lucide-user-round-pen preview-icon size-3.5">
@@ -67,7 +66,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr class="hover:bg-gray-50/50 transition-colors group">
+                                <tr data-user='{"id": "2","username":"susan","email":"susanss@gmail.com"}' class="user-row hover:bg-gray-50/50 transition-colors group">
                                     <td class="py-3 px-3 text-gray-400 text-xs">2</td>
                                     <td class="py-3 px-3"><p class="font-medium text-gray-900">susan</p></td>
                                     <td class="py-3 px-3 text-gray-600 text-xs leading-snug max-w-40">susanss@gmail.com</td>
@@ -75,8 +74,11 @@
                                     <td class="py-3 px-3 text-gray-600 text-xs">2026-09-22 14:08:45</td>
                                     <td class="py-3 px-3">
                                         <div class="flex justify-end gap-2">
-                                            <button type="button" title="Hapus Akun"
-                                                class="flex justify-center items-center gap-2 py-2 px-2 border border-solid border-red-300 text-xs rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">
+                                            <button
+                                                type="button"
+                                                title="Hapus Pengguna"
+                                                data-user-id="2"
+                                                class="btn-delete-user flex justify-center items-center gap-2 py-2 px-2 border border-solid border-red-300 text-xs rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                                     class="lucide lucide-user-round-minus preview-icon size-3.5">
@@ -88,7 +90,7 @@
                                             <button
                                                 type="button"
                                                 title="Edit"
-                                                class="flex justify-center items-center gap-2 py-2 px-2 border border-solid border-purple-300 text-xs rounded-md bg-purple-50 text-purple-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-purple-100 hover:border-purple-400">
+                                                class="btn-edit-user flex justify-center items-center gap-2 py-2 px-2 border border-solid border-purple-300 text-xs rounded-md bg-purple-50 text-purple-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-purple-100 hover:border-purple-400">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                                     class="lucide lucide-user-round-pen preview-icon size-3.5">
@@ -101,7 +103,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr class="hover:bg-gray-50/50 transition-colors group">
+                                <tr data-user='{"id": "3","username":"hanypulh","email":"hanypulhuda23@gmail.com"}' class="user-row hover:bg-gray-50/50 transition-colors group">
                                     <td class="py-3 px-3 text-gray-400 text-xs">3</td>
                                     <td class="py-3 px-3"><p class="font-medium text-gray-900">hanypulh</p></td>
                                     <td class="py-3 px-3 text-gray-600 text-xs leading-snug max-w-40">hanypulhuda23@gmail.com</td>
@@ -109,8 +111,11 @@
                                     <td class="py-3 px-3 text-gray-600 text-xs">2026-09-24 16:56:08</td>
                                     <td class="py-3 px-3">
                                         <div class="flex justify-end gap-2">
-                                            <button type="button" title="Hapus Akun"
-                                                class="flex justify-center items-center gap-2 py-2 px-2 border border-solid border-red-300 text-xs rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">
+                                            <button
+                                                type="button"
+                                                title="Hapus Pengguna"
+                                                data-user-id="3"
+                                                class="btn-delete-user flex justify-center items-center gap-2 py-2 px-2 border border-solid border-red-300 text-xs rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                                     class="lucide lucide-user-round-minus preview-icon size-3.5">
@@ -122,7 +127,7 @@
                                             <button
                                                 type="button"
                                                 title="Edit"
-                                                class="flex justify-center items-center gap-2 py-2 px-2 border border-solid border-purple-300 text-xs rounded-md bg-purple-50 text-purple-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-purple-100 hover:border-purple-400">
+                                                class="btn-edit-user flex justify-center items-center gap-2 py-2 px-2 border border-solid border-purple-300 text-xs rounded-md bg-purple-50 text-purple-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-purple-100 hover:border-purple-400">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                                     class="lucide lucide-user-round-pen preview-icon size-3.5">
@@ -189,20 +194,10 @@
                 </div>
             </div>
         </div>
-        <!-- __COMMENT__ Pop Up Form Edit User -->
-        <div class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+        <div id="popUpEditUser" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
             <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
-                <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+                <div class="px-6 py-5 border-b border-gray-100">
                     <h2 class="font-display text-xl font-bold text-gray-900">Edit User Anda</h2>
-                    <button title="Tutup"
-                        class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-x preview-icon size-5">
-                            <path d="M18 6 6 18" />
-                            <path d="m6 6 12 12" />
-                        </svg>
-                    </button>
                 </div>
                 <div class="form-body p-6 space-y-4">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -227,36 +222,28 @@
                     </div>
                     <div class="flex gap-3 pt-2">
                         <button
-                            class="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition">Batalkan</button>
+                            id="btnClosePopUpEditUser"
+                            class="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 transition cursor-pointer hover:bg-gray-50">Batalkan</button>
                         <button
+                            id="btnConfirmPopUpEditUser"
                             class="flex-1 py-2.5 bg-blue-900 text-white rounded-xl text-sm font-semibold hover:bg-blue-hover transition cursor-pointer disabled:opacity-60">Perbarui</button>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Pop Up konfirmasi untuk menghapus user -->
-        <div class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+        <div id="confirm" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
             <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
-                <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
-                    <div>
-                        <h2 class="font-display text-lg font-bold text-gray-900">Konfirmasi</h2>
-                        <p class="text-sm text-gray-400 mt-0.5 max-w-70">Apakah Anda yakin ingin menghapus user?</p>
-                    </div>
-                    <button title="Tutup"
-                        class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 cursor-pointer hover:bg-gray-100 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-x preview-icon size-5">
-                            <path d="M18 6 6 18" />
-                            <path d="m6 6 12 12" />
-                        </svg>
-                    </button>
+                <div class="px-6 py-5 border-b border-gray-100">
+                    <h2 class="font-display text-lg font-bold text-gray-900">Konfirmasi</h2>
+                    <p class="header-message text-sm text-gray-400 mt-0.5"></p>
                 </div>
                 <div class="p-3 flex justify-end gap-3">
-                    <button type="button"
-                        class="border border-slate-200 text-slate-600 font-semibold py-2.5 px-6 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50">Batal</button>
-                    <button type="button"
-                        class="bg-red-500 text-white font-semibold py-2.5 px-8 rounded-xl text-sm transition-colors cursor-pointer hover:bg-red-600">Ya</button>
+                    <button
+                        type="button"
+                        class="btn-close-pop-up border border-slate-200 text-slate-600 font-semibold py-2.5 px-6 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50">Batal</button>
+                    <button
+                        type="button"
+                        class="btn-confirm-pop-up bg-red-500 text-white font-semibold py-2.5 px-8 rounded-xl text-sm transition-colors cursor-pointer hover:bg-red-600">Ya</buttontype=>
                 </div>
             </div>
         </div>
