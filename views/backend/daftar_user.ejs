@@ -19,6 +19,7 @@
             </div>
             <div class="space-y-6">
                 <button
+                    id="btnFormCreateUser"
                     class="flex justify-center sm:justify-normal sm:items-center gap-2 mt-3 sm:mt-0 ml-auto bg-blue-900 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors shadow-sm cursor-pointer hover:bg-blue-hover">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus preview-icon size-5">
@@ -140,21 +141,10 @@
                 </div>
             </div>
         </main>
-        <!-- __COMMENT__ Pop Up Form Tambah User -->
-        <div class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+        <div id="popUpCreateUser" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
             <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
-                <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+                <div class="px-6 py-5 border-b border-gray-100">
                     <h2 class="font-display text-xl font-bold text-gray-900">Tambah User</h2>
-                    <button
-                        title="Tutup"
-                        class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-x preview-icon size-5">
-                            <path d="M18 6 6 18" />
-                            <path d="m6 6 12 12" />
-                        </svg>
-                    </button>
                 </div>
                 <div class="form-body p-6 space-y-4">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -193,8 +183,8 @@
                         </div>
                     </div>
                     <div class="flex gap-3 pt-2">
-                        <button class="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition">Batalkan</button>
-                        <button class="flex-1 py-2.5 bg-blue-900 text-white rounded-xl text-sm font-semibold hover:bg-blue-hover transition cursor-pointer disabled:opacity-60">Tambahkan</button>
+                        <button id="btnCancelCreateUser" class="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 transition cursor-pointer hover:bg-gray-50">Batalkan</button>
+                        <button id="btnCreateUser" class="flex-1 py-2.5 bg-blue-900 text-white rounded-xl text-sm font-semibold hover:bg-blue-hover transition cursor-pointer disabled:opacity-60">Tambah</button>
                     </div>
                 </div>
             </div>
@@ -271,6 +261,7 @@
             </div>
         </div>
     </div>
+    <script type="module" src="/js/pages/daftar_user.js"></script>
 </body>
 
 </html>
