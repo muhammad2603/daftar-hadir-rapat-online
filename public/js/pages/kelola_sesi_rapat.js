@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnEndSession = document.querySelectorAll(".btn-end-session[data-pop-up-type]");
     btnEndSession.forEach(btn => {
         btn.addEventListener("click", async function () {
-            /** @type {HTMLElement} */
+            /** @type {HTMLButtonElement} */
             const currBtn = this;
             const popUpType = currBtn.dataset.popUpType;
             const messageText = currBtn.dataset.popUpMessage;
@@ -21,7 +21,21 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             if (confirmed) {
                 popUp.closePopUp(popUpWindowEl);
-                console.log("Sesi telah berakhir.");
+                // __COMMENT__ Animasi loading state
+                currBtn.disabled = true;
+                currBtn.firstElementChild.classList.add("hidden");
+                currBtn.insertAdjacentHTML("afterbegin", loadingSvg);
+                console.log("Sedang mengakhiri sesi...");
+                // __COMMENT__ State saat server memberikan response
+                /**
+                 * Ketika server memberikan response OK, server harus mengirim list data yang baru.
+                 */
+                setTimeout(() => {
+                    currBtn.firstElementChild.remove();
+                    currBtn.firstElementChild.classList.remove("hidden")
+                    currBtn.removeAttribute("disabled");
+                    console.log("Sesi telah berakhir.");
+                }, 5000);
             }
         });
     });
