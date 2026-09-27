@@ -46,7 +46,9 @@
                         </p>
                     </div>
                     <div class="flex flex-row-reverse justify-end max-[381px]:flex-wrap lg:flex-row gap-4 mt-3 shrink-0">
-                        <button data-session-id="1"
+                        <button
+                            data-session-id="1"
+                            data-action="start-session"
                             class="max-[381px]:grow flex justify-center items-center gap-2 py-2 px-2 border border-solid border-amber-300 text-[11px] rounded-md bg-amber-50 text-amber-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-amber-100 hover:border-amber-400">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -56,10 +58,11 @@
                             </svg>
                             <span>Mulai Sesi</span>
                         </button>
-                        <button data-session-id="1"
+                        <button
+                            data-session-id="1"
                             data-pop-up-type="confirm"
                             data-pop-up-message="Rapat Koordinasi Triwulan"
-                            class="pop-up-btn max-[381px]:grow flex justify-center items-center gap-2 py-2 px-2 border border-solid border-rose-300 text-[11px] rounded-md bg-rose-50 text-rose-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-rose-100 hover:border-rose-400">
+                            class="btn-delete-session max-[381px]:grow flex justify-center items-center gap-2 py-2 px-2 border border-solid border-rose-300 text-[11px] rounded-md bg-rose-50 text-rose-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-rose-100 hover:border-rose-400">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                 class="lucide lucide-trash preview-icon size-4">
@@ -121,10 +124,11 @@
                     </div>
                     <div
                         class="flex flex-row lg:flex-col gap-3 sm:gap-4 justify-end sm:justify-normal mt-3 shrink-0 w-full lg:w-30">
-                        <button data-session-id="1"
+                        <button
+                            data-session-id="1"
                             data-pop-up-type="confirm"
                             data-pop-up-message="Rapat Koordinasi Triwulan"
-                            class="pop-up-btn flex justify-center items-center gap-2 py-2 px-2 border border-solid border-red-300 text-[11px] rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">
+                            class="btn-end-session flex justify-center items-center gap-2 py-2 px-2 border border-solid border-red-300 text-[11px] rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                 class="lucide lucide-octagon-x preview-icon size-4">
@@ -171,10 +175,11 @@
                         </p>
                     </div>
                     <div class="flex flex-row lg:flex-col gap-3 sm:gap-4 justify-end sm:justify-normal mt-3 shrink-0 w-full lg:w-30">
-                        <button data-session-id="1"
+                        <button
+                            data-session-id="1"
                             data-pop-up-type="confirm"
                             data-pop-up-message="Rapat Koordinasi Triwulan"
-                            class="pop-up-btn flex justify-center items-center gap-2 py-2 px-2 border border-solid border-red-300 text-[11px] rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">
+                            class="btn-end-session flex justify-center items-center gap-2 py-2 px-2 border border-solid border-red-300 text-[11px] rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                 class="lucide lucide-octagon-x preview-icon size-4">
@@ -204,35 +209,14 @@
             </div>
         </main>
     </div>
-
-    <!-- Pop Up konfirmasi untuk menghapus sesi secara permanen -->
-    <!-- <div class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
-            <div class="px-6 py-5 border-b border-gray-100">
-                <h2 class="font-display text-lg font-bold text-gray-900">Konfirmasi</h2>
-                <p class="text-sm text-gray-400 mt-0.5 max-w-70">Apakah Anda yakin ingin menghapus sesi?</p>
-            </div>
-            <div class="py-5 px-6 text-sm text-gray-400">
-                <p class="font-medium">Sesi rapat ini akan dihapus secara permanen dan tidak dapat dipulihkan.</p>
-            </div>
-            <div class="p-3 flex justify-end gap-3">
-                <button type="button"
-                    class="border border-slate-200 text-slate-600 font-semibold py-2.5 px-6 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50">Batal</button>
-                <button type="button"
-                    class="bg-red-500 text-white font-semibold py-2.5 px-8 rounded-xl text-sm transition-colors cursor-pointer hover:bg-red-600">Ya</button>
-            </div>
-        </div>
-    </div> -->
-
-    <!-- Pop Up konfirmasi untuk mengakhiri sesi -->
     <div id="confirm" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
             <div class="px-6 py-5 border-b border-gray-100">
                 <h2 class="font-display text-lg font-bold text-gray-900">Konfirmasi</h2>
-                <p class="text-sm text-gray-400 mt-0.5 max-w-70">Apakah Anda yakin ingin mengakhiri sesi?</p>
+                <p class="header-message text-sm text-gray-400 mt-0.5"></p>
             </div>
             <div class="py-5 px-6 text-sm text-gray-400">
-                <p class="message font-medium"></p>
+                <p class="body-message font-medium"></p>
             </div>
             <div class="p-3 flex justify-end gap-3">
                 <button type="button"
