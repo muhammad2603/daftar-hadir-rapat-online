@@ -18,13 +18,16 @@ export class PopUp {
     /**
      * Menampilkan Pop Up
      * 
-     * @param {PopUpMessages} messages
+     * @param {PopUpMessages} [messages]
+     * Kosongkan jika tidak butuh pesan Pop Up
      * @return {void}
      */
     showPopUp(messages) {
-        const { header, body } = messages;
-        this.popUpWindow.querySelector('.header-message').textContent = header;
-        this.popUpWindow.querySelector('.body-message').textContent = body;
+        if (messages) {
+            const { header, body } = messages;
+            this.popUpWindow.querySelector('.header-message').textContent = header;
+            this.popUpWindow.querySelector('.body-message').textContent = body;
+        }
         this.popUpWindow.classList.remove("hidden");
         this.popUpWindow.classList.add("flex");
     }
