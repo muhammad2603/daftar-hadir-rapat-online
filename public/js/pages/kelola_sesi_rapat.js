@@ -21,6 +21,12 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+    const btnStartSession = document.querySelectorAll("button.btn-start-session");
+    btnStartSession.forEach(btn => {
+        btn.addEventListener("click", function () {
+            console.log("Sedang memulai sesi...");
+        });
+    });
     const btnDeleteSession = document.querySelectorAll(".btn-delete-session[data-pop-up-type]");
     btnDeleteSession.forEach(btn => {
         btn.addEventListener("click", async function () {
