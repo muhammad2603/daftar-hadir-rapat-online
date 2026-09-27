@@ -11,4 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
     btnEndSession.addEventListener("click", () => {
         console.log("Tombol akhiri sesi diklik.");
     });
+    const popUpTtdImage = new PopUp(document.getElementById("popUpTtdImage"));
+    const ttdImage = document.getElementById("ttdImage");
+    const btnCloseTtdImage = document.getElementById('btnCloseTtdImage');
+    ttdImage.addEventListener("click", () => popUpTtdImage.showPopUp());
+    btnCloseTtdImage.addEventListener("click", () => popUpTtdImage.closePopUp())
 });
