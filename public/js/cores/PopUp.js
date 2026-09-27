@@ -1,49 +1,59 @@
 /**
- * Membuka Pop Up
+ * @typedef {Object} PopUpMessages
  * 
- * @param {HTMLElement} popUpWindowEl
- * @param {string} message Pesan Pop Up
- * @return {Promise<{
- *  closed: Boolean|undefined,
- *  confirmed: Boolean|undefined
- * }>}
-*/
-function openPopUpConfirm(popUpWindowEl, message) {
-    const btnClosePopUp = popUpWindowEl.querySelector(".btn-close-pop-up");
-    const btnConfirmPopUp = popUpWindowEl.querySelector(".btn-confirm-pop-up");
-    showPopUp(popUpWindowEl, message);
-    return new Promise((resolve) => {
-        btnClosePopUp.addEventListener("click", () => resolve({ closed: true }), { once: true });
-        btnConfirmPopUp.addEventListener("click", () => resolve({ confirmed: true }), { once: true });
-    });
-}
-
-/**
- * Menutup Pop Up
- * 
- * @param {HTMLElement} popUpWindowEl
- * @return {void}
+ * @property {string} header
+ * @property {string} body
  */
-function closePopUp(popUpWindowEl) {
-    popUpWindowEl.classList.remove("flex");
-    popUpWindowEl.classList.add("hidden");
-}
 
-/**
- * Menampilkan Pop Up
- * 
- * @param {HTMLElement} popUpWindowEl
- * @return {void}
- */
-function showPopUp(popUpWindowEl, message) {
-    const popUpMessageEl = popUpWindowEl.querySelector(".message");
-    popUpMessageEl.textContent = message;
-    popUpWindowEl.classList.remove("hidden");
-    popUpWindowEl.classList.add("flex");
-}
+/** @class Membuat interaksi Pop Up */
+export class PopUp {
+    /**
+     * @constructor
+     * @param {HTMLElement} popUpWindowEl
+     */
+    constructor(popUpWindowEl) {
+        this.popUpWindow = popUpWindowEl;
+    }
 
-export {
-    openPopUpConfirm,
-    closePopUp,
-    showPopUp,
-};
+    /**
+     * Menampilkan Pop Up
+     * 
+     * @param {PopUpMessages} messages
+     * @return {void}
+     */
+    showPopUp(messages) {
+        const { header, body } = messages;
+        this.popUpWindow.querySelector('.header-message').textContent = header;
+        this.popUpWindow.querySelector('.body-message').textContent = body;
+        this.popUpWindow.classList.remove("hidden");
+        this.popUpWindow.classList.add("flex");
+    }
+
+    /**
+     * Menutup Pop Up
+     * @return {void}
+     */
+    closePopUp() {
+        this.popUpWindow.classList.remove("flex");
+        this.popUpWindow.classList.add("hidden");
+    }
+
+    /**
+     * Membuka Pop Up
+     * 
+     * @param {PopUpMessages} messages
+     * @return {Promise<{
+     *  closed: Boolean|undefined,
+     *  confirmed: Boolean|undefined
+     * }>}
+    */
+    openPopUpConfirm(messages) {
+        const btnClosePopUp = this.popUpWindow.querySelector(".btn-close-pop-up");
+        const btnConfirmPopUp = this.popUpWindow.querySelector(".btn-confirm-pop-up");
+        this.showPopUp(messages);
+        return new Promise((resolve) => {
+            btnClosePopUp.addEventListener("click", () => resolve({ closed: true }), { once: true });
+            btnConfirmPopUp.addEventListener("click", () => resolve({ confirmed: true }), { once: true });
+        });
+    }
+}
