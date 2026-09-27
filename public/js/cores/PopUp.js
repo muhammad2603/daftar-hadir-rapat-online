@@ -26,7 +26,9 @@ export class PopUp {
         if (messages) {
             const { header, body } = messages;
             this.popUpWindow.querySelector('.header-message').textContent = header;
-            this.popUpWindow.querySelector('.body-message').textContent = body;
+            if (body) {
+                this.popUpWindow.querySelector('.body-message').textContent = body;
+            }
         }
         this.popUpWindow.classList.remove("hidden");
         this.popUpWindow.classList.add("flex");
