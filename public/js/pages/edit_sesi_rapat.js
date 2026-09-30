@@ -6,7 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /** @type {HTMLButtonElement} */
     const btnEditSesiRapat = document.getElementById("editSesiRapat");
     const textBtnEditDefault = btnEditSesiRapat.innerText;
+    const backPage = document.getElementById("backPage");
     btnEditSesiRapat.addEventListener("click", function () {
+        backPage.classList.add("disabled", "pointer-events-none");
         // __COMMENT__ Animasi loading state
         btnEditSesiRapat.disabled = true;
         btnEditSesiRapat.innerHTML = loadingSvg + "Sebentar";
