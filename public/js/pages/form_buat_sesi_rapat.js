@@ -5,8 +5,10 @@ const loadingSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="2
 document.addEventListener("DOMContentLoaded", () => {
     /** @type {HTMLButtonElement} */
     const btnCreate = document.getElementById("create");
+    const backPage = document.getElementById("backPage");
     const textBtnCreateDefault = btnCreate.innerText;
     btnCreate.addEventListener("click", () => {
+        backPage.classList.add("disabled", "pointer-events-none", "cursor-not-allowed");
         // __COMMENT__ Animasi loading state
         btnCreate.disabled = true;
         btnCreate.innerHTML = loadingSvg + "Sebentar";
