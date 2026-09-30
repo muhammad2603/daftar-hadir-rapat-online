@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const backPage = document.getElementById("backPage");
     const textBtnCreateDefault = btnCreate.innerText;
     btnCreate.addEventListener("click", () => {
-        backPage.classList.add("disabled", "pointer-events-none", "cursor-not-allowed");
+        backPage.classList.add("disabled", "pointer-events-none");
         // __COMMENT__ Animasi loading state
         btnCreate.disabled = true;
         btnCreate.innerHTML = loadingSvg + "Sebentar";
