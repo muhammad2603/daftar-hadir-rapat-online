@@ -5,7 +5,7 @@ function setCurrActiveNav(currentNav, navNameTarget) {
         : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900';
 }
 %>
-<nav class="w-56 bg-white border-r border-gray-200 shrink-0 overflow-y-auto py-4 hidden md:flex flex-col scrollbar-thin scrollbar-thumb-slate-400">
+<nav class="w-56 bg-white border-r border-gray-200 shrink-0 overflow-y-auto py-4 hidden md:flex flex-col scrollbar-thin scrollbar-thumb-slate-400 print:hidden">
     <div class="px-3 space-y-0.5 flex-1">
         <a href="/dashboard"
             class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all <%= setCurrActiveNav(currentNav, 'dashboard') %>">
