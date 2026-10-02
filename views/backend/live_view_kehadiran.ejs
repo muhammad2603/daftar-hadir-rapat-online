@@ -13,7 +13,7 @@
     <div class="flex flex-1 min-h-0">
         <%- include('./layouts/partials/nav.ejs') %>
         <main class="flex-1 min-w-0 overflow-y-auto p-6 pb-24 md:pb-6 scrollbar-thin scrollbar-thumb-slate-400">
-            <div class="space-y-4">
+            <div class="space-y-4 mb-16">
                 <div class="flex items-start justify-between gap-4 flex-wrap">
                     <div>
                         <a href="/dashboard/monitor-kehadiran" class="flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-700 transition mb-4">
@@ -134,6 +134,25 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-fingerprint-attendance px-14">
+                <div class="box-fingerprint w-60 ml-auto text-center">
+                    <div class="top">
+                        <p>Muara Bulian, &nbsp;03&nbsp; Oktober 2026</p>
+                    </div>
+                    <div class="ttd-box mt-3 mb-2 w-full h-20">
+                        <!-- __FIX__ Src TTD menggunakan Base64 Encoding sebagai contoh, sebaiknya gunakan metode yang sesuai. -->
+                        <img
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAABjCAYAAAARgbk1AAAACXBIWXMAAAsSAAALEgHS3X78AAAE4klEQVRogc1bW2hVRxRdGiNR/JCqxScGKShRrEXSoB96aRQ0H1YLVyoqKra+fkRLi48PAyo22qqoKFHQUOsT++ELEZQrCj5TqpjGt9FEfKH4wnf0yMAc2Wzm3jMzZ+beu2A+cs7ee9admbNnz54dwD2KAUwGkEQeoB5AIFt1LolUEiJhawBQkm0ixQoiYduSD6MSkNYym2TqSMeC2HVGZlu2iAxhHXcCcIs9O5YNIoUALpFOb8rnaxmZ/7NB5hfS4UcAK+XzBYzMM99EOgJ4RTo8AqBAvhurWMRdfJL5i3TUDGAoefeVgsx3voh8zTrarJB5xGSm+iJzinTyEEBfhcwBRmaGDyKzWCfL0sj9weQmuCaSAHCHdPAYQNs0svyLGuzb7W/NILuKyfZ0SSTJjKci5Mcz+a4uyaSY8YEaU0rl+7ki8iMzLKYrCn2YToULIn0AvGWGSzQ9NNURXjkW2snNjxqdbbCJviN6Yh+LheWMyCuy/+iggegKW9YYrNhfphjaOEF0a+KQOc+IPJTTZoIaon/IlsgMxaj8ZmHnV6Jfa0OkNYC7ilHpbmFrNLEhQlFjrGBEngP4ycYQgN7EzksbAw8Ymcsxo7RnJABrYaI4TLFWhPeNg/+ILeEItbGXEbkmjx5xsJ/YEydPLfRjRJ442va3GGyun7GDKL13GJmNIHYn6SgMYKOyCUAbR2Q6E7urTee1HkAHuEX4RR2OEvyejco4uMcZaftGlLcND+kfAOwy9QWG67E50/TXsLOyyCj4wFKd8JPm4MShyxdocD4xnZCIvl7LjbCbRzLf5EviUaCVXJOCTBPyAE/J2izKNZmdZKpKc01mnum24BOjCJnfc02mLyGzJ9dkCmU0IMhcRB7gtuVh0AuOkqmyOW04g4iZrhAy5cgBigD8qQj0p2ebSHsAZxVEAukEs4YvAVxgBMItQbSD2SLSiWVFA3kNVEb+FhkK7+jGRkC0dXLKCoivEed5r0iyVMpHeXanAf5l8r7IJ5EUG5H1ipPGMfJeJAaco0TxtRyXAT/HNiIz3AeZFCOSKbSs8nXT0l6Rwt8doTOXyC52SWaTYQofMnXr/CI1qSAiUvRR+Jn5nthIsLvsZoNijP5E718fC3a8oVMM9e7HJVJpuGA5WjL9WEFWHTHUpLlOOO4RGz1siaxmvyoZM0Ui2rc2BhLslsR0eij2ETtjbAxUs1GxmZ4QG4idmabKCUbkb8TDImJrYZxPuRbxMc02RVJicT8ZhSnEnohvrP2KC5TaeuEmohjWx7iA8bQPYqMy2gMZ7S9zPVF4Iw/vrnDXxHkWMrftuojrjcn0l7OhjHUVrICR31rDFH5wTCZlEiGeY2R65YpMAdsUX3i4U9Am04uNirhndA1t+8OZ8D+OiVQw+6IWNC02MuHtHtOwkV64ngkL5+cSfL/LmBcOPOzU6SK9yO0g8EimO7Mtamwy4qpHMvSeO5DFhTAZmUZHRMYpbEdevDd68DMJVvakPeJVTMnFAX23YlS04piBjkv2VdX3op441i9ZYkGEFoFp79I6ebrA4EhbrFgjRtPDwev06FlnZAY90dnJNLqVcXJ2a9IYDYt95sjOk5JkbQZ5J//dU5ehA5121aSqyHZBBxrNeLHqokxW0uuQEORN0mvW+EIWttM1clr6ovk2CaBPCL/P4LondCsAAAAASUVORK5CYII="
+                            alt="TTD"
+                            class="w-full h-full object-contain object-center">
+                    </div>
+                    <div class="bottom">
+                        <p><b>Muhammad Fattahillah. Mz</b></p>
+                        <p>Pranata Komputer Ahli Pertama</p>
+                        <p>NIP. 1919XXXXXXXXXXX</p>
                     </div>
                 </div>
             </div>
