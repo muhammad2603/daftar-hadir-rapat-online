@@ -1,4 +1,6 @@
 import { PopUp } from "../cores/PopUp.js";
+import { Notification } from "../cores/Notification.js";
+import { IconsNotification } from "../utils/notification/IconsNotification.js";
 
 const loadingSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-loader-circle preview-icon size-4 animate-spin">
 <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
@@ -7,6 +9,9 @@ const loadingSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="2
 const loadingSvgSmall = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-loader-circle preview-icon size-3.5 animate-spin">
 <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
 </svg>`;
+
+const notification = Notification();
+const { saveCheck } = IconsNotification;
 
 document.addEventListener("DOMContentLoaded", () => {
     const popUpCreateUser = new PopUp(document.getElementById("popUpCreateUser"));
@@ -34,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
             currBtn.innerText = textBtnCreateUser;
             currBtn.removeAttribute("disabled");
             popUpCreateUser.closePopUp();
-            console.log("User berhasil ditambahkan.");
+            notification.success("User baru berhasil ditambahkan.");
         }, 5000);
     });
     const btnEditUser = document.querySelectorAll("button.btn-edit-user");
@@ -46,6 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const popUpEditUser = new PopUp(popUpEditUserWindow);
     /** @type {Number|null} User ID yang akan diedit */
     let editUserId = null;
+    /** @type {string|null} Username yang akan diedit */
+    let editUsername = null;
     btnEditUser.forEach(btn => {
         btn.addEventListener("click", function () {
             /** @type {HTMLElement} */
@@ -55,12 +62,14 @@ document.addEventListener("DOMContentLoaded", () => {
             inputEditUsername.value = username;
             inputEditEmail.value = email;
             editUserId = id;
+            editUsername = username;
         });
     });
     btnClosePopUpEditUser.addEventListener("click", () => {
         inputEditUsername.value = '';
         inputEditEmail.value = '';
         editUserId = null;
+        editUsername = null;
         popUpEditUser.closePopUp();
     });
     const textBtnEditUserDefault = btnConfirmPopUpEditUser.innerText;
@@ -82,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
             currBtn.removeAttribute("disabled");
             popUpEditUser.closePopUp();
             btnClosePopUpEditUser.removeAttribute("disabled");
-            console.log(`Berhasil mengedit user dengan ID ${editUserId}...`);
+            notification.success(`User ${editUsername} berhasil diperbarui!`);
         }, 5000);
     });
     const btnDeleteUser = document.querySelectorAll("button.btn-delete-user");
@@ -95,6 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const nextBtn = currBtn.nextElementSibling;
             /** @type {SVGElement} */
             const btnSvg = currBtn.firstElementChild;
+            // __FIX__ Tombol delete tidak butuh atribut data-user-id, karena tag tr (table row) sudah memiliki data user dengan format JSON
             const getUserId = currBtn.dataset.userId;
             const { confirmed, closed } = await popUpDeleteUser.openPopUpConfirm({ header: "Apakah Anda yakin ingin menghapus user?" });
             if (closed) {
@@ -117,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     btnSvg.classList.remove("hidden");
                     currBtn.removeAttribute("disabled");
                     nextBtn.removeAttribute("disabled");
-                    console.log(`User dengan ID ${getUserId} berhasil dihapus.`);
+                    notification.success("User berhasil dihapus!");
                 }, 5000);
             }
         });
