@@ -7,7 +7,7 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "server": "node --watch --env-file=.env server.js",
+    "server": "node --watch server.js",
     "tailwind-dev": "npx @tailwindcss/cli -i ./src/css/input.css -o ./public/css/base.css --watch"
   },
   "dependencies": {
