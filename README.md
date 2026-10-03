@@ -14,6 +14,8 @@ Sistem informasi daftar hadir rapat online berbasis Node.js untuk mendukung peng
 - Sharp
 - Qreator
 - Signature Pad
+- Knex
+- MySQL2
 
 # Installation
 
@@ -27,6 +29,9 @@ npm install
 
 # Rename file .env.example
 mv .env.example .env
+
+# Migrasi database
+npx knex migrate:latest
 
 # Run
 npm run server
