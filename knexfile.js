@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
