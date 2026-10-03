@@ -2,6 +2,7 @@ import express from 'express';
 import sharp from 'sharp';
 import fs from 'fs';
 import { getSVG } from 'qreator/lib/svg';
+import 'dotenv/config';
 
 const app = express();
 
