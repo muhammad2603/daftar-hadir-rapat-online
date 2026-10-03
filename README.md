@@ -16,6 +16,7 @@ Sistem informasi daftar hadir rapat online berbasis Node.js untuk mendukung peng
 - Signature Pad
 - Knex
 - MySQL2
+- Dotenv
 
 # Installation
 
