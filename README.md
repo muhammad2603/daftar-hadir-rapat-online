@@ -6,6 +6,15 @@ Sistem informasi daftar hadir rapat online berbasis Node.js untuk mendukung peng
 
 - Node.js v24.14.0 (LTS) atau lebih tinggi
 
+# Dependencies
+
+- Express
+- EJS Template Engine
+- Tailwind CSS
+- Sharp
+- Qreator
+- Signature Pad
+
 # Installation
 
 ```bash
