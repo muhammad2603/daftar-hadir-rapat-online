@@ -3,6 +3,9 @@ import sharp from 'sharp';
 import fs from 'fs';
 import { getSVG } from 'qreator/lib/svg';
 import 'dotenv/config';
+import activateTwoFactor from './app/routes/route.activatetwofactor.js';
+import verifyTwoFactor from './app/routes/route.verifytwofactor.js';
+import loginVerifyTwoFactor from './app/routes/route.sendtwofactor.js';
 
 const app = express();
 
@@ -13,11 +16,57 @@ app.set("view engine", "ejs");
 
 app.use(express.static('public'));
 
-app.get("/", (req, res) => {
+app.use(express.json());
+
+app.get("/", (_, res) => {
     res.render("frontend/login", {
         title: process.env.SITE_TITLE
     });
 });
+
+app.get("/daftar-kehadiran/abc-def", (req, res) => {
+    res.render("frontend/daftar_kehadiran", {
+        title: "Formulir Daftar Kehadiran"
+    });
+});
+
+// __COMMENT__ Kode untuk menyimpan tanda tangan menjadi file gambar png
+app.get("/api/test/simpan-tanda-tangan", async (req, res) => {
+    res.setHeader("Content-Type", 'text/html');
+    try {
+        // Base64 encode tidak membawa "data:image/*;base64,", hapus jika base64 yang terkirim membawa string tersebut
+        const signatureBase64 = "{Base64 Encode}";
+        const imageBuffer = Buffer.from(signatureBase64, 'base64');
+        await sharp(imageBuffer)
+            .trim({
+                background: 'rgba(0,0,0,0)',
+                threshold: 0
+            })
+            .png()
+            .toFile('storage/signatures/signature.png');
+        res.send("Signature berhasil tersimpan. Cek file signature.png difolder storage/signatures!");
+    } catch (error) {
+        res.send("Gagal menyimpan gambar Signature! ;( Cek konfigurasi Sharp Anda!");
+    }
+});
+
+// __COMMENT__ Contoh API QR Generator menggunakan Qreator
+app.get("/api/test/qr-generator", async (req, res) => {
+    try {
+        const url = "https://localhost:3000/daftar-kehadiran/abc-def";
+        const qrSvg = await getSVG(url);
+        res.type("svg").send(qrSvg);
+    } catch (error) {
+        res.send("Error:")
+    }
+});
+
+app.use(loginVerifyTwoFactor);
+
+// Routes with require authentication
+app.use(activateTwoFactor);
+
+app.use(verifyTwoFactor);
 
 app.get("/dashboard", (req, res) => {
     res.render("backend/dashboard", {
@@ -94,43 +143,6 @@ app.get("/dashboard/sesi-rapat/create", (req, res) => {
         title: "Buat Sesi Rapat Baru",
         currentNav: "kelola-sesi-rapat"
     });
-});
-
-app.get("/daftar-kehadiran/abc-def", (req, res) => {
-    res.render("frontend/daftar_kehadiran", {
-        title: "Formulir Daftar Kehadiran"
-    });
-});
-
-// __COMMENT__ Kode untuk menyimpan tanda tangan menjadi file gambar png
-app.get("/api/test/simpan-tanda-tangan", async (req, res) => {
-    res.setHeader("Content-Type", 'text/html');
-    try {
-        // Base64 encode tidak membawa "data:image/*;base64,", hapus jika base64 yang terkirim membawa string tersebut
-        const signatureBase64 = "{Base64 Encode}";
-        const imageBuffer = Buffer.from(signatureBase64, 'base64');
-        await sharp(imageBuffer)
-            .trim({
-                background: 'rgba(0,0,0,0)',
-                threshold: 0
-            })
-            .png()
-            .toFile('storage/signatures/signature.png');
-        res.send("Signature berhasil tersimpan. Cek file signature.png difolder storage/signatures!");
-    } catch (error) {
-        res.send("Gagal menyimpan gambar Signature! ;( Cek konfigurasi Sharp Anda!");
-    }
-});
-
-// __COMMENT__ Contoh API QR Generator menggunakan Qreator
-app.get("/api/test/qr-generator", async (req, res) => {
-    try {
-        const url = "https://localhost:3000/daftar-kehadiran/abc-def";
-        const qrSvg = await getSVG(url);
-        res.type("svg").send(qrSvg);
-    } catch (error) {
-        res.send("Error:")
-    }
 });
 
 app.listen(port, hostname, () => {
