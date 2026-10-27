@@ -17,6 +17,8 @@
     "express": "^5.2.1",
     "knex": "^3.3.0",
     "mysql2": "^3.24.5",
+    "nodemailer": "^10.2.1",
+    "otplib": "^13.5.0",
     "qreator": "^10.0.2",
     "sharp": "^0.35.4",
     "signature_pad": "^5.1.4",
