@@ -12,11 +12,11 @@ const db = knex(config);
  * 
  * @param {string} username
  * 
- * @returns {Promise<{ username: string, password: string }>}
+ * @returns {Promise<{ id: number, username: string, password: string }>}
  */
 async function getCredentials(username) {
     try {
-        const user = await db.table("users").first('username', 'password').where({ username });
+        const user = await db.table("users").first('id', 'username', 'password').where({ username });
         return user;
     } catch (err) {
         console.error("Gagal mengambil data user! Error:", err.message);
