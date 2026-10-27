@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt';
  * 
  * @param {string} username
  * 
- * @returns {Promise<{ username: string, password: string }>}
+ * @returns {Promise<{ userId: number, username: string, password: string, isValid: boolean }>}
  * 
  * @throws {Error}
  * Dengan melemparkan status 401 (Kredensial salah).
@@ -18,7 +18,7 @@ async function loginAttempt(usernameReq, passwordReq) {
         error.status = 401;
         throw error;
     }
-    const { username, password } = user;
+    const { id, password } = user;
     const isValidPassword = await bcrypt.compare(passwordReq, password);
     if (!isValidPassword) {
         const error = new Error("Username atau password salah!");
@@ -26,9 +26,8 @@ async function loginAttempt(usernameReq, passwordReq) {
         throw error;
     }
     return {
-        username,
-        password,
-        is_valid: isValidPassword
+        userId: id,
+        isValid: isValidPassword
     };
 }
 
