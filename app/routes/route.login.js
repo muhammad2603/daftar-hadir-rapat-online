@@ -1,5 +1,8 @@
 import { Router } from "express";
 import { loginAttempt } from "../services/LoginHandler.js";
+import { setAuthCookie, signToken } from "../services/JWT.js";
+import { requireAuth } from "../middlewares/auth.js";
+import { createChallenges } from "../services/TwoFactorAuthentication.js";
 import 'dotenv/config';
 
 const router = Router();
@@ -20,11 +23,46 @@ router.post("/login", async (req, res) => {
         }
         const { username, password } = body;
         const attempt = await loginAttempt(username, password);
-        return res.json(attempt);
+        if (!attempt.isValid) {
+            const error = new Error("Username atau password salah!");
+            error.status = 401;
+            throw error;
+        }
+        const token = signToken({ id: attempt.userId });
+        setAuthCookie(res, token);
+        return res.json({ ok: true });
     } catch (err) {
         if (err.status) {
             return res.status(err.status).json({ message: err.message });
         }
+    }
+});
+
+// TODO Ambil user dari table users di Database
+async function getUserById(id) {
+    return { id, email: 'zidanhp255@gmail.com', twoFactorEnabled: false };
+}
+
+router.get("/login/2fa-verification", requireAuth, async (req, res) => {
+    const user = await getUserById(req.body.user.id);
+
+    try {
+        // TODO Gunakan mekanisme sessionStorage untuk menyimpan purpose, untuk memudahkan permintaan verifikasi kode 2FA.
+        const purpose = 'login';
+
+        const { challengeId, expiresIn } = await createChallenges({
+            user,
+            purpose
+        });
+
+        // TODO Gunakan render view untuk menampilkan halaman kode verifikasi setelah login
+        res.json({ challengeId, expiresIn });
+    } catch (err) {
+        if (err.status === 429) {
+            res.set("Retry-After", String(err.retryAfter));
+            return res.status(429).json({ error: err.message });
+        }
+        res.status(500).json({ error: "Gagal mengirim kode, coba lagi!" });
     }
 });
 
