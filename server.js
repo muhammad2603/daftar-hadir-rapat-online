@@ -6,6 +6,7 @@ import 'dotenv/config';
 import activateTwoFactor from './app/routes/route.activatetwofactor.js';
 import verifyTwoFactor from './app/routes/route.verifytwofactor.js';
 import loginVerifyTwoFactor from './app/routes/route.sendtwofactor.js';
+import routeLogin from './app/routes/route.login.js';
 
 const app = express();
 
@@ -18,11 +19,7 @@ app.use(express.static('public'));
 
 app.use(express.json());
 
-app.get("/", (_, res) => {
-    res.render("frontend/login", {
-        title: process.env.SITE_TITLE
-    });
-});
+app.use(routeLogin);
 
 app.get("/daftar-kehadiran/abc-def", (req, res) => {
     res.render("frontend/daftar_kehadiran", {
