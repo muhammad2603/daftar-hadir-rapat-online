@@ -1,12 +1,13 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import sharp from 'sharp';
 import fs from 'fs';
 import { getSVG } from 'qreator/lib/svg';
 import 'dotenv/config';
 import activateTwoFactor from './app/routes/route.activatetwofactor.js';
 import verifyTwoFactor from './app/routes/route.verifytwofactor.js';
-import loginVerifyTwoFactor from './app/routes/route.sendtwofactor.js';
-import routeLogin from './app/routes/route.login.js';
+import login from './app/routes/route.login.js';
+import logout from './app/routes/route.logout.js';
 
 const app = express();
 
@@ -16,16 +17,16 @@ const port = process.env.APP_PORT || 3000;
 app.set("view engine", "ejs");
 
 app.use(express.static('public'));
-
 app.use(express.json());
-
-app.use(routeLogin);
+app.use(cookieParser());
 
 app.get("/daftar-kehadiran/abc-def", (req, res) => {
     res.render("frontend/daftar_kehadiran", {
         title: "Formulir Daftar Kehadiran"
     });
 });
+
+app.use(login);
 
 // __COMMENT__ Kode untuk menyimpan tanda tangan menjadi file gambar png
 app.get("/api/test/simpan-tanda-tangan", async (req, res) => {
@@ -57,8 +58,6 @@ app.get("/api/test/qr-generator", async (req, res) => {
         res.send("Error:")
     }
 });
-
-app.use(loginVerifyTwoFactor);
 
 // Routes with require authentication
 app.use(activateTwoFactor);
@@ -141,6 +140,8 @@ app.get("/dashboard/sesi-rapat/create", (req, res) => {
         currentNav: "kelola-sesi-rapat"
     });
 });
+
+app.use(logout);
 
 app.listen(port, hostname, () => {
     console.log(`Server listening on http://${hostname}:${port}`);
