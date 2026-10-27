@@ -9,7 +9,7 @@ async function getUserById(id) {
 
 const router = Router();
 
-router.post("/auth/security/2fa/activate", requireAuth, async (req, res) => {
+router.get("/auth/security/2fa/activate", requireAuth, async (req, res) => {
     try {
         const user = await getUserById(req.body.user.id);
 
@@ -17,11 +17,15 @@ router.post("/auth/security/2fa/activate", requireAuth, async (req, res) => {
             return res.status(409).json({ error: "Two-Factor Authentication telah aktif!" });
         }
 
+        // TODO Gunakan mekanisme sessionStorage untuk menyimpan purpose, untuk memudahkan permintaan verifikasi kode 2FA.
+        const purpose = 'activate';
+
         const { challengeId, expiresIn } = await createChallenges({
             user,
-            purpose: 'activate'
+            purpose
         });
 
+        // TODO Ganti dengan render view untuk halaman aktivasi two-factor auth
         res.json({ challengeId, expiresIn });
     } catch (err) {
         if (err.status === 429) {
