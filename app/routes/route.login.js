@@ -39,23 +39,15 @@ router.post("/login", async (req, res) => {
     }
 });
 
-// TODO Ambil user dari table users di Database
-async function getUserById(id) {
-    return { id, email: 'zidanhp255@gmail.com', twoFactorEnabled: false };
-}
-
 router.get("/login/2fa-verification", requireAuth, async (req, res) => {
-    const user = await getUserById(req.user.id);
-
+    const user = req.user;
     try {
         // TODO Gunakan mekanisme sessionStorage untuk menyimpan purpose, untuk memudahkan permintaan verifikasi kode 2FA.
         const purpose = 'login';
-
         await createChallenges({
             user,
             purpose
         });
-
         return res.render("backend/2fa_verification_after_login", {
             title: process.env.SITE_TITLE,
             // TODO Ambil email pengguna dari payload JWT dan pastikan disensor

@@ -11,20 +11,16 @@ const router = Router();
 
 router.get("/auth/security/2fa/activate", requireAuth, async (req, res) => {
     try {
-        const user = await getUserById(req.body.user.id);
-
+        const user = req.user;
         if (user.twoFactorEnabled) {
             return res.status(409).json({ error: "Two-Factor Authentication telah aktif!" });
         }
-
         // TODO Gunakan mekanisme sessionStorage untuk menyimpan purpose, untuk memudahkan permintaan verifikasi kode 2FA.
         const purpose = 'activate';
-
         const { challengeId, expiresIn } = await createChallenges({
             user,
             purpose
         });
-
         // TODO Ganti dengan render view untuk halaman aktivasi two-factor auth
         res.json({ challengeId, expiresIn });
     } catch (err) {
