@@ -2,11 +2,6 @@ import { Router } from "express";
 import { requireAuth } from "../middlewares/auth.js";
 import { createChallenges } from "../services/TwoFactorAuthentication.js";
 
-// TODO Ambil user dari table users di Database
-async function getUserById(id) {
-    return { id, email: 'zidanhp255@gmail.com', twoFactorEnabled: false };
-}
-
 const router = Router();
 
 router.get("/auth/security/2fa/activate", requireAuth, async (req, res) => {
