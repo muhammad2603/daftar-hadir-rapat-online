@@ -44,19 +44,22 @@ async function getUserById(id) {
 }
 
 router.get("/login/2fa-verification", requireAuth, async (req, res) => {
-    const user = await getUserById(req.body.user.id);
+    const user = await getUserById(req.user.id);
 
     try {
         // TODO Gunakan mekanisme sessionStorage untuk menyimpan purpose, untuk memudahkan permintaan verifikasi kode 2FA.
         const purpose = 'login';
 
-        const { challengeId, expiresIn } = await createChallenges({
+        await createChallenges({
             user,
             purpose
         });
 
-        // TODO Gunakan render view untuk menampilkan halaman kode verifikasi setelah login
-        res.json({ challengeId, expiresIn });
+        return res.render("backend/2fa_verification_after_login", {
+            title: process.env.SITE_TITLE,
+            // TODO Ambil email pengguna dari payload JWT dan pastikan disensor
+            email: 'bu****2@gmail.com'
+        });
     } catch (err) {
         if (err.status === 429) {
             res.set("Retry-After", String(err.retryAfter));
