@@ -9,6 +9,7 @@ const requireAuth = (req, res, next) => {
         req.user = {
             id: Number(payload.sub),
             email: payload.email,
+            role: payload.role,
             twoFactorEnabled: Boolean(payload.twoFactorEnabled),
         };
         next();
