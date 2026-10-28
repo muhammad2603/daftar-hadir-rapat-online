@@ -21,9 +21,9 @@ export default router.post("/auth/security/2fa/verify", requireAuth, async (req,
             userId: req.user.id
         });
 
-        // TODO Buat logika jika purpose adalah verifikasi setelah login, buat token JWT
-        
         // TODO Panggil fungsi UPDATE 2FA user, fungsi tidak boleh dijalankan jika purpose yang diminta bukan activate.
+
+        // TODO Buat logika jika purpose adalah verifikasi setelah login, buat token JWT
 
         return res.status(200).json({ valid: true });
     } catch (err) {
