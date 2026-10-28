@@ -18,12 +18,17 @@ const cookieOptions = {
 /**
  * Membuat Token JWT
  * 
- * @param {{ id: number }} user
+ * @param {{ id: number, email: string, role: string, twoFactorEnabled: boolean }} user
  * 
  * @returns {string}
  */
 export function signToken(user) {
-    return jwt.sign({ sub: String(user.id) }, JWT_SECRET, {
+    return jwt.sign({
+        sub: String(user.id),
+        email: user.email,
+        role: user.role,
+        twoFactorEnabled: Boolean(user.twoFactorEnabled),
+    }, JWT_SECRET, {
         algorithm: 'HS256',
         expiresIn: TTL_SECONDS,
     });
