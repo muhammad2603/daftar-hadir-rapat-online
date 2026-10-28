@@ -21,14 +21,15 @@ router.post("/login", async (req, res) => {
             error.status = 401;
             throw error;
         }
-        const { username, password } = body;
-        const attempt = await loginAttempt(username, password);
+        const { username: usernameReq, password: passwordReq } = body;
+        const attempt = await loginAttempt(usernameReq, passwordReq);
         if (!attempt.isValid) {
             const error = new Error("Username atau password salah!");
             error.status = 401;
             throw error;
         }
-        const token = signToken({ id: attempt.userId });
+        const { user: { id: userId, email, twoFactorEnabled } } = attempt;
+        const token = signToken({ id: userId, email, twoFactorEnabled });
         setAuthCookie(res, token);
         return res.json({ ok: true });
     } catch (err) {
