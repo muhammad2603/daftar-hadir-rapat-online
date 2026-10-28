@@ -7,6 +7,9 @@ const router = Router();
 router.get("/auth/security/2fa/activate", requireAuth, async (req, res) => {
     try {
         const user = req.user;
+        if (user.email === null) {
+            return res.status(400).json({ error: "Email belum ditambahkan!" });
+        }
         if (user.twoFactorEnabled) {
             return res.status(409).json({ error: "Two-Factor Authentication telah aktif!" });
         }
