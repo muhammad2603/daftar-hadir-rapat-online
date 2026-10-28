@@ -7,7 +7,7 @@ import { verifyChallenge } from "../services/TwoFactorAuthentication.js"
 const router = Router();
 
 export default router.post("/auth/security/2fa/verify", requireAuth, async (req, res) => {
-    const { challengeId, code, user } = req.body ?? {};
+    const { challengeId, code } = req.body ?? {};
 
     try {
         // TODO Ambil purpose dari sessionStorage yang telah dibuat (purpose memiliki 2 value berbeda)
@@ -18,9 +18,11 @@ export default router.post("/auth/security/2fa/verify", requireAuth, async (req,
             challengeId,
             code,
             purpose,
-            userId: user.id
+            userId: req.user.id
         });
 
+        // TODO Buat logika jika purpose adalah verifikasi setelah login, buat token JWT
+        
         // TODO Panggil fungsi UPDATE 2FA user, fungsi tidak boleh dijalankan jika purpose yang diminta bukan activate.
 
         return res.status(200).json({ valid: true });
