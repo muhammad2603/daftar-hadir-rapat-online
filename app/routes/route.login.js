@@ -28,8 +28,8 @@ router.post("/login", async (req, res) => {
             error.status = 401;
             throw error;
         }
-        const { user: { id: userId, email, twoFactorEnabled } } = attempt;
-        const token = signToken({ id: userId, email, twoFactorEnabled });
+        const { user: { id: userId, email, role, twoFactorEnabled } } = attempt;
+        const token = signToken({ id: userId, email, role, twoFactorEnabled });
         setAuthCookie(res, token);
         return res.json({ ok: true });
     } catch (err) {
