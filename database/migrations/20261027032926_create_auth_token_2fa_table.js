@@ -12,7 +12,7 @@ export async function up(knex) {
         t.enum("purpose", ["activate", "login"])
             .notNullable();
         t.string("secret", 32)
-            .notNullable();
+            .nullable();
         t.integer("attempts", 2)
             .notNullable()
             .defaultTo(0);
@@ -21,6 +21,15 @@ export async function up(knex) {
         t.boolean("is_used")
             .notNullable()
             .defaultTo(false);
+        t.enum("used_reason", [
+            "verified",
+            "superseded",
+            "locked",
+            "expired",
+            "send_failed"
+        ])
+            .nullable()
+            .defaultTo(null);
         t.timestamp("created_at")
             .notNullable()
             .defaultTo(knex.fn.now());
