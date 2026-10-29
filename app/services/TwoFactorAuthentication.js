@@ -1,6 +1,14 @@
 import crypto from 'node:crypto';
 import { generateSecret, generate, verify } from 'otplib';
 import { transporter } from '../config/config.smtp.js';
+import {
+    insertToken,
+    getLastTokenExpires,
+    setTokenToUsed,
+    deleteToken,
+    getToken,
+    increaseAttempt,
+} from '../models/AuthToken2FAModel.js';
 import 'dotenv/config';
 
 /**
@@ -25,10 +33,6 @@ const PERIOD = Number(process.env.TOTP_PERIOD);
 const SMTP_USER = String(process.env.SMTP_USER);
 const COOLDOWN_MS = 60_000;
 
-// TODO Simpan challenges dan last sent di Database
-const challenges = new Map();
-const lastSent = new Map();
-
 const SUBJECTS = {
     activate: 'Kode aktivasi 2FA Anda',
     login: 'Kode verifikasi login Anda'
@@ -40,34 +44,28 @@ const SUBJECTS = {
  * @param {ChallengeInput} input
  */
 async function createChallenges({ user, purpose }) {
-    const key = `${user}:${purpose}`;
     const now = Date.now();
-    // Hitung waktu dari permintaan sebelumnya
-    const wait = COOLDOWN_MS - (now - (lastSent.get(key) ?? 0));
-    // Jika belum melewati cooldown, cegah permintaan
+    const getLastSentChallenge = await getLastTokenExpires(user.id, purpose);
+    const wait = COOLDOWN_MS - (now - (getLastSentChallenge ?? 0));
     if (wait > 0) {
         const err = new Error("Tunggu sebentar sebelum meminta kode kembali.");
         err.status = 429;
         err.retryAfter = Math.ceil(wait / 1000);
         throw err;
     }
-    // Siapkan kode verifikasi
     const secret = generateSecret();
     const token = await generate({ secret, period: PERIOD });
     const challengeId = crypto.randomUUID();
-    // Hapus semua challenge yang tersimpan
-    for (const [id, c] of challenges) {
-        if (c.userId = user.id && c.purpose === purpose) challenges.delete(id);
-    }
-    // Simpan challenge baru
-    challenges.set(challengeId, {
-        userId: user.id,
-        purpose,
-        secret,
-        attempts: 0,
-        expiresAt: now + PERIOD * 1000,
-    });
+    await setTokenToUsed(false, user.id, purpose);
     try {
+        await insertToken({
+            challenge_id: challengeId,
+            user_id: user.id,
+            purpose,
+            secret,
+            attempts: 0,
+            expires_at: now + (PERIOD * 1000)
+        });
         await transporter.sendMail({
             from: '"SIDARO APP" <' + SMTP_USER + '>',
             to: user.email,
@@ -75,13 +73,10 @@ async function createChallenges({ user, purpose }) {
             text: `Kode verifikasi: ${token}\nBerlaku sekitar 5 menit. Jangan bagikan kode ini.`,
         });
     } catch (e) {
-        // Hapus challenge yang baru dibuat jika terjadi error saat pengiriman kode verifikasi ke-email pengguna
-        challenges.delete(challengeId);
+        await deleteToken(challengeId);
         throw e;
     }
-    // Simpan kode verifikasi dan waktu dibuat
-    lastSent.set(key, now);
-    return { challengeId, expiresIn: PERIOD };
+    return { challengeId, expiresIn: PERIOD, code: token };
 }
 
 /** Maksimal percobaan verifikasi */
@@ -103,40 +98,30 @@ async function verifyChallenge({ challengeId, code, purpose, userId }) {
         err.status = status;
         return err;
     }
-
-    const ch = challenges.get(challengeId);
-
+    const ch = await getToken(challengeId);
     if (
         !ch ||
-        Date.now() > ch.expiresAt ||
+        Date.now() > ch.expires_at ||
         ch.purpose !== purpose ||
-        ch.userId !== userId
+        ch.user_id !== userId
     ) {
-        // Hapus challenge jika telah kadaluarsa
-        if (ch && Date.now() > ch.expiresAt) challenges.delete(challengeId);
+        if (ch && Date.now() > ch.expires_at) await setTokenToUsed(challengeId);
         throw fail(401, 'Kode telah kedaluwarsa atau tidak valid.');
     }
-
     if (ch.attempts >= MAX_ATTEMPTS) {
-        challenges.delete(challengeId);
+        await setTokenToUsed(challengeId);
         throw fail(429, 'Terlalu banyak percobaan. Silahkan minta kode baru!');
     }
-
     const token = String(code ?? '');
     const formatOk = /^\d{6}$/.test(token);
-
     const checkToken = formatOk
         ? await verify({ secret: ch.secret, token, period: PERIOD, epochTolerance: PERIOD })
         : { valid: false };
-
     if (!checkToken.valid) {
-        // Jika token yang diberikan tidak valid, tambahkan jumlah attempts
-        ch.attempts += 1;
-        if (ch.attempts >= MAX_ATTEMPTS) challenges.delete(challengeId);
+        await increaseAttempt(challengeId);
         throw fail(401, "Kode verifikasi salah!");
     }
-    // Hapus token agar hanya digunakan sekali 
-    challenges.delete(challengeId);
+    deleteToken(challengeId);
     return { valid: true };
 }
 
