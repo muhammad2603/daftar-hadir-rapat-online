@@ -82,7 +82,8 @@ export async function getLastTokenExpires(userId, purpose) {
         .where({
             user_id,
             purpose,
-            is_used: false
+            is_used: false,
+            used_reason: null
         })
         .orderBy("created_at", 'desc')
         .first();
@@ -93,32 +94,20 @@ export async function getLastTokenExpires(userId, purpose) {
 /**
  * Update semua token yang belum digunakan menjadi telah digunakan
  * 
- * @param {boolean | string} challengeId
- * Berdasarkan primary key, gunakan `false` jika tidak ingin menggunakan primary key.
- * @param {ReasonTokenUsed | boolean} reason
- * Alasan token digunakan, gunakan `false` jika challengeId juga `false`.
- * @param {number} [userId]
- * Jangan gunakan jika parameter challengeId bukan `false`.
- * @param {"activate" | "login"} [purpose]
- * Jangan gunakan jika parameter challengeId bukan `false`.
+ * @param {string} challengeId
+ * @param {ReasonTokenUsed} reason Alasan token digunakan.
  */
-export async function setTokenToUsed(challengeId, reason, userId, purpose) {
-    const updateFields = {
-        is_used: true
-    };
-    const builder = db(TABLE);
-    if (challengeId === false) {
-        const user_id = Number(userId);
-        builder.where({
-            user_id,
-            purpose,
+export async function setTokenToUsed(challengeId, reason) {
+    return db(TABLE)
+        .where({
+            challenge_id: challengeId,
             is_used: false
+        })
+        .update({
+            secret: null,
+            is_used: true,
+            used_reason: reason
         });
-    } else {
-        updateFields.used_reason = reason;
-        builder.where({ challenge_id: challengeId });
-    }
-    return builder.update(updateFields);
 }
 
 /**
