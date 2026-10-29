@@ -5,7 +5,7 @@ import {
     insertToken,
     getLastTokenExpires,
     setTokenToUsed,
-    deleteToken,
+    setTokenAsVerified,
     getToken,
     increaseAttempt,
 } from '../models/AuthToken2FAModel.js';
@@ -38,10 +38,14 @@ const SUBJECTS = {
     login: 'Kode verifikasi login Anda'
 };
 
+// TODO Tambahkan mekanisme resend kode 2FA.
+
 /**
  * Kirim kode 2FA ke-email pengguna yang ter-autentikasi
  * 
  * @param {ChallengeInput} input
+ * 
+ * @throws Melempar error dengan status `429 (Too Many Request)`
  */
 async function createChallenges({ user, purpose }) {
     const now = Date.now();
@@ -56,7 +60,6 @@ async function createChallenges({ user, purpose }) {
     const secret = generateSecret();
     const token = await generate({ secret, period: PERIOD });
     const challengeId = crypto.randomUUID();
-    await setTokenToUsed(false, user.id, purpose);
     try {
         await insertToken({
             challenge_id: challengeId,
@@ -73,10 +76,10 @@ async function createChallenges({ user, purpose }) {
             text: `Kode verifikasi: ${token}\nBerlaku sekitar 5 menit. Jangan bagikan kode ini.`,
         });
     } catch (e) {
-        await deleteToken(challengeId);
+        await setTokenToUsed(challengeId, 'send_failed');
         throw e;
     }
-    return { challengeId, expiresIn: PERIOD, code: token };
+    return { challengeId, expiresIn: PERIOD };
 }
 
 /** Maksimal percobaan verifikasi */
@@ -105,11 +108,11 @@ async function verifyChallenge({ challengeId, code, purpose, userId }) {
         ch.purpose !== purpose ||
         ch.user_id !== userId
     ) {
-        if (ch && Date.now() > ch.expires_at) await setTokenToUsed(challengeId);
+        if (ch && Date.now() > ch.expires_at) await setTokenToUsed(challengeId, "expired");
         throw fail(401, 'Kode telah kedaluwarsa atau tidak valid.');
     }
     if (ch.attempts >= MAX_ATTEMPTS) {
-        await setTokenToUsed(challengeId);
+        await setTokenToUsed(challengeId, "locked");
         throw fail(429, 'Terlalu banyak percobaan. Silahkan minta kode baru!');
     }
     const token = String(code ?? '');
@@ -121,7 +124,7 @@ async function verifyChallenge({ challengeId, code, purpose, userId }) {
         await increaseAttempt(challengeId);
         throw fail(401, "Kode verifikasi salah!");
     }
-    deleteToken(challengeId);
+    setTokenAsVerified(challengeId);
     return { valid: true };
 }
 
