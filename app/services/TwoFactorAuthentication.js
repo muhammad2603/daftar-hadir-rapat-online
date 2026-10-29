@@ -38,16 +38,18 @@ const SUBJECTS = {
     login: 'Kode verifikasi login Anda'
 };
 
-// TODO Tambahkan mekanisme resend kode 2FA.
-
 /**
  * Kirim kode 2FA ke-email pengguna yang ter-autentikasi
  * 
  * @param {ChallengeInput} input
+ * @param {boolean} [isSuperseded]
+ * Apakah token sebagai pengganti? default `false`.
+ * @param {string} [supersedChallengeId]
+ * Challenge ID (primary key) yang akan digantikan, default `false`.
  * 
  * @throws Melempar error dengan status `429 (Too Many Request)`
  */
-async function createChallenges({ user, purpose }) {
+async function createChallenges({ user, purpose }, isSuperseded = false, supersedChallengeId = false) {
     const now = Date.now();
     const getLastSentChallenge = await getLastTokenExpires(user.id, purpose);
     const wait = COOLDOWN_MS - (now - (getLastSentChallenge ?? 0));
@@ -61,6 +63,9 @@ async function createChallenges({ user, purpose }) {
     const token = await generate({ secret, period: PERIOD });
     const challengeId = crypto.randomUUID();
     try {
+        if (isSuperseded === true && supersedChallengeId !== false) {
+            await setTokenToUsed(supersedChallengeId, "superseded");
+        }
         await insertToken({
             challenge_id: challengeId,
             user_id: user.id,
@@ -117,7 +122,7 @@ async function verifyChallenge({ challengeId, code, purpose, userId }) {
     }
     const token = String(code ?? '');
     const formatOk = /^\d{6}$/.test(token);
-    const checkToken = formatOk
+    const checkToken = (formatOk && ch.secret !== null)
         ? await verify({ secret: ch.secret, token, period: PERIOD, epochTolerance: PERIOD })
         : { valid: false };
     if (!checkToken.valid) {
