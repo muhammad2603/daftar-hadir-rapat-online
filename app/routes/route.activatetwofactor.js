@@ -4,7 +4,15 @@ import { createChallenges } from "../services/TwoFactorAuthentication.js";
 
 const router = Router();
 
+const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.APP_ENV === 'production',
+    sameSite: 'lax',
+    path: '/'
+};
+
 router.get("/auth/security/2fa/activate", requireAuth, async (req, res) => {
+    const purpose = 'activate';
     try {
         const user = req.user;
         if (user.email === null) {
@@ -13,14 +21,14 @@ router.get("/auth/security/2fa/activate", requireAuth, async (req, res) => {
         if (user.twoFactorEnabled) {
             return res.status(409).json({ error: "Two-Factor Authentication telah aktif!" });
         }
-        // TODO Gunakan mekanisme sessionStorage untuk menyimpan purpose, untuk memudahkan permintaan verifikasi kode 2FA.
-        const purpose = 'activate';
         const { challengeId, expiresIn } = await createChallenges({
             user,
             purpose
         });
+        res.cookie("purpose", purpose, cookieOptions);
+        res.cookie("challengeId", challengeId, cookieOptions);
         // TODO Ganti dengan render view untuk halaman aktivasi two-factor auth
-        res.json({ challengeId, expiresIn });
+        res.json({ expiresIn });
     } catch (err) {
         if (err.status === 429) {
             res.set("Retry-After", String(err.retryAfter));
