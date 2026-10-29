@@ -12,6 +12,18 @@
  */
 
 /**
+ * 
+ * Definisi opsi:
+ * "verified": Token sudah diverifikasi atau valid.
+ * "superseded": Token telah diganti dengan token yang baru.
+ * "locked": Token dikunci setelah batas maksimal percobaan tercapai.
+ * "expired": Token sudah kedaluwarsa.
+ * "send_failed": Token gagal terkirim ke-email pengguna.
+ * 
+ * @typedef {"verified" | "superseded" | "locked" | "expired" | "send_failed"} ReasonTokenUsed
+ */
+
+/**
  * @typedef {Object} ReturnFields
  * 
  * @property {string} challenge_id
@@ -83,13 +95,18 @@ export async function getLastTokenExpires(userId, purpose) {
  * 
  * @param {boolean | string} challengeId
  * Berdasarkan primary key, gunakan `false` jika tidak ingin menggunakan primary key.
+ * @param {ReasonTokenUsed | boolean} reason
+ * Alasan token digunakan, gunakan `false` jika challengeId juga `false`.
  * @param {number} [userId]
  * Jangan gunakan jika parameter challengeId bukan `false`.
  * @param {"activate" | "login"} [purpose]
  * Jangan gunakan jika parameter challengeId bukan `false`.
  */
-export async function setTokenToUsed(challengeId, userId, purpose) {
-    const builder = db(TABLE).update({ is_used: true });
+export async function setTokenToUsed(challengeId, reason, userId, purpose) {
+    const updateFields = {
+        is_used: true
+    };
+    const builder = db(TABLE);
     if (challengeId === false) {
         const user_id = Number(userId);
         builder.where({
@@ -98,21 +115,26 @@ export async function setTokenToUsed(challengeId, userId, purpose) {
             is_used: false
         });
     } else {
+        updateFields.used_reason = reason;
         builder.where({ challenge_id: challengeId });
     }
-    return builder;
+    return builder.update(updateFields);
 }
 
 /**
- * Menghapus token dari record
+ * Menandai token sebagai diverifikasi
  * 
  * @param {string} challengeId Primary key
  */
-export async function deleteToken(challengeId) {
+export async function setTokenAsVerified(challengeId) {
     return await db(TABLE)
-        .delete()
         .where({
             challenge_id: challengeId
+        })
+        .update({
+            secret: null,
+            is_used: true,
+            used_reason: "verified"
         });
 }
 
