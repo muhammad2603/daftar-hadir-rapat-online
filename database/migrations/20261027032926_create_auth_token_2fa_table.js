@@ -16,7 +16,7 @@ export async function up(knex) {
         t.integer("attempts", 2)
             .notNullable()
             .defaultTo(0);
-        t.integer("expires_at")
+        t.bigInteger("expires_at")
             .notNullable();
         t.boolean("is_used")
             .notNullable()
