@@ -1,11 +1,4 @@
-import knex from 'knex';
-import KnexConfig from '../../knexfile.js';
-import 'dotenv/config';
-
-const environment = process.env.APP_ENV || 'production';
-const config = KnexConfig[environment];
-
-const db = knex(config);
+import db from "../config/config.db.js";
 
 /**
  * Mengubah tipe data value menjadi Boolean
