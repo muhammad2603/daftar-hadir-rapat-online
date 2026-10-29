@@ -6,6 +6,7 @@ import { getSVG } from 'qreator/lib/svg';
 import 'dotenv/config';
 import activateTwoFactor from './app/routes/route.activatetwofactor.js';
 import verifyTwoFactor from './app/routes/route.verifytwofactor.js';
+import resendTwoFactor from './app/routes/route.resendtwofactor.js';
 import login from './app/routes/route.login.js';
 import logout from './app/routes/route.logout.js';
 
@@ -63,6 +64,8 @@ app.get("/api/test/qr-generator", async (req, res) => {
 app.use(activateTwoFactor);
 
 app.use(verifyTwoFactor);
+
+app.use(resendTwoFactor);
 
 app.get("/dashboard", (req, res) => {
     res.render("backend/dashboard", {
