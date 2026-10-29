@@ -7,6 +7,13 @@ import 'dotenv/config';
 
 const router = Router();
 
+const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.APP_ENV === 'production',
+    sameSite: 'lax',
+    path: '/'
+};
+
 router.get("/", (_, res) => {
     res.render("frontend/login", {
         title: process.env.SITE_TITLE
@@ -41,13 +48,14 @@ router.post("/login", async (req, res) => {
 
 router.get("/login/2fa-verification", requireAuth, async (req, res) => {
     const user = req.user;
+    const purpose = 'login';
     try {
-        // TODO Gunakan mekanisme sessionStorage untuk menyimpan purpose, untuk memudahkan permintaan verifikasi kode 2FA.
-        const purpose = 'login';
-        await createChallenges({
+        const { challengeId } = await createChallenges({
             user,
             purpose
         });
+        res.cookie("purpose", purpose, cookieOptions);
+        res.cookie("challengeId", challengeId, cookieOptions);
         return res.render("backend/2fa_verification_after_login", {
             title: process.env.SITE_TITLE,
             // TODO Ambil email pengguna dari payload JWT dan pastikan disensor
