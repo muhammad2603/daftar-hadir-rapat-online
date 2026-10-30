@@ -1,6 +1,6 @@
 import { getCredentials } from "../models/UsersModel.js";
 import bcrypt from 'bcrypt';
-import { COOKIE_NAME, verifyToken } from "./JWT.js";
+import { checkIsUserHasLoggedIn } from "../middlewares/auth.js";
 
 /**
  * @typedef {Object} UserIdentities
@@ -63,14 +63,12 @@ export async function loginAttempt(usernameReq, passwordReq) {
  * @param {import('express').NextFunction} next
  * 
  * @returns {void}
- * Pengguna akan diarahkan ke Dashboard jika token login masih tersedia
+ * Pengguna akan diarahkan ke Dashboard jika telah login
  */
 export function isLoggedIn(req, res, next) {
-    try {
-        const token = req.cookies?.[COOKIE_NAME];
-        verifyToken(token);
+    const isUserHasLoggedIn = checkIsUserHasLoggedIn(req).loggedIn;
+    if (isUserHasLoggedIn) {
         return res.redirect(301, '/dashboard');
-    } catch (err) {
-        next();
     }
+    next();
 }
