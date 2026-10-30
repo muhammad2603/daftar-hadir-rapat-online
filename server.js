@@ -13,7 +13,7 @@ import logout from './app/routes/route.logout.js';
 const app = express();
 
 const hostname = 'localhost';
-const port = process.env.APP_PORT || 3000;
+const port = Number(process.env.APP_PORT || 3000);
 
 app.set("view engine", "ejs");
 
