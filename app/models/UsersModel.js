@@ -18,7 +18,7 @@ const boolean = (value) => {
  * 
  * @returns {Promise<{ id: number, username: string, password: string, email: string, role: string, is_2fa_active: boolean }>}
  */
-async function getCredentials(username) {
+export async function getCredentials(username) {
     try {
         const user = await db.table("users")
             .first('users.id', 'username', 'password', 'email', 'roles.nama AS role', 'is_2fa_active')
@@ -34,6 +34,33 @@ async function getCredentials(username) {
     }
 }
 
-export {
-    getCredentials,
-};
+/**
+ * Update status aktif 2FA user saat aktivasi 2FA
+ * 
+ * @param {number} userId User ID
+ * @param {string} email User Email
+ */
+export async function activate2FA(id, email) {
+    return db("users")
+        .where({
+            id,
+            email
+        })
+        .update({
+            is_2fa_active: true
+        });
+}
+
+/**
+ * Update last login user
+ * 
+ * @param {number} userId User ID
+ * @param {string} datetime Tanggal login
+ */
+export async function updateLastLogin(userId, datetime) {
+    return db("users")
+        .where({
+            id: userId
+        })
+        .update("last_login", datetime);
+}
