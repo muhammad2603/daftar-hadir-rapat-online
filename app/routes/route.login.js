@@ -4,6 +4,7 @@ import { setAuthCookie, signToken } from "../services/JWT.js";
 import { requireAuth } from "../middlewares/auth.js";
 import { createChallenges } from "../services/TwoFactorAuthentication.js";
 import { updateLastLogin } from "../models/UsersModel.js";
+import { evaluateLogin, touchDevice } from "../services/Device.js";
 import 'dotenv/config';
 
 const router = Router();
@@ -36,16 +37,16 @@ router.post("/login", isLoggedIn, async (req, res) => {
             throw error;
         }
         const { username: usernameReq, password: passwordReq } = body;
-        const { user: { id: userId, email, role, twoFactorEnabled } } = await loginAttempt(usernameReq, passwordReq);
-        const token = signToken({ id: userId, email, role, twoFactorEnabled });
+        const { user } = await loginAttempt(usernameReq, passwordReq);
+        const token = signToken(user);
         setAuthCookie(res, token);
-        /**
-         * // TODO (FINGERPRINT VALIDATION - 2)
-         * Fungsi loginAttempt akan diubah, jika fungsi menandai pengguna yang login sebagai aneh/dicurigai, --
-         * maka arahkan ke-route /login/2fa-verification.
-         */
+        const { requires2fa, device, geo, reason } = await evaluateLogin({ user, req });
+        if (requires2fa) {
+            return res.json({ requires2fa: true, redirect: '/login/2fa-verification', reason });
+        }
+        if (device) await touchDevice(device, { geo, req });
         const currDate = new Date();
-        updateLastLogin(userId, currDate);
+        updateLastLogin(user.id, currDate);
         return res.json({ ok: true });
     } catch (err) {
         if (err.status) {
@@ -58,6 +59,11 @@ router.post("/login", isLoggedIn, async (req, res) => {
  * Route Verifikasi 2FA yang Terpicu Setelah Login
  */
 router.get("/login/2fa-verification", requireAuth, async (req, res) => {
+    /**
+     * // TODO
+     * Ketika login membutuhkan verifikasi 2FA, cegah pengguna mengakses dashboard. Karena, jika login berhasil tapi membutuhkan verifikasi 2FA --
+     * pengguna tetap dianggap sebagai full authenticated, hal ini menyebabkan pengguna mengakses Dashboard tanpa perlu lolos dari verifikasi 2FA.
+     */
     const user = req.user;
     const purpose = 'login';
     try {
