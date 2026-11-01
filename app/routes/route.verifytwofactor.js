@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { requireAuth } from "../middlewares/auth.js";
 import { verifyChallenge } from "../services/TwoFactorAuthentication.js"
-import { activate2FA } from "../models/UsersModel.js";
+import { activate2FA, updateLastLogin } from "../models/UsersModel.js";
+import { registerDevice } from "../services/Device.js";
 
 const cookieOptions = {
     httpOnly: true,
@@ -13,7 +14,7 @@ const cookieOptions = {
 const router = Router();
 
 export default router.post("/auth/security/2fa/verify", requireAuth, async (req, res) => {
-    const { code } = req.body ?? {};
+    const { code, trustDevice } = req.body ?? {};
     try {
         const purpose = req.cookies?.["purpose"];
         const challengeId = req.cookies?.["challengeId"];
@@ -28,13 +29,10 @@ export default router.post("/auth/security/2fa/verify", requireAuth, async (req,
             const userEmail = req.user.email;
             await activate2FA(userId, userEmail);
         }
-
-        /**
-         * // TODO (FINGERPRINT VALIDATION - 3)
-         * Buat logika jika pengguna melakukan 2FA Verification After Login (purpose = login) dan verifikasi berhasil, --
-         * arahkan ke-route dashboard dan pastikan last_login pengguna diperbarui.
-         */
-
+        if (purpose === 'login') {
+            if (trustDevice === true) await registerDevice({ userId, req, res });
+            await updateLastLogin(userId, new Date());
+        }
         return res.status(200).json({ valid: true });
     } catch (err) {
         if (err.status === 429) {
