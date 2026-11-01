@@ -24,7 +24,9 @@ export async function getCredentials(username) {
             .first('users.id', 'username', 'password', 'email', 'roles.nama AS role', 'is_2fa_active')
             .innerJoin('roles', 'roles.id', 'users.role_id')
             .where({ username });
-        user.is_2fa_active = boolean(user.is_2fa_active);
+        if (user) {
+            user.is_2fa_active = boolean(user.is_2fa_active);
+        }
         return user;
     } catch (err) {
         console.error("Gagal mengambil data user! Error:", err.message);
