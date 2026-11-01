@@ -17,3 +17,7 @@
 # Storage
 /storage/signatures/*
 !/storage/signatures/.gitkeep
+
+# MMDB GeoIP Database
+/data/*.mmdb
+/data/*.tmp
