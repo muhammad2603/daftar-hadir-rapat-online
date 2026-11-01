@@ -29,14 +29,6 @@ export async function loginAttempt(usernameReq, passwordReq) {
         error.status = 401;
         throw error;
     }
-    /*
-     * // TODO (FINGERPRINT VALIDATION - 1)
-     * Cek apakah pengguna login sebagai trusted? contoh yang dicurigai adalah ketika:
-     * 1. Login dari IP yang berbeda secara tiba-tiba.
-     * 2. Perangkat yang berbeda.
-     * 
-     * Gunakan FingerprintJS untuk menyimpan identitas fisik pengguna seperti perangkat.
-     */
     const { id, password, email, role, is_2fa_active } = user;
     const isValidPassword = await bcrypt.compare(passwordReq, password);
     if (!isValidPassword) {
