@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { requireAuth } from "../middlewares/auth.js";
 import { createChallenges } from "../services/TwoFactorAuthentication.js";
+import { twoFaResendLimiter } from "../middlewares/rateLimit.js";
 
 const router = Router();
 
@@ -11,7 +12,7 @@ const cookieOptions = {
     path: '/'
 };
 
-router.post("/auth/security/2fa/resend", requireAuth, async (req, res) => {
+router.post("/auth/security/2fa/resend", twoFaResendLimiter, requireAuth, async (req, res) => {
     const fail = (statusCode, message) => {
         const error = new Error(message);
         error.status = statusCode;
