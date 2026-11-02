@@ -3,6 +3,7 @@ import { requireAuth } from "../middlewares/auth.js";
 import { verifyChallenge } from "../services/TwoFactorAuthentication.js"
 import { activate2FA, updateLastLogin } from "../models/UsersModel.js";
 import { registerDevice } from "../services/Device.js";
+import { twoFaLimiter } from "../middlewares/rateLimit.js";
 
 const cookieOptions = {
     httpOnly: true,
@@ -13,7 +14,7 @@ const cookieOptions = {
 
 const router = Router();
 
-export default router.post("/auth/security/2fa/verify", requireAuth, async (req, res) => {
+export default router.post("/auth/security/2fa/verify", twoFaLimiter, requireAuth, async (req, res) => {
     const { code, trustDevice } = req.body ?? {};
     try {
         const purpose = req.cookies?.["purpose"];
