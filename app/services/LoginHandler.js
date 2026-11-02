@@ -60,7 +60,7 @@ export async function loginAttempt(usernameReq, passwordReq) {
 export function isLoggedIn(req, res, next) {
     const isUserHasLoggedIn = checkIsUserHasLoggedIn(req).loggedIn;
     if (isUserHasLoggedIn) {
-        return res.redirect(301, '/dashboard');
+        return res.redirect(302, '/dashboard');
     }
     next();
 }
