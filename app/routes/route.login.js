@@ -5,6 +5,7 @@ import { requireAuth } from "../middlewares/auth.js";
 import { createChallenges } from "../services/TwoFactorAuthentication.js";
 import { updateLastLogin } from "../models/UsersModel.js";
 import { evaluateLogin, touchDevice } from "../services/Device.js";
+import { loginLimiter } from "../middlewares/rateLimit.js";
 import 'dotenv/config';
 
 const router = Router();
@@ -28,7 +29,7 @@ router.get("/", isLoggedIn, (_, res) => {
 /**
  * Route Endpoint Percobaan Login
  */
-router.post("/login", isLoggedIn, async (req, res) => {
+router.post("/login", loginLimiter, isLoggedIn, async (req, res) => {
     try {
         const body = req.body ?? {};
         if (!body.username || !body.password) {
@@ -67,6 +68,11 @@ router.get("/login/2fa-verification", requireAuth, async (req, res) => {
     const user = req.user;
     const purpose = 'login';
     try {
+        /**
+         * // __FIX__
+         * Jika pengguna diarahkan ke-route ini, lalu me-refresh halaman, kode verifikasi akan terkirim kembali.
+         * Lakukan permintaan kode verifikasi 2FA hanya saat membutuhkan 2FA di-route POST /login
+         */
         const { challengeId } = await createChallenges({
             user,
             purpose
