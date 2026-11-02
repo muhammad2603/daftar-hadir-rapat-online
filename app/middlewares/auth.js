@@ -12,6 +12,7 @@ import { COOKIE_NAME, verifyToken } from "../services/JWT.js";
  */
 export const requireAuth = (req, res, next) => {
     const token = req.cookies?.[COOKIE_NAME];
+    // __FIX__ Kemungkinan redirect akan menjadi masalah untuk endpoint yang bukan GET, seperti Verify 2FA. Sesuaikan kembali logikanya.
     if (!token) return res.redirect(301, '/');
     try {
         const payload = verifyToken(token);
