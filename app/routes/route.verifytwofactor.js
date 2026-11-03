@@ -4,6 +4,7 @@ import { verifyChallenge } from "../services/TwoFactorAuthentication.js"
 import { activate2FA, updateLastLogin } from "../models/UsersModel.js";
 import { registerDevice } from "../services/Device.js";
 import { twoFaLimiter } from "../middlewares/rateLimit.js";
+import { signToken, clearAuthCookie, setAuthCookie } from "../services/JWT.js";
 
 const cookieOptions = {
     httpOnly: true,
@@ -19,6 +20,20 @@ export default router.post("/auth/security/2fa/verify", twoFaLimiter, requireAut
     try {
         const purpose = req.cookies?.["purpose"];
         const challengeId = req.cookies?.["challengeId"];
+        if (
+            !purpose ||
+            !challengeId ||
+            (purpose !== 'activate' && purpose !== 'login')
+        ) {
+            const error = new Error("Terjadi kesalahan saat verifikasi, coba lagi nanti.");
+            error.status = 400;
+            throw error;
+        }
+        if (purpose === 'activate' && !req.user.isFullyAuthenticated) {
+            const error = new Error("Anda belum ter-autentikasi secara penuh.");
+            error.status = 401;
+            throw error;
+        }
         const userId = req.user.id;
         await verifyChallenge({
             challengeId,
@@ -33,7 +48,12 @@ export default router.post("/auth/security/2fa/verify", twoFaLimiter, requireAut
         if (purpose === 'login') {
             if (trustDevice === true) await registerDevice({ userId, req, res });
             await updateLastLogin(userId, new Date());
+            clearAuthCookie(res);
+            const newToken = signToken(req.user, true);
+            setAuthCookie(res, newToken);
         }
+        res.clearCookie("purpose", cookieOptions);
+        res.clearCookie("challengeId", cookieOptions);
         return res.status(200).json({ valid: true });
     } catch (err) {
         if (err.status === 429) {
