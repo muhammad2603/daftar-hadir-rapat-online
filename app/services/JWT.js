@@ -19,15 +19,17 @@ const cookieOptions = {
  * Membuat Token JWT
  * 
  * @param {{ id: number, email: string, role: string, twoFactorEnabled: boolean }} user
+ * @param {boolean} [isFullAuth] Apakah pengguna memiliki full autentikasi? default `false`.
  * 
  * @returns {string}
  */
-export function signToken(user) {
+export function signToken(user, isFullAuth = false) {
     return jwt.sign({
         sub: String(user.id),
         email: user.email,
         role: user.role,
         twoFactorEnabled: Boolean(user.twoFactorEnabled),
+        isFullyAuthenticated: isFullAuth,
     }, JWT_SECRET, {
         algorithm: 'HS256',
         expiresIn: TTL_SECONDS,
