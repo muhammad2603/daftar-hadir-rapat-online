@@ -26,13 +26,19 @@ router.post("/api/meetings/:meetingId/attendances", async (req, res) => {
     }
 });
 
-router.get("/api/test/qr-generator", (req, res) => {
+router.get("/api/meetings/:meetingId/qr-code", (req, res) => {
+    /**
+     * // TODO Validasi apakah meeting id pada uri adalah number? gunakan fungsi bawaan JS isNaN.
+     * // TODO Validasi apakah meeting dengan id yang ada di-uri ada direcord?
+     * // TODO Jika ada, ambil slug-nya untuk membuat QR Code tautan ke-daftar kehadiran
+     */
+    const { meetingId } = req.params;
     try {
         const url = "https://localhost:3000/daftar-kehadiran/abc-def";
         const qrSvg = getSVG(url);
         res.type("svg").send(qrSvg);
     } catch (error) {
-        res.send("Error:")
+        res.status(500).send("Terjadi kesalahan saat membuat QR Code!");
     }
 });
 
