@@ -12,8 +12,7 @@ import { COOKIE_NAME, verifyToken } from "../services/JWT.js";
  */
 export const requireAuth = (req, res, next) => {
     const token = req.cookies?.[COOKIE_NAME];
-    // __FIX__ Kemungkinan redirect akan menjadi masalah untuk endpoint yang bukan GET, seperti Verify 2FA. Sesuaikan kembali logikanya.
-    if (!token) return res.redirect(301, '/');
+    if (!token) return res.status(401).json({ error: "Token tidak valid atau telah kedaluwarsa." });
     try {
         const payload = verifyToken(token);
         const { sub, email, role, twoFactorEnabled, isFullyAuthenticated } = payload;
@@ -39,8 +38,7 @@ export const requireAuth = (req, res, next) => {
  */
 export const requireFullAuth = (req, res, next) => {
     const token = req.cookies?.[COOKIE_NAME];
-    // __FIX__ Kemungkinan redirect akan menjadi masalah untuk endpoint yang bukan GET, seperti Verify 2FA. Sesuaikan kembali logikanya.
-    if (!token) return res.redirect(301, '/');
+    if (!token) return res.status(401).json({ error: "Token tidak valid atau telah kedaluwarsa." });
     try {
         const payload = verifyToken(token);
         const { sub, email, role, twoFactorEnabled, isFullyAuthenticated } = payload;
