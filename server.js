@@ -15,6 +15,9 @@ const app = express();
 const hostname = 'localhost';
 const port = Number(process.env.APP_PORT || 3000);
 
+if (process.env.APP_ENV === 'production') {
+    app.set('trust proxy', 1);
+}
 app.set("view engine", "ejs");
 app.use(express.static('public'));
 app.use(express.json());
