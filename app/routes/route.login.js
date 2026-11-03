@@ -39,20 +39,31 @@ router.post("/login", loginLimiter, isLoggedIn, async (req, res) => {
         }
         const { username: usernameReq, password: passwordReq } = body;
         const { user } = await loginAttempt(usernameReq, passwordReq);
-        const token = signToken(user);
-        setAuthCookie(res, token);
         const { requires2fa, device, geo, reason } = await evaluateLogin({ user, req });
         if (requires2fa) {
+            const token = signToken(user);
+            setAuthCookie(res, token);
+            const purpose = "login";
+            const { challengeId } = await createChallenges({ user, purpose });
+            res.cookie("purpose", purpose, cookieOptions);
+            res.cookie("challengeId", challengeId, cookieOptions);
             return res.json({ requires2fa: true, redirect: '/login/2fa-verification', reason });
         }
+        const token = signToken(user, true);
+        setAuthCookie(res, token);
         if (device) await touchDevice(device, { geo, req });
         const currDate = new Date();
         updateLastLogin(user.id, currDate);
         return res.json({ ok: true });
     } catch (err) {
+        if (err.status === 429) {
+            res.set("Retry-After", String(err.retryAfter));
+            return res.status(429).json({ error: err.message });
+        }
         if (err.status) {
             return res.status(err.status).json({ message: err.message });
         }
+        res.status(500).json({ error: "Terjadi kesalahan, coba lagi nanti." });
     }
 });
 
@@ -60,37 +71,11 @@ router.post("/login", loginLimiter, isLoggedIn, async (req, res) => {
  * Route Verifikasi 2FA yang Terpicu Setelah Login
  */
 router.get("/login/2fa-verification", requireAuth, async (req, res) => {
-    /**
-     * // TODO
-     * Ketika login membutuhkan verifikasi 2FA, cegah pengguna mengakses dashboard. Karena, jika login berhasil tapi membutuhkan verifikasi 2FA --
-     * pengguna tetap dianggap sebagai full authenticated, hal ini menyebabkan pengguna mengakses Dashboard tanpa perlu lolos dari verifikasi 2FA.
-     */
-    const user = req.user;
-    const purpose = 'login';
-    try {
-        /**
-         * // __FIX__
-         * Jika pengguna diarahkan ke-route ini, lalu me-refresh halaman, kode verifikasi akan terkirim kembali.
-         * Lakukan permintaan kode verifikasi 2FA hanya saat membutuhkan 2FA di-route POST /login
-         */
-        const { challengeId } = await createChallenges({
-            user,
-            purpose
-        });
-        res.cookie("purpose", purpose, cookieOptions);
-        res.cookie("challengeId", challengeId, cookieOptions);
-        return res.render("backend/2fa_verification_after_login", {
-            title: process.env.SITE_TITLE,
-            // TODO Ambil email pengguna dari payload JWT dan pastikan disensor
-            email: 'bu****2@gmail.com'
-        });
-    } catch (err) {
-        if (err.status === 429) {
-            res.set("Retry-After", String(err.retryAfter));
-            return res.status(429).json({ error: err.message });
-        }
-        res.status(500).json({ error: "Gagal mengirim kode, coba lagi!" });
-    }
+    return res.render("backend/2fa_verification_after_login", {
+        title: process.env.SITE_TITLE,
+        // TODO Ambil email pengguna dari payload JWT dan pastikan disensor
+        email: 'bu****2@gmail.com'
+    });
 });
 
 export default router;
