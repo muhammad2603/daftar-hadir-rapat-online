@@ -29,7 +29,10 @@ router.post("/auth/security/2fa/resend", twoFaResendLimiter, requireAuth, async 
             (!purpose || !allowedPurposed.includes(purpose)) ||
             !challengeIdSuperseded
         ) {
-            throw fail(400, "Permintaan gagal!");
+            throw fail(400, "Gagal mengirim kode verifikasi, coba lagi nanti.");
+        }
+        if (purpose === 'activate' && !req.user.isFullyAuthenticated) {
+            throw fail(401, "Anda belum ter-autentikasi secara penuh.");
         }
         const { challengeId, expiresIn } = await createChallenges({
             user,
