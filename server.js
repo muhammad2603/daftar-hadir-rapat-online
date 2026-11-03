@@ -1,149 +1,33 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import sharp from 'sharp';
-import fs from 'fs';
-import { getSVG } from 'qreator/lib/svg';
-import 'dotenv/config';
+import { requireFullAuth } from './app/middlewares/auth.js';
+import daftarKehadiranRoute from './app/routes/route.daftarkehadiran.js';
+import APIRoute from './app/routes/route.api.js';
 import activateTwoFactor from './app/routes/route.activatetwofactor.js';
 import verifyTwoFactor from './app/routes/route.verifytwofactor.js';
 import resendTwoFactor from './app/routes/route.resendtwofactor.js';
 import login from './app/routes/route.login.js';
 import logout from './app/routes/route.logout.js';
+import dashboardRoute from './app/routes/route.dashboard.js';
+import 'dotenv/config';
 
 const app = express();
-
 const hostname = 'localhost';
 const port = Number(process.env.APP_PORT || 3000);
 
 app.set("view engine", "ejs");
-
 app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/daftar-kehadiran/abc-def", (req, res) => {
-    res.render("frontend/daftar_kehadiran", {
-        title: "Formulir Daftar Kehadiran"
-    });
-});
-
+app.use(daftarKehadiranRoute);
 app.use(login);
-
-// __COMMENT__ Kode untuk menyimpan tanda tangan menjadi file gambar png
-app.get("/api/test/simpan-tanda-tangan", async (req, res) => {
-    res.setHeader("Content-Type", 'text/html');
-    try {
-        // Base64 encode tidak membawa "data:image/*;base64,", hapus jika base64 yang terkirim membawa string tersebut
-        const signatureBase64 = "{Base64 Encode}";
-        const imageBuffer = Buffer.from(signatureBase64, 'base64');
-        await sharp(imageBuffer)
-            .trim({
-                background: 'rgba(0,0,0,0)',
-                threshold: 0
-            })
-            .png()
-            .toFile('storage/signatures/signature.png');
-        res.send("Signature berhasil tersimpan. Cek file signature.png difolder storage/signatures!");
-    } catch (error) {
-        res.send("Gagal menyimpan gambar Signature! ;( Cek konfigurasi Sharp Anda!");
-    }
-});
-
-// __COMMENT__ Contoh API QR Generator menggunakan Qreator
-app.get("/api/test/qr-generator", async (req, res) => {
-    try {
-        const url = "https://localhost:3000/daftar-kehadiran/abc-def";
-        const qrSvg = await getSVG(url);
-        res.type("svg").send(qrSvg);
-    } catch (error) {
-        res.send("Error:")
-    }
-});
-
-// Routes with require authentication
+app.use(APIRoute);
 app.use(activateTwoFactor);
-
 app.use(verifyTwoFactor);
-
 app.use(resendTwoFactor);
-
-app.get("/dashboard", (req, res) => {
-    res.render("backend/dashboard", {
-        title: "Dashboard",
-        currentNav: "dashboard"
-    });
-});
-
-app.get("/dashboard/sesi-rapat/kelola", (req, res) => {
-    res.render("backend/kelola_sesi_rapat", {
-        title: "Kelola Sesi Rapat",
-        currentNav: "kelola-sesi-rapat"
-    });
-});
-
-app.get("/dashboard/monitor-kehadiran", (req, res) => {
-    res.render("backend/monitor_kehadiran", {
-        title: "Monitor Kehadiran",
-        currentNav: "monitor-kehadiran"
-    });
-});
-
-app.get("/dashboard/monitor-kehadiran/abc-def", (req, res) => {
-    res.render("backend/live_view_kehadiran", {
-        title: "Live View Kehadiran",
-        currentNav: "monitor-kehadiran"
-    });
-});
-
-app.get("/dashboard/sesi-rapat/detail/abc-def", (req, res) => {
-    res.render("backend/detail_sesi_rapat", {
-        title: "Detail Sesi Rapat",
-        currentNav: "kelola-sesi-rapat"
-    });
-});
-
-app.get("/dashboard/sesi-rapat/edit/abc-def", (req, res) => {
-    res.render("backend/edit_sesi_rapat", {
-        title: "Edit Sesi Rapat",
-        currentNav: "kelola-sesi-rapat"
-    });
-});
-
-app.get("/dashboard/sesi-rapat/riwayat", (req, res) => {
-    res.render("backend/riwayat_sesi_rapat", {
-        title: "Riwayat Sesi Rapat",
-        currentNav: "riwayat-sesi-rapat"
-    });
-});
-
-app.get("/dashboard/sesi-rapat/bagikan-tautan", (req, res) => {
-    res.render("backend/bagikan_tautan", {
-        title: "Bagikan Tautan",
-        currentNav: "bagikan-tautan"
-    });
-});
-
-app.get("/dashboard/pengaturan", (req, res) => {
-    res.render("backend/pengaturan", {
-        title: "Pengaturan",
-        currentNav: "pengaturan"
-    });
-});
-
-app.get("/dashboard/pengaturan/daftar-user", (req, res) => {
-    res.render("backend/daftar_user", {
-        title: "Daftar User",
-        currentNav: "pengaturan"
-    });
-});
-
-app.get("/dashboard/sesi-rapat/create", (req, res) => {
-    res.render("backend/form_buat_sesi_rapat", {
-        title: "Buat Sesi Rapat Baru",
-        currentNav: "kelola-sesi-rapat"
-    });
-});
-
+app.use(requireFullAuth);
+app.use(dashboardRoute);
 app.use(logout);
 
 app.listen(port, hostname, () => {
