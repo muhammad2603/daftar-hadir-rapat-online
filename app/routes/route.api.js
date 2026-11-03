@@ -4,10 +4,12 @@ import { getSVG } from "qreator/lib/svg";
 
 const router = Router();
 
-// __COMMENT__ Kode untuk menyimpan tanda tangan menjadi file gambar png
-router.get("/api/test/simpan-tanda-tangan", async (req, res) => {
+// __COMMENT__ Route ini digunakan untuk menyimpan daftar kehadiran peserta
+router.post("/api/meetings/:meetingId/attendances", async (req, res) => {
     res.setHeader("Content-Type", 'text/html');
     try {
+        // TODO Ambil data pengguna yang dikirim dari form daftar kehadiran
+        const { meetingId } = req.params;
         // Base64 encode tidak membawa "data:image/*;base64,", hapus jika base64 yang terkirim membawa string tersebut
         const signatureBase64 = "{Base64 Encode}";
         const imageBuffer = Buffer.from(signatureBase64, 'base64');
