@@ -68,13 +68,43 @@ router.post("/login", loginLimiter, isLoggedIn, async (req, res) => {
 });
 
 /**
+ * Sensor string
+ * 
+ * @param {string} string String yang akan disensor
+ * @param {string} [censorChar] Karakter yang digunakan untuk sensor string
+ * @param {number} [repeatCensorChar] Jumlah karakter sensor
+ * @param {number} [startAt] Posisi awal sensor pada string
+ * @param {number} [endAt] Posisi akhir sensor pada string, posisi dihitung dari akhir string (strLength - endAt).
+ */
+function censorString(string, censorChar = '*', repeatCensorChar = 5, startAt = 2, endAt = 1) {
+    const strLen = string.length;
+    const endPosByTotalLen = strLen - endAt;
+    const sliceStr = string.substring(startAt, endPosByTotalLen);
+    const censored = string.replace(sliceStr, censorChar.repeat(repeatCensorChar));
+    return censored;
+}
+
+/**
+ * Sensor email pengguna
+ * 
+ * @param {string} email
+ */
+function hideUserEmail(email) {
+    const splitChar = '@';
+    const splitEmail = email.split(splitChar);
+    const [identity, domain] = splitEmail;
+    const censoredEmail = censorString(identity);
+    return censoredEmail + splitChar + domain;
+}
+
+/**
  * Route Verifikasi 2FA yang Terpicu Setelah Login
  */
 router.get("/login/2fa-verification", requireAuth, async (req, res) => {
+    const censorUserEmail = hideUserEmail(req.user.email);
     return res.render("backend/2fa_verification_after_login", {
         title: process.env.SITE_TITLE,
-        // TODO Ambil email pengguna dari payload JWT dan pastikan disensor
-        email: 'bu****2@gmail.com'
+        email: censorUserEmail
     });
 });
 
