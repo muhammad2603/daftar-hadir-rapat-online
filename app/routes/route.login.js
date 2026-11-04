@@ -30,12 +30,23 @@ router.get("/", isLoggedIn, (_, res) => {
  * Route Endpoint Percobaan Login
  */
 router.post("/login", loginLimiter, isLoggedIn, async (req, res) => {
+    const fail = (status, message) => {
+        const error = new Error(message);
+        error.status = status;
+        return error;
+    }
     try {
         const body = req.body ?? {};
         if (!body.username || !body.password) {
-            const error = new Error("Username atau password salah!");
-            error.status = 401;
-            throw error;
+            throw fail(401, "Username atau password salah!");
+        }
+        const usernameRegex = /[^a-z_\d]/;
+        if (usernameRegex.test(usernameReq)) {
+            throw fail(401, "Username atau password salah!");
+        }
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*])[A-Za-z\d@#$%^&*]{8,20}$/;
+        if (!passwordRegex.test(passwordReq)) {
+            throw fail(401, "Username atau password salah!");
         }
         const { username: usernameReq, password: passwordReq } = body;
         const { user } = await loginAttempt(usernameReq, passwordReq);
@@ -54,14 +65,14 @@ router.post("/login", loginLimiter, isLoggedIn, async (req, res) => {
         if (device) await touchDevice(device, { geo, req });
         const currDate = new Date();
         updateLastLogin(user.id, currDate);
-        return res.json({ ok: true });
+        return res.json({ ok: true, redirect: '/dashboard' });
     } catch (err) {
         if (err.status === 429) {
             res.set("Retry-After", String(err.retryAfter));
             return res.status(429).json({ error: err.message });
         }
         if (err.status) {
-            return res.status(err.status).json({ message: err.message });
+            return res.status(err.status).json({ error: err.message });
         }
         res.status(500).json({ error: "Terjadi kesalahan, coba lagi nanti." });
     }
