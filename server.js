@@ -43,8 +43,6 @@ app.use((err, req, res, next) => {
     if (err.code === 'EBADCSRFTOKEN') {
         return res.status(403).json({ error: "Token CSRF tidak valid atau telah kedaluwarsa! Silakan muat ulang halaman." });
     }
-    console.error("ErrCode:", err.code);
-    console.error(err.stack);
     res.status(500).json({ error: "Terjadi kesalahan pada server." });
 });
 
