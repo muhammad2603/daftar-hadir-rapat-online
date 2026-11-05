@@ -12,7 +12,8 @@ const cookieOptions = {
     httpOnly: true,
     secure: process.env.APP_ENV === 'production',
     sameSite: 'lax',
-    path: '/'
+    path: '/',
+    signed: true
 };
 
 /**
