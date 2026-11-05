@@ -13,6 +13,7 @@ import { doubleCsrfProtection } from './app/middlewares/csrfToken.js';
 import { generateCsrf } from './app/middlewares/generateCsrf.js';
 import 'dotenv/config';
 import { HttpError } from './app/error_handlers/HttpError.js';
+import { ERR } from './app/error_handlers/ErrorCodes.js';
 
 const app = express();
 const hostname = 'localhost';
@@ -43,16 +44,25 @@ app.use(logout);
 app.use((err, req, res, next) => {
     if (res.headersSent) return next(err);
     if (err.code === 'EBADCSRFTOKEN') {
-        return res.status(403).json({ error: "Token CSRF tidak valid atau telah kedaluwarsa! Silakan muat ulang halaman." });
+        return res.status(403).json({
+            error: "Token CSRF tidak valid atau telah kedaluwarsa! Silakan muat ulang halaman.",
+            code: ERR.CSRF_INVALID,
+        });
     }
     const status = Number(err.status);
     if (err instanceof HttpError || (status >= 400 && status < 500 && err.expose !== false)) {
         if (err.retryAfter) res.set('Retry-After', String(err.retryAfter));
-        return res.status(err.status).json({ error: err.message });
+        return res.status(err.status).json({
+            error: err.message,
+            code: err.appCode ?? ERR.INTERNAL,
+        });
     }
     console.error("ErrCode:", err.code);
     console.error(err.stack);
-    return res.status(500).json({ error: "Terjadi kesalahan pada server." });
+    return res.status(500).json({
+        error: "Terjadi kesalahan pada server.",
+        code: ERR.INTERNAL,
+    });
 });
 
 app.listen(port, hostname, () => {
