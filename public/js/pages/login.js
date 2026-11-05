@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const showPasswordBtn = document.getElementById("showPasswordBtn");
     /** @type {HTMLDivElement} */
     const errorMessageEl = document.getElementById("errorMessage");
+    /** Token CSRF */
+    const csrfToken = document.querySelector('meta[name=X-CSRF-TOKEN]').getAttribute("content");
 
     /**
      * Tampilkan pesan kesalahan input
@@ -90,11 +92,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const fetchLoginAttemptConf = {
                 method: 'POST',
                 headers: {
-                    "Content-Type": 'application/json',
+                    "Content-Type": 'application/json; charset=utf-8',
+                    "x-csrf-token": csrfToken,
                 },
                 body: JSON.stringify({
                     username: usernameValue,
-                    password: passwordValue
+                    password: passwordValue,
                 })
             };
             const attempt = await fetch('/login', fetchLoginAttemptConf);
