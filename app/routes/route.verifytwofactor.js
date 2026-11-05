@@ -42,6 +42,7 @@ export default router.post("/auth/security/2fa/verify", twoFaLimiter, requireAut
             userId: userId
         });
         if (purpose === 'activate') {
+            // TODO Daftarkan perangkat jika trustDevice diminta pengguna
             const userEmail = req.user.email;
             await activate2FA(userId, userEmail);
         }
