@@ -12,6 +12,7 @@ import dashboardRoute from './app/routes/route.dashboard.js';
 import { doubleCsrfProtection } from './app/middlewares/csrfToken.js';
 import { generateCsrf } from './app/middlewares/generateCsrf.js';
 import 'dotenv/config';
+import { HttpError } from './app/error_handlers/HttpError.js';
 
 const app = express();
 const hostname = 'localhost';
@@ -40,10 +41,18 @@ app.use(dashboardRoute);
 app.use(logout);
 
 app.use((err, req, res, next) => {
+    if (res.headersSent) return next(err);
     if (err.code === 'EBADCSRFTOKEN') {
         return res.status(403).json({ error: "Token CSRF tidak valid atau telah kedaluwarsa! Silakan muat ulang halaman." });
     }
-    res.status(500).json({ error: "Terjadi kesalahan pada server." });
+    const status = Number(err.status);
+    if (err instanceof HttpError || (status >= 400 && status < 500 && err.expose !== false)) {
+        if (err.retryAfter) res.set('Retry-After', String(err.retryAfter));
+        return res.status(err.status).json({ error: err.message });
+    }
+    console.error("ErrCode:", err.code);
+    console.error(err.stack);
+    return res.status(500).json({ error: "Terjadi kesalahan pada server." });
 });
 
 app.listen(port, hostname, () => {
