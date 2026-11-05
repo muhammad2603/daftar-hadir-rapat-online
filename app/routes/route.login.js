@@ -40,6 +40,7 @@ router.post("/login", loginLimiter, isLoggedIn, async (req, res) => {
         if (!body.username || !body.password) {
             throw fail(401, "Username atau password salah!");
         }
+        const { username: usernameReq, password: passwordReq } = body;
         const usernameRegex = /[^a-z_\d]/;
         if (usernameRegex.test(usernameReq)) {
             throw fail(401, "Username atau password salah!");
@@ -48,7 +49,6 @@ router.post("/login", loginLimiter, isLoggedIn, async (req, res) => {
         if (!passwordRegex.test(passwordReq)) {
             throw fail(401, "Username atau password salah!");
         }
-        const { username: usernameReq, password: passwordReq } = body;
         const { user } = await loginAttempt(usernameReq, passwordReq);
         const { requires2fa, device, geo, reason } = await evaluateLogin({ user, req });
         if (requires2fa) {
@@ -112,6 +112,10 @@ function hideUserEmail(email) {
  * Route Verifikasi 2FA yang Terpicu Setelah Login
  */
 router.get("/login/2fa-verification", requireAuth, async (req, res) => {
+    /**
+     * // TODO
+     * Jika pengguna diarahkan kesini, tapi belum menyelesaikan verifikasi, pengguna masih bisa 
+     */
     const censorUserEmail = hideUserEmail(req.user.email);
     return res.render("backend/2fa_verification_after_login", {
         title: process.env.SITE_TITLE,
