@@ -72,9 +72,9 @@ export async function registerDevice({ userId, req, res }) {
     const existing = current ? await findDevice(userId, sha256(current)) : null;
     if (existing && !existing.revoked_at) {
         await updateDevice(existing.id, {
-            last_country: geo.country,
-            last_city: geo.city,
-            last_asn: geo.asn,
+            last_country: geo.country ?? existing.last_country,
+            last_city: geo.city ?? existing.last_city,
+            last_asn: geo.asn ?? existing.last_asn,
             trusted_until: trustedUntil,
             last_seen_at: new Date(Date.now())
         });
