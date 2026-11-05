@@ -9,7 +9,8 @@ const cookieOptions = {
     httpOnly: true,
     secure: process.env.APP_ENV === 'production',
     sameSite: 'lax',
-    path: '/'
+    path: '/',
+    maxAge: 30 * 60 * 1000,
 };
 
 router.post("/auth/security/2fa/resend", twoFaResendLimiter, requireAuth, async (req, res) => {
@@ -18,6 +19,7 @@ router.post("/auth/security/2fa/resend", twoFaResendLimiter, requireAuth, async 
         error.status = statusCode;
         return error;
     }
+    // TODO Seharusnya cookie superseded dan purpose memiliki kadaluwarsa, jika telah kedaluwarsa, arahkan ke-login kembali.
     const user = req.user;
     const isSuperseded = req.cookies?.["superseded"];
     const purpose = req.cookies?.["purpose"];

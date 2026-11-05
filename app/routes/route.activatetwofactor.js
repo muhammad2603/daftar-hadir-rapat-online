@@ -8,7 +8,8 @@ const cookieOptions = {
     httpOnly: true,
     secure: process.env.APP_ENV === 'production',
     sameSite: 'lax',
-    path: '/'
+    path: '/',
+    maxAge: 30 * 60 * 1000,
 };
 
 router.get("/auth/security/2fa/activate", requireAuth, async (req, res) => {
