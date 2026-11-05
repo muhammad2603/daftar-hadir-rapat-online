@@ -5,67 +5,53 @@ import { activate2FA, updateLastLogin } from "../models/UsersModel.js";
 import { registerDevice } from "../services/Device.js";
 import { twoFaLimiter } from "../middlewares/rateLimit.js";
 import { signToken, clearAuthCookie, setAuthCookie } from "../services/JWT.js";
+import { HttpError } from "../error_handlers/HttpError.js";
+import { ERR } from "../error_handlers/ErrorCodes.js";
 
 const cookieOptions = {
     httpOnly: true,
     secure: process.env.APP_ENV === 'production',
     sameSite: 'lax',
-    path: '/'
+    path: '/',
+    maxAge: 30 * 60 * 1000,
 };
 
 const router = Router();
 
 export default router.post("/auth/security/2fa/verify", twoFaLimiter, requireAuth, async (req, res) => {
     const { code, trustDevice } = req.body ?? {};
+    const purpose = req.cookies?.purpose;
+    const challengeId = req.cookies?.challengeId;
+    if (!purpose || !challengeId || !['activate', 'login'].includes(purpose)) {
+        throw new HttpError(400, "Terjadi kesalahan saat verifikasi, coba lagi nanti.", ERR.BAD_REQUEST);
+    }
+    if (purpose === 'activate' && !req.user.isFullyAuthenticated) {
+        throw new HttpError(401, "Anda belum ter-autentikasi secara penuh.", ERR.NOT_FULL_AUTHENTICATED);
+    }
+    const userId = req.user.id;
     try {
-        const purpose = req.cookies?.["purpose"];
-        const challengeId = req.cookies?.["challengeId"];
-        if (
-            !purpose ||
-            !challengeId ||
-            (purpose !== 'activate' && purpose !== 'login')
-        ) {
-            const error = new Error("Terjadi kesalahan saat verifikasi, coba lagi nanti.");
-            error.status = 400;
-            throw error;
-        }
-        if (purpose === 'activate' && !req.user.isFullyAuthenticated) {
-            const error = new Error("Anda belum ter-autentikasi secara penuh.");
-            error.status = 401;
-            throw error;
-        }
-        const userId = req.user.id;
-        await verifyChallenge({
-            challengeId,
-            code,
-            purpose,
-            userId: userId
-        });
-        if (purpose === 'activate') {
-            // TODO Daftarkan perangkat jika trustDevice diminta pengguna
-            const userEmail = req.user.email;
-            await activate2FA(userId, userEmail);
-        }
-        if (purpose === 'login') {
-            if (trustDevice === true) await registerDevice({ userId, req, res });
-            await updateLastLogin(userId, new Date());
-            clearAuthCookie(res);
-            const newToken = signToken(req.user, true);
-            setAuthCookie(res, newToken);
-        }
-        res.clearCookie("purpose", cookieOptions);
-        res.clearCookie("challengeId", cookieOptions);
-        return res.status(200).json({ valid: true });
+        await verifyChallenge({ challengeId, code, purpose, userId });
     } catch (err) {
         if (err.status === 429) {
             res.cookie("superseded", "true", cookieOptions);
             res.cookie("challengeIdSuperseded", challengeId, cookieOptions);
-            return res.status(err.status).json({
+            return res.status(429).json({
                 error: err.message,
-                superseded: true
+                superseded: true,
+                code: ERR.CHALLENGE_SUPERSEDED
             });
         }
-        if (err.status) return res.status(err.status).json({ error: err.message });
-        return res.status(500).json({ error: "Terjadi kesalahan saat verifikasi, silahkan coba lagi!" });
+        throw err;
     }
+    if (purpose === 'activate') {
+        await activate2FA(userId, req.user.email);
+    } else {
+        if (trustDevice === true) await registerDevice({ userId, req, res });
+        await updateLastLogin(userId, new Date());
+        clearAuthCookie(res);
+        setAuthCookie(res, signToken(req.user, true));
+    }
+    res.clearCookie("purpose", cookieOptions);
+    res.clearCookie("challengeId", cookieOptions);
+    return res.status(200).json({ valid: true });
 });
