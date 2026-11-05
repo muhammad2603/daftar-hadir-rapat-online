@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="X-CSRF-TOKEN" content="<%= csrfToken %>" />
     <title><%= title %></title>
     <link rel="stylesheet" href="/css/base.css">
 </head>
@@ -28,7 +29,6 @@
             <div class="bg-white/5 border border-white/10 backdrop-blur-sm rounded-2xl p-8 shadow-2xl">
                 <h2 class="text-white font-semibold text-lg mb-6 text-center">Masuk ke Akun</h2>
                 <form class="space-y-4">
-                    <!-- TODO Tambahkan mekanisme CSRF Token -->
                     <div>
                         <label for="username" class="inline-block text-xs font-medium text-slate-400 mb-1.5 uppercase tracking-wider">Username</label>
                         <div class="input-wrapper relative">
