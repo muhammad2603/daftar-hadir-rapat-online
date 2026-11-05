@@ -6,6 +6,7 @@ import { createChallenges } from "../services/TwoFactorAuthentication.js";
 import { updateLastLogin } from "../models/UsersModel.js";
 import { evaluateLogin, touchDevice } from "../services/Device.js";
 import { loginLimiter } from "../middlewares/rateLimit.js";
+import { HttpError } from "../error_handlers/HttpError.js";
 import 'dotenv/config';
 
 const router = Router();
@@ -14,7 +15,8 @@ const cookieOptions = {
     httpOnly: true,
     secure: process.env.APP_ENV === 'production',
     sameSite: 'lax',
-    path: '/'
+    path: '/',
+    maxAge: 30 * 60 * 1000,
 };
 
 /**
@@ -30,52 +32,36 @@ router.get("/", isLoggedIn, (_, res) => {
  * Route Endpoint Percobaan Login
  */
 router.post("/login", loginLimiter, isLoggedIn, async (req, res) => {
-    const fail = (status, message) => {
-        const error = new Error(message);
-        error.status = status;
-        return error;
+    const body = req.body ?? {};
+    if (!body.username || !body.password) {
+        throw new HttpError(401, "Username atau password salah!");
     }
-    try {
-        const body = req.body ?? {};
-        if (!body.username || !body.password) {
-            throw fail(401, "Username atau password salah!");
-        }
-        const { username: usernameReq, password: passwordReq } = body;
-        const usernameRegex = /[^a-z_\d]/;
-        if (usernameRegex.test(usernameReq)) {
-            throw fail(401, "Username atau password salah!");
-        }
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*])[A-Za-z\d@#$%^&*]{8,20}$/;
-        if (!passwordRegex.test(passwordReq)) {
-            throw fail(401, "Username atau password salah!");
-        }
-        const { user } = await loginAttempt(usernameReq, passwordReq);
-        const { requires2fa, device, geo, reason } = await evaluateLogin({ user, req });
-        if (requires2fa) {
-            const token = signToken(user);
-            setAuthCookie(res, token);
-            const purpose = "login";
-            const { challengeId } = await createChallenges({ user, purpose });
-            res.cookie("purpose", purpose, cookieOptions);
-            res.cookie("challengeId", challengeId, cookieOptions);
-            return res.json({ requires2fa: true, redirect: '/login/2fa-verification', reason });
-        }
-        const token = signToken(user, true);
+    const { username: usernameReq, password: passwordReq } = body;
+    const usernameRegex = /[^a-z_\d]/;
+    if (usernameRegex.test(usernameReq)) {
+        throw new HttpError(401, "Username atau password salah!");
+    }
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*])[A-Za-z\d@#$%^&*]{8,20}$/;
+    if (!passwordRegex.test(passwordReq)) {
+        throw new HttpError(401, "Username atau password salah!");
+    }
+    const { user } = await loginAttempt(usernameReq, passwordReq);
+    const { requires2fa, device, geo, reason } = await evaluateLogin({ user, req });
+    if (requires2fa) {
+        const token = signToken(user);
         setAuthCookie(res, token);
-        if (device) await touchDevice(device, { geo, req });
-        const currDate = new Date();
-        updateLastLogin(user.id, currDate);
-        return res.json({ ok: true, redirect: '/dashboard' });
-    } catch (err) {
-        if (err.status === 429) {
-            res.set("Retry-After", String(err.retryAfter));
-            return res.status(429).json({ error: err.message });
-        }
-        if (err.status) {
-            return res.status(err.status).json({ error: err.message });
-        }
-        res.status(500).json({ error: "Terjadi kesalahan, coba lagi nanti." });
+        const purpose = "login";
+        const { challengeId } = await createChallenges({ user, purpose });
+        res.cookie("purpose", purpose, cookieOptions);
+        res.cookie("challengeId", challengeId, cookieOptions);
+        return res.json({ requires2fa: true, redirect: '/login/2fa-verification', reason });
     }
+    const token = signToken(user, true);
+    setAuthCookie(res, token);
+    if (device) await touchDevice(device, { geo, req });
+    const currDate = new Date();
+    updateLastLogin(user.id, currDate);
+    return res.json({ ok: true, redirect: '/dashboard' });
 });
 
 /**
@@ -108,14 +94,35 @@ function hideUserEmail(email) {
     return censoredEmail + splitChar + domain;
 }
 
+// TODO Fungsi ini duplikasi dari app/middlewares/auth.js
+/**
+ * Fungsi untuk memberikan response dan redirect.
+ * 
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @param {Object} responseError Response tidak akan dikirim jika request berasal dari browser
+ * @param {string} redirectTo Lokasi redirect
+ * @param {number} [status] HTTP Status Code tidak digunakan jika request berasal dari browser
+ */
+const setResponseWithRedirect = (req, res, responseError, redirectTo, status = 401) => {
+    if (req.get('Accept')?.includes("application/json")) {
+        return res.status(status).json(responseError);
+    }
+    return res.redirect(302, redirectTo);
+};
+
 /**
  * Route Verifikasi 2FA yang Terpicu Setelah Login
  */
 router.get("/login/2fa-verification", requireAuth, async (req, res) => {
-    /**
-     * // TODO
-     * Jika pengguna diarahkan kesini, tapi belum menyelesaikan verifikasi, pengguna masih bisa 
-     */
+    const purposeCookie = req.cookies?.["purpose"];
+    const challengeIdCookie = req.cookies?.["challengeId"];
+    if (
+        !purposeCookie ||
+        !challengeIdCookie
+    ) {
+        return setResponseWithRedirect(req, res, { error: "Tidak dapat melakukan verifikasi kode. Coba login kembali!" }, '/', 400);
+    }
     const censorUserEmail = hideUserEmail(req.user.email);
     return res.render("backend/2fa_verification_after_login", {
         title: process.env.SITE_TITLE,
