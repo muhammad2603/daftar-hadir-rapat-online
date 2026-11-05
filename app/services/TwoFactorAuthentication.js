@@ -10,6 +10,8 @@ import {
     increaseAttempt,
 } from '../models/AuthToken2FAModel.js';
 import 'dotenv/config';
+import { HttpError } from '../error_handlers/HttpError.js';
+import { ERR } from '../error_handlers/ErrorCodes.js';
 
 /**
  * @typedef {Object} ChallengeInput
@@ -66,6 +68,7 @@ async function createChallenges({ user, purpose }, isSuperseded = false, superse
         if (isSuperseded === true && supersedChallengeId !== false) {
             await setTokenToUsed(supersedChallengeId, "superseded");
         }
+        // TODO Enkripsi secret menggunakan algoritma AES-256-GCM, simpan kunci enkripsi di .env
         await insertToken({
             challenge_id: challengeId,
             user_id: user.id,
@@ -101,11 +104,6 @@ const MAX_ATTEMPTS = 5;
  * Dengan properti `status`: 401 (kode salah, kedaluwarsa, atau tidak valid) atau 429 (terlalu banyak percobaan).
  */
 async function verifyChallenge({ challengeId, code, purpose, userId }) {
-    const fail = (status, message) => {
-        const err = new Error(message);
-        err.status = status;
-        return err;
-    }
     const ch = await getToken(challengeId);
     if (
         !ch ||
@@ -114,20 +112,21 @@ async function verifyChallenge({ challengeId, code, purpose, userId }) {
         ch.user_id !== userId
     ) {
         if (ch && Date.now() > ch.expires_at) await setTokenToUsed(challengeId, "expired");
-        throw fail(401, 'Kode telah kedaluwarsa atau tidak valid.');
+        throw new HttpError(401, 'Kode telah kedaluwarsa atau tidak valid.', ERR.CHALLENGE_EXPIRED);
     }
     if (ch.attempts >= MAX_ATTEMPTS) {
         await setTokenToUsed(challengeId, "locked");
-        throw fail(429, 'Terlalu banyak percobaan. Silahkan minta kode baru!');
+        throw new HttpError(429, 'Terlalu banyak percobaan. Silahkan minta kode baru!', ERR.TOO_MANY_REQUEST);
     }
     const token = String(code ?? '');
     const formatOk = /^\d{6}$/.test(token);
+    // TODO Jika secret telah dienkripsi, ch.secret perlu didekripsi.
     const checkToken = (formatOk && ch.secret !== null)
         ? await verify({ secret: ch.secret, token, period: PERIOD, epochTolerance: PERIOD })
         : { valid: false };
     if (!checkToken.valid) {
         await increaseAttempt(challengeId);
-        throw fail(401, "Kode verifikasi salah!");
+        throw new HttpError(401, "Kode verifikasi salah!", ERR.INVALID_CODE_VERIFICATION);
     }
     setTokenAsVerified(challengeId);
     return { valid: true };
