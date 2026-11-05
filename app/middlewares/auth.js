@@ -29,7 +29,7 @@ const setResponseWithRedirect = (req, res, responseError, redirectTo, status = 4
 export const requireAuth = (req, res, next) => {
     const token = req.signedCookies[COOKIE_NAME];
     if (!token) {
-        setResponseWithRedirect(req, res, { error: "Token tidak valid atau telah kedaluwarsa." }, '/');
+        return setResponseWithRedirect(req, res, { error: "Token tidak valid atau telah kedaluwarsa." }, '/');
     }
     try {
         const payload = verifyToken(token);
@@ -43,7 +43,7 @@ export const requireAuth = (req, res, next) => {
         };
         next();
     } catch (err) {
-        setResponseWithRedirect(req, res, { error: "Sesi tidak valid atau sudah berakhir!" }, '/');
+        return setResponseWithRedirect(req, res, { error: "Sesi tidak valid atau sudah berakhir!" }, '/');
     }
 };
 
@@ -57,7 +57,7 @@ export const requireAuth = (req, res, next) => {
 export const requireFullAuth = (req, res, next) => {
     const token = req.signedCookies[COOKIE_NAME];
     if (!token) {
-        setResponseWithRedirect(req, res, { error: "Token tidak valid atau telah kedaluwarsa." }, '/');
+        return setResponseWithRedirect(req, res, { error: "Token tidak valid atau telah kedaluwarsa." }, '/');
     }
     try {
         const payload = verifyToken(token);
@@ -75,7 +75,7 @@ export const requireFullAuth = (req, res, next) => {
         next();
     } catch (err) {
         const getErrorMessage = err.message || "Sesi tidak valid atau sudah berakhir!";
-        setResponseWithRedirect(req, res, { error: getErrorMessage }, '/');
+        return setResponseWithRedirect(req, res, { error: getErrorMessage }, '/');
     }
 }
 
