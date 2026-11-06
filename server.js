@@ -45,7 +45,7 @@ app.use((err, req, res, next) => {
     if (res.headersSent) return next(err);
     if (err.code === 'EBADCSRFTOKEN') {
         return res.status(403).json({
-            error: "Token CSRF tidak valid atau telah kedaluwarsa! Silakan muat ulang halaman.",
+            error: "Token CSRF tidak valid atau telah kedaluwarsa!.",
             code: ERR.CSRF_INVALID,
         });
     }
