@@ -1,6 +1,8 @@
 import { getCredentials } from "../models/UsersModel.js";
 import bcrypt from 'bcrypt';
 import { checkIsUserHasLoggedIn } from "../middlewares/auth.js";
+import { ERR } from "../error_handlers/ErrorCodes.js";
+import { HttpError } from "../error_handlers/HttpError.js";
 
 /**
  * @typedef {Object} UserIdentities
@@ -25,16 +27,12 @@ import { checkIsUserHasLoggedIn } from "../middlewares/auth.js";
 export async function loginAttempt(usernameReq, passwordReq) {
     const user = await getCredentials(usernameReq);
     if (!user) {
-        const error = new Error("Username atau password salah!");
-        error.status = 401;
-        throw error;
+        throw new HttpError(401, "Username atau password salah!", ERR.INVALID_CREDENTIALS);
     }
     const { id, password, email, role, is_2fa_active } = user;
     const isValidPassword = await bcrypt.compare(passwordReq, password);
     if (!isValidPassword) {
-        const error = new Error("Username atau password salah!");
-        error.status = 401;
-        throw error;
+        throw new HttpError(401, "Username atau password salah!", ERR.INVALID_CREDENTIALS);
     }
     return {
         user: {
