@@ -1,5 +1,9 @@
 import rateLimit from "express-rate-limit";
 
+// TODO
+// Pasang Rate Limit Store agar memudahkan untuk melacak total hits.
+// Jika total hits untuk verifikasi 2fa telah mencapai 3x lipat, arahkan halaman ke-login dan hapus semua cookie yang berkaitan.
+
 const base = {
     windowMs: 15 * 60 * 1000,
     standardHeaders: 'draft-7',
@@ -19,9 +23,10 @@ export const loginLimiter = rateLimit({
 /**
  * Limiter untuk percobaan verifikasi 2FA
  */
-export const twoFaLimiter = rateLimit({
+export const twoFaVerifyLimiter = rateLimit({
     ...base,
-    limit: 15,
+    windowMs: 5 * 60 * 1000,
+    limit: 5,
     message: { error: "Terlalu banyak upaya percobaan verifikasi, coba lagi nanti." },
 });
 
