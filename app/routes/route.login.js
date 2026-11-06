@@ -8,6 +8,7 @@ import { evaluateLogin, touchDevice } from "../services/Device.js";
 import { loginLimiter } from "../middlewares/rateLimit.js";
 import { HttpError } from "../error_handlers/HttpError.js";
 import 'dotenv/config';
+import { ERR } from "../error_handlers/ErrorCodes.js";
 
 const router = Router();
 
@@ -34,16 +35,16 @@ router.get("/", isLoggedIn, (_, res) => {
 router.post("/login", loginLimiter, isLoggedIn, async (req, res) => {
     const body = req.body ?? {};
     if (!body.username || !body.password) {
-        throw new HttpError(401, "Username atau password salah!");
+        throw new HttpError(401, "Username atau password salah!", ERR.INVALID_CREDENTIALS);
     }
     const { username: usernameReq, password: passwordReq } = body;
     const usernameRegex = /[^a-z_\d]/;
     if (usernameRegex.test(usernameReq)) {
-        throw new HttpError(401, "Username atau password salah!");
+        throw new HttpError(401, "Username atau password salah!", ERR.INVALID_CREDENTIALS);
     }
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*])[A-Za-z\d@#$%^&*]{8,20}$/;
     if (!passwordRegex.test(passwordReq)) {
-        throw new HttpError(401, "Username atau password salah!");
+        throw new HttpError(401, "Username atau password salah!", ERR.INVALID_CREDENTIALS);
     }
     const { user } = await loginAttempt(usernameReq, passwordReq);
     const { requires2fa, device, geo, reason } = await evaluateLogin({ user, req });
