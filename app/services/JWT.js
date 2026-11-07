@@ -27,6 +27,7 @@ const cookieOptions = {
 export function signToken(user, isFullAuth = false) {
     return jwt.sign({
         sub: String(user.id),
+        username: user.username,
         email: user.email,
         role: user.role,
         twoFactorEnabled: Boolean(user.twoFactorEnabled),
