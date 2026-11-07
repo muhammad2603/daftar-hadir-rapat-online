@@ -78,10 +78,12 @@ export const getMeetingsHighlight = async (date = false, state = false) => {
     }
     const builder = db(TABLE)
         .select([
+            "id",
             "judul",
             "agenda",
             "ruang",
             "waktu_presensi_dimulai",
+            "slug",
             "created_at"
         ])
         .where("tanggal", byDate);
