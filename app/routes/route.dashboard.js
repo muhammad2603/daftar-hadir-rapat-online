@@ -2,10 +2,21 @@ import { Router } from "express";
 
 const router = Router();
 
+router.use((req, res, next) => {
+    const u = req.user;
+    res.locals.user = {
+        username: u.username,
+        email: u.email,
+        role: u.role,
+        twoFactorEnabled: u.twoFactorEnabled,
+    };
+    next();
+})
+
 router.get("/dashboard", (req, res) => {
     res.render("backend/dashboard", {
         title: "Dashboard",
-        currentNav: "dashboard"
+        currentNav: "dashboard",
     });
 });
 
@@ -66,6 +77,7 @@ router.get("/dashboard/pengaturan", (req, res) => {
 });
 
 router.get("/dashboard/pengaturan/daftar-user", (req, res) => {
+    // TODO Halaman daftar user hanya dapat dilihat oleh Admin
     res.render("backend/daftar_user", {
         title: "Daftar User",
         currentNav: "pengaturan"
