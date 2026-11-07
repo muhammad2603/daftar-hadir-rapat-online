@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { getAllTotalMeetingsSession } from "../services/MeetingsSession.js";
+import {
+    getAllTotalMeetingsSession,
+    getHighlightMeetingsInProgressCurrDay,
+} from "../services/MeetingsSession.js";
 
 const router = Router();
 
@@ -18,6 +21,7 @@ router.get("/dashboard", async (req, res) => {
     res.render("backend/dashboard", {
         title: "Dashboard",
         currentNav: "dashboard",
+        meetingsInProgressCurrDay: await getHighlightMeetingsInProgressCurrDay(),
         totalMeetings: await getAllTotalMeetingsSession(),
     });
 });
