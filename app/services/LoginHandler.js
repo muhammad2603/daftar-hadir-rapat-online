@@ -29,7 +29,7 @@ export async function loginAttempt(usernameReq, passwordReq) {
     if (!user) {
         throw new HttpError(401, "Username atau password salah!", ERR.INVALID_CREDENTIALS);
     }
-    const { id, password, email, role, is_2fa_active } = user;
+    const { id, username, password, email, role, is_2fa_active } = user;
     const isValidPassword = await bcrypt.compare(passwordReq, password);
     if (!isValidPassword) {
         throw new HttpError(401, "Username atau password salah!", ERR.INVALID_CREDENTIALS);
@@ -37,6 +37,7 @@ export async function loginAttempt(usernameReq, passwordReq) {
     return {
         user: {
             id,
+            username,
             email,
             role,
             twoFactorEnabled: is_2fa_active
