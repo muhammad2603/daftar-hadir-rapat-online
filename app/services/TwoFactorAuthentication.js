@@ -30,7 +30,6 @@ import { ERR } from '../error_handlers/ErrorCodes.js';
  * @property {string} userId
  */
 
-
 const PERIOD = Number(process.env.TOTP_PERIOD);
 const SMTP_USER = String(process.env.SMTP_USER);
 const COOLDOWN_MS = 60_000;
@@ -77,6 +76,16 @@ async function createChallenges({ user, purpose }, isSuperseded = false, superse
             attempts: 0,
             expires_at: now + (PERIOD * 1000)
         });
+        // __FIX__
+        /**
+         * Jika pengguna tiba-tiba terputus dari koneksi, transporter akan mengirim Error Code.
+         * Error Log:
+         * 
+         * ErrCode: EDNS
+         * Error: DNS lookup for smtp.gmail.com timed out
+         * 
+         * Server akan mengirim status 500 karena tidak ada yang menangani error tersebut. Tambahkan dierror global di server.js
+         */
         await transporter.sendMail({
             from: '"SIDARO APP" <' + SMTP_USER + '>',
             to: user.email,
