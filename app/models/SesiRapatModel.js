@@ -15,6 +15,7 @@
  */
 
 import db from "../config/config.db.js";
+import { DateTimeParser } from "../services/DateTimeParser.js";
 
 const TABLE = "sesi_rapat";
 
@@ -51,7 +52,7 @@ export const getTotalMeetingsSessionByState = async (state) => {
  * @returns {Promise<number>}
  */
 export const getTotalMeetingsSessionCurrDay = async () => {
-    const currDate = new Date().toLocaleDateString("sv-SE", { timezone: "Asia/Jakarta" });
+    const currDate = DateTimeParser(new Date()).toLocalizedString("yyyy-MM-dd");
     const getTotalCurrDate = await db(TABLE)
         .select()
         .where("tanggal", currDate)
@@ -72,7 +73,7 @@ export const getTotalMeetingsSessionCurrDay = async () => {
 export const getMeetingsHighlight = async (date = false, state = false) => {
     let byDate;
     if (date === false) {
-        byDate = new Date().toLocaleDateString("sv-SE", { timezone: "Asia/Jakarta" });
+        byDate = DateTimeParser(new Date()).toLocalizedString("yyyy-MM-dd");
     } else {
         byDate = date;
     }
@@ -86,7 +87,9 @@ export const getMeetingsHighlight = async (date = false, state = false) => {
             "slug",
             "created_at"
         ])
-        .where("tanggal", byDate);
+        .where("tanggal", byDate)
+        .orderBy("tanggal", "desc")
+        .orderBy("id", "desc");
     if (state !== false) {
         builder.where("state", state);
     }
