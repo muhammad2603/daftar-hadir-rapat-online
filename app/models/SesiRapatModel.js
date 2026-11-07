@@ -1,3 +1,19 @@
+/**
+ * State sesi rapat
+ * 
+ * @typedef {"Belum Dimulai" | "Sedang Berlangsung" | "Selesai"} StatesMeetingOptions
+ */
+
+/**
+ * @typedef {Object[]} MeetingsHighlightReturn
+ * 
+ * @property {string} judul
+ * @property {string} agenda
+ * @property {string} ruang
+ * @property {string} waktu_presensi_dimulai
+ * @property {Date} created_at Waktu rapat dibuat/disimpan direcord database
+ */
+
 import db from "../config/config.db.js";
 
 const TABLE = "sesi_rapat";
@@ -17,7 +33,7 @@ export const getTotalMeetingsSession = async () => {
 /**
  * Mengambil seluruh total sesi rapat berdasarkan state
  * 
- * @param {"Belum Dimulai" | "Sedang Berlangsung" | "Selesai"} state
+ * @param {StatesMeetingOptions} state
  * 
  * @returns {Promise<number>}
  */
@@ -42,4 +58,35 @@ export const getTotalMeetingsSessionCurrDay = async () => {
         .count("id AS total_current_day")
         .first();
     return getTotalCurrDate.total_current_day;
+}
+
+/**
+ * Mengambil highlights sesi rapat.
+ * 
+ * @param {string} [date]
+ * Cari berdasarkan tanggal rapat, default `false`. Format "tahun-bulan-tanggal".
+ * @param {StatesMeetingOptions} [state] Cari berdasarkan state rapat, default `false`.
+ * 
+ * @returns {Promise<MeetingsHighlightReturn>}
+ */
+export const getMeetingsHighlight = async (date = false, state = false) => {
+    let byDate;
+    if (date === false) {
+        byDate = new Date().toLocaleDateString("sv-SE", { timezone: "Asia/Jakarta" });
+    } else {
+        byDate = date;
+    }
+    const builder = db(TABLE)
+        .select([
+            "judul",
+            "agenda",
+            "ruang",
+            "waktu_presensi_dimulai",
+            "created_at"
+        ])
+        .where("tanggal", byDate);
+    if (state !== false) {
+        builder.where("state", state);
+    }
+    return await builder;
 }
