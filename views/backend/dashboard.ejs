@@ -95,54 +95,60 @@
                 </a>
             </div>
             <div class="space-y-3">
-                <!-- __COMMENT__ Data ini hanya Sesi dengan state Sedang Berlangsung saja -->
-                <div class="w-full flex flex-col lg:flex-row gap-0 lg:gap-3 bg-white rounded-xl border border-slate-200 hover:border-secondary hover:shadow-md p-5 text-left transition-all group">
-                    <div class="flex-1 shrink-0">
-                        <div class="flex items-center gap-2 mb-2">
-                            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
-                                <span class="size-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-                                <span>Sedang Berlangsung</span>
-                            </span>
+                <% if(meetingsInProgressCurrDay.length > 0) { %>
+                    <% meetingsInProgressCurrDay.forEach((row) => { %>
+                        <div class="w-full flex flex-col lg:flex-row gap-0 lg:gap-3 bg-white rounded-xl border border-slate-200 hover:border-secondary hover:shadow-md p-5 text-left transition-all group">
+                            <div class="flex-1 shrink-0">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
+                                        <span class="size-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                                        <span>Sedang Berlangsung</span>
+                                    </span>
+                                </div>
+                                <h3 class="font-semibold text-slate-800 truncate group-hover:text-secondary transition-colors"><%= row.judul %></h3>
+                                <p class="text-sm text-gray-500 line-clamp-2 mt-0.5"><%= row.agenda %></p>
+                                <p class="text-xs text-slate-500 mt-2.5">
+                                    <span><%= row.created_at %> <span class="mx-1">•</span> <%= row.waktu_presensi_dimulai %> <span class="mx-1">•</span> <%= row.ruang %></span>
+                                </p>
+                            </div>
+                            <div class="flex flex-row lg:flex-col gap-3 sm:gap-4 justify-end sm:justify-normal mt-3 shrink-0 w-full lg:w-30">
+                                <button
+                                    data-session-id="<%= row.id %>"
+                                    data-pop-up-type="popUpConfirm"
+                                    data-pop-up-message="<%= row.judul %>"
+                                    class="pop-up-btn flex justify-center items-center gap-2 py-2 px-2 border border-solid border-red-300 text-[11px] rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:not-disabled:bg-red-100 hover:not-disabled:border-red-400 disabled:cursor-not-allowed disabled:opacity-40">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-octagon-x preview-icon size-4">
+                                        <path d="m15 9-6 6" />
+                                        <path
+                                            d="M2.586 16.726A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2h6.624a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586z" />
+                                        <path d="m9 9 6 6" />
+                                    </svg>
+                                    <span>Akhiri Sesi</span>
+                                </button>
+                                <a href="/dashboard/detail-rapat/<%= row.slug %>"
+                                    class="flex justify-center items-center gap-2 py-2 px-2 border border-solid border-blue-300 text-[11px] rounded-md bg-blue-50 text-blue-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-blue-100 hover:border-blue-400">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-scan-eye preview-icon size-4">
+                                        <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+                                        <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+                                        <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+                                        <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+                                        <circle cx="12" cy="12" r="1" />
+                                        <path d="M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0" />
+                                    </svg>
+                                    <span>Detail</span>
+                                </a>
+                            </div>
                         </div>
-                        <h3 class="font-semibold text-slate-800 truncate group-hover:text-secondary transition-colors">Rapat Koordinasi Triwulan</h3>
-                        <p class="text-sm text-gray-500 line-clamp-2 mt-0.5">Evaluasi program kerja, penyusunan rencana anggaran, dan koordinasi
-                            pelaksanaan kegiatan antar instansi.</p>
-                        <p class="text-xs text-slate-500 mt-2.5">
-                            <span><time datetime="2026-09-22">22 September 2026</time> • 11:30 • Ruang Command Control</span>
-                        </p>
+                    <% }) %>
+                <% } else { %>
+                    <div class="bg-white rounded-xl border py-12 border-slate-200">
+                        <p class="text-center text-sm text-gray-600">Tidak ada sesi rapat yang sedang berlangsung hari ini.</p>
                     </div>
-                    <div class="flex flex-row lg:flex-col gap-3 sm:gap-4 justify-end sm:justify-normal mt-3 shrink-0 w-full lg:w-30">
-                        <button
-                            data-session-id="1"
-                            data-pop-up-type="popUpConfirm"
-                            data-pop-up-message="Rapat Koordinasi Triwulan"
-                            class="pop-up-btn flex justify-center items-center gap-2 py-2 px-2 border border-solid border-red-300 text-[11px] rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:not-disabled:bg-red-100 hover:not-disabled:border-red-400 disabled:cursor-not-allowed disabled:opacity-40">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="lucide lucide-octagon-x preview-icon size-4">
-                                <path d="m15 9-6 6" />
-                                <path
-                                    d="M2.586 16.726A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2h6.624a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586z" />
-                                <path d="m9 9 6 6" />
-                            </svg>
-                            <span>Akhiri Sesi</span>
-                        </button>
-                        <a href="/dashboard/detail-rapat/{rapat-identity}"
-                            class="flex justify-center items-center gap-2 py-2 px-2 border border-solid border-blue-300 text-[11px] rounded-md bg-blue-50 text-blue-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-blue-100 hover:border-blue-400">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="lucide lucide-scan-eye preview-icon size-4">
-                                <path d="M3 7V5a2 2 0 0 1 2-2h2" />
-                                <path d="M17 3h2a2 2 0 0 1 2 2v2" />
-                                <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
-                                <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
-                                <circle cx="12" cy="12" r="1" />
-                                <path d="M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0" />
-                            </svg>
-                            <span>Detail</span>
-                        </a>
-                    </div>
-                </div>
+                <% } %>
             </div>
         </main>
     </div>
