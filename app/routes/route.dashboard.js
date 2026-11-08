@@ -3,6 +3,7 @@ import {
     getAllTotalMeetingsSession,
     getHighlightMeetingsInProgressCurrDay,
     getAllHighlightMeetingsIsNotCompleted,
+    getHighlightMeetingsWithParticipants,
 } from "../services/MeetingsSession.js";
 
 const router = Router();
@@ -35,10 +36,13 @@ router.get("/dashboard/sesi-rapat/kelola", async (req, res) => {
     });
 });
 
-router.get("/dashboard/monitor-kehadiran", (req, res) => {
+router.get("/dashboard/monitor-kehadiran", async (req, res) => {
+    const { meetingsInProgress, meetingsCompleted } = await getHighlightMeetingsWithParticipants();
     res.render("backend/monitor_kehadiran", {
         title: "Monitor Kehadiran",
-        currentNav: "monitor-kehadiran"
+        currentNav: "monitor-kehadiran",
+        meetingsInProgress,
+        meetingsCompleted,
     });
 });
 
