@@ -4,32 +4,6 @@
  * @typedef {"Belum Dimulai" | "Sedang Berlangsung" | "Selesai"} StatesMeetingOptions
  */
 
-/**
- * @typedef {Object[]} MeetingsHighlightReturn
- * 
- * @property {number} id
- * @property {string} judul
- * @property {string} agenda
- * @property {string} ruang
- * @property {string} waktu_presensi_dimulai
- * @property {string} slug
- * @property {Date} created_at Waktu rapat dibuat/disimpan direcord database
- * @property {number} total_kehadiran
- */
-
-/**
- * @typedef {Object[]} AllMeetingsHighlightReturn
- * 
- * @property {number} id
- * @property {string} judul
- * @property {string} agenda
- * @property {string} ruang
- * @property {string} waktu_presensi_dimulai
- * @property {string} slug
- * @property {string} state
- * @property {Date} created_at Waktu rapat dibuat/disimpan direcord database
- */
-
 import db from "../config/config.db.js";
 import { DateTimeParser } from "../services/DateTimeParser.js";
 
@@ -84,7 +58,7 @@ export const getTotalMeetingsSessionCurrDay = async () => {
  * Cari berdasarkan tanggal rapat dengan format "tahun-bulan-tanggal". Set `false` jika tidak ingin mencari berdasarkan tanggal. Set `current` jika ingin mencari berdasarkan tanggal saat ini.
  * @param {StatesMeetingOptions} [state] Cari berdasarkan state rapat, default `false`.
  * 
- * @returns {Promise<MeetingsHighlightReturn>}
+ * @returns {Promise<Object[]>}
  */
 export const getMeetingsHighlight = async (date = false, state = false, withParticipants = false) => {
     let byDate;
@@ -129,7 +103,7 @@ export const getMeetingsHighlight = async (date = false, state = false, withPart
  * @param {string} [date]
  * Cari berdasarkan tanggal rapat, default `false`. Format "tahun-bulan-tanggal".
  * 
- * @returns {Promise<AllMeetingsHighlightReturn>}
+ * @returns {Promise<Object[]>}
  */
 export const getAllMeetingsHighlightWithoutCompleted = async (date = false) => {
     let byDate;
@@ -152,4 +126,30 @@ export const getAllMeetingsHighlightWithoutCompleted = async (date = false) => {
         .whereNot("state", "Selesai")
         .orderBy("id", "desc")
         .orderBy("created_at", "desc")
+}
+
+/**
+ * Mengambil total sesi rapat yang telah selesai
+ */
+export const getTotalMeetingsSessionCompleted = async () => {
+    const getTotal = await db(TABLE)
+        .where("state", "Selesai")
+        .count("id as total_completed")
+        .first();
+    return getTotal.total_completed;
+}
+
+/**
+ * Mengambil sesi rapat yang telah selesai beserta total kehadiran peserta
+ */
+export const getMeetingsCompletedWithParticipants = async () => {
+    return db(TABLE)
+        .select(
+            "sesi_rapat.*",
+            db("sesi_rapat_kehadiran")
+                .whereRaw("sesi_rapat.id = sesi_rapat_kehadiran.sesi_rapat_id")
+                .count("*")
+                .as("total_kehadiran"),
+        )
+        .where("sesi_rapat.state", "Selesai");
 }
