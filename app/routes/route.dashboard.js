@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
     getAllTotalMeetingsSession,
     getHighlightMeetingsInProgressCurrDay,
+    getAllHighlightMeetingsIsNotCompleted,
 } from "../services/MeetingsSession.js";
 
 const router = Router();
@@ -26,10 +27,11 @@ router.get("/dashboard", async (req, res) => {
     });
 });
 
-router.get("/dashboard/sesi-rapat/kelola", (req, res) => {
+router.get("/dashboard/sesi-rapat/kelola", async (req, res) => {
     res.render("backend/kelola_sesi_rapat", {
         title: "Kelola Sesi Rapat",
-        currentNav: "kelola-sesi-rapat"
+        currentNav: "kelola-sesi-rapat",
+        allMeetingsNotCompleted: await getAllHighlightMeetingsIsNotCompleted(),
     });
 });
 
