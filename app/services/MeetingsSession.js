@@ -31,6 +31,18 @@ export const getAllTotalMeetingsSession = async () => {
 }
 
 /**
+ * Mengambil highlight semua rapat kecuali yang telah selesai
+ */
+export const getAllHighlightMeetingsIsNotCompleted = async () => {
+    const meetings = await SesiRapatModel.getAllMeetingsHighlightWithoutCompleted();
+    return meetings.map((row) => ({
+        ...row,
+        waktu_presensi_dimulai: row.waktu_presensi_dimulai.slice(0, 5),
+        created_at: DateTimeParser(row.created_at).toLocalizedString("dd MMMM yyyy"),
+    }));
+}
+
+/**
  * Mengambil highlight rapat yang sedang berlangsung hari ini
  */
 export const getHighlightMeetingsInProgressCurrDay = async () => {
