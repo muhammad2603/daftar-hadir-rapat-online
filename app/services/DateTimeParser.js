@@ -11,11 +11,26 @@
  * @property {LocalizedStringFn} toLocalizedString
  */
 
-import { format } from "date-fns";
+/**
+ * @callback OnMinutesFn
+ * 
+ * @param {Date} target Target tanggal dan waktu
+ * 
+ * @return {number}
+ * Mengembalikan positif jika perbandingan dari masa lalu ke masa depan, mengembalikan negatif jika dari sebaliknya.
+ */
+
+/**
+ * @typedef {Object} DateTimeDifferencesReturn
+ * 
+ * @property {OnMinutesFn} onMinutes
+ */
+
+import { format, differenceInMinutes } from "date-fns";
 import { id } from "date-fns/locale";
 
 /**
- * Parser tanggal dan waktu menggunakan date-fns.
+ * Parser tanggal dan waktu menggunakan date-fns
  * 
  * @param {Date} datetime
  * @returns {DateTimeParserReturn}
@@ -25,6 +40,24 @@ export function DateTimeParser(datetime) {
     return {
         toLocalizedString: (fmt = "dd MMMM yyyy HH:mm:ss") => {
             return format(datetime, fmt, { locale: id });
+        },
+    }
+}
+
+/**
+ * Menghitung perbedaan tanggal dan waktu
+ * 
+ * @param {Date} from
+ * 
+ * @returns {DateTimeDifferencesReturn}
+ */
+export function DateTimeDifferences(from) {
+    return {
+        onMinutes: (target) => {
+            return differenceInMinutes(
+                target,
+                from
+            );
         },
     }
 }
