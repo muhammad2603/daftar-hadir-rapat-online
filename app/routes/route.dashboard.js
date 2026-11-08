@@ -4,7 +4,10 @@ import {
     getHighlightMeetingsInProgressCurrDay,
     getAllHighlightMeetingsIsNotCompleted,
     getHighlightMeetingsWithParticipants,
+    meetingsCompletedWithPresences,
 } from "../services/MeetingsSession.js";
+import { getTotalMeetingsSessionCompleted } from "../models/SesiRapatModel.js";
+import { getTotalPresencesOnMeetingsCompleted } from "../models/SesiRapatKehadiranModel.js";
 
 const router = Router();
 
@@ -67,10 +70,13 @@ router.get("/dashboard/sesi-rapat/edit/abc-def", (req, res) => {
     });
 });
 
-router.get("/dashboard/sesi-rapat/riwayat", (req, res) => {
+router.get("/dashboard/sesi-rapat/riwayat", async (req, res) => {
     res.render("backend/riwayat_sesi_rapat", {
         title: "Riwayat Sesi Rapat",
-        currentNav: "riwayat-sesi-rapat"
+        currentNav: "riwayat-sesi-rapat",
+        totalMeetingsCompleted: await getTotalMeetingsSessionCompleted(),
+        totalPresencesOnMeetingsCompleted: await getTotalPresencesOnMeetingsCompleted(),
+        meetingsCompletedWithPresences: await meetingsCompletedWithPresences(),
     });
 });
 
