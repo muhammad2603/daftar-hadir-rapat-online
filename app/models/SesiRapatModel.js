@@ -11,6 +11,19 @@
  * @property {string} agenda
  * @property {string} ruang
  * @property {string} waktu_presensi_dimulai
+ * @property {string} slug
+ * @property {Date} created_at Waktu rapat dibuat/disimpan direcord database
+ */
+
+/**
+ * @typedef {Object[]} AllMeetingsHighlightReturn
+ * 
+ * @property {string} judul
+ * @property {string} agenda
+ * @property {string} ruang
+ * @property {string} waktu_presensi_dimulai
+ * @property {string} slug
+ * @property {string} state
  * @property {Date} created_at Waktu rapat dibuat/disimpan direcord database
  */
 
@@ -94,4 +107,35 @@ export const getMeetingsHighlight = async (date = false, state = false) => {
         builder.where("state", state);
     }
     return await builder;
+}
+
+/**
+ * Mengambil semua highlight rapat kecuali yang telah selesai
+ * 
+ * @param {string} [date]
+ * Cari berdasarkan tanggal rapat, default `false`. Format "tahun-bulan-tanggal".
+ * 
+ * @returns {Promise<AllMeetingsHighlightReturn>}
+ */
+export const getAllMeetingsHighlightWithoutCompleted = async (date = false) => {
+    let byDate;
+    if (date === false) {
+        byDate = DateTimeParser(new Date()).toLocalizedString("yyyy-MM-dd");
+    } else {
+        byDate = date;
+    }
+    return db(TABLE)
+        .select([
+            "id",
+            "judul",
+            "agenda",
+            "ruang",
+            "waktu_presensi_dimulai",
+            "slug",
+            "state",
+            "created_at"
+        ])
+        .whereNot("state", "Selesai")
+        .orderBy("id", "desc")
+        .orderBy("created_at", "desc")
 }
