@@ -7,17 +7,20 @@
 /**
  * @typedef {Object[]} MeetingsHighlightReturn
  * 
+ * @property {number} id
  * @property {string} judul
  * @property {string} agenda
  * @property {string} ruang
  * @property {string} waktu_presensi_dimulai
  * @property {string} slug
  * @property {Date} created_at Waktu rapat dibuat/disimpan direcord database
+ * @property {number} total_kehadiran
  */
 
 /**
  * @typedef {Object[]} AllMeetingsHighlightReturn
  * 
+ * @property {number} id
  * @property {string} judul
  * @property {string} agenda
  * @property {string} ruang
@@ -78,33 +81,44 @@ export const getTotalMeetingsSessionCurrDay = async () => {
  * Mengambil highlights sesi rapat.
  * 
  * @param {string} [date]
- * Cari berdasarkan tanggal rapat, default `false`. Format "tahun-bulan-tanggal".
+ * Cari berdasarkan tanggal rapat dengan format "tahun-bulan-tanggal". Set `false` jika tidak ingin mencari berdasarkan tanggal. Set `current` jika ingin mencari berdasarkan tanggal saat ini.
  * @param {StatesMeetingOptions} [state] Cari berdasarkan state rapat, default `false`.
  * 
  * @returns {Promise<MeetingsHighlightReturn>}
  */
-export const getMeetingsHighlight = async (date = false, state = false) => {
+export const getMeetingsHighlight = async (date = false, state = false, withParticipants = false) => {
     let byDate;
-    if (date === false) {
+    if (date === "current") {
         byDate = DateTimeParser(new Date()).toLocalizedString("yyyy-MM-dd");
-    } else {
+    } else if (date !== false) {
         byDate = date;
     }
     const builder = db(TABLE)
         .select([
-            "id",
+            "sesi_rapat.id",
             "judul",
             "agenda",
             "ruang",
             "waktu_presensi_dimulai",
             "slug",
-            "created_at"
+            "state",
+            "created_at",
         ])
-        .where("tanggal", byDate)
         .orderBy("tanggal", "desc")
         .orderBy("id", "desc");
+    if (date !== false) {
+        builder.where("tanggal", byDate);
+    }
     if (state !== false) {
         builder.where("state", state);
+    }
+    if (withParticipants) {
+        builder.select(
+            db("sesi_rapat_kehadiran")
+                .whereRaw("sesi_rapat_kehadiran.sesi_rapat_id = sesi_rapat.id")
+                .count("*")
+                .as("total_kehadiran")
+        );
     }
     return await builder;
 }
