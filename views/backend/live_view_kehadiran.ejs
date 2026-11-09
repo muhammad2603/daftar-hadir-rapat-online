@@ -25,7 +25,7 @@
                             </svg>
                             <span>Kembali ke Monitor Kehadiran</span>
                         </a>
-                        <h2 class="font-display text-2xl font-bold text-gray-900">Rapat Statistik dari BPS Batang Hari</h2>
+                        <h2 class="font-display text-2xl font-bold text-gray-900"><%= meetingData.judul %></h2>
                         <div class="flex flex-wrap gap-x-4 mt-1 text-xs text-gray-400 print:mt-3 print:text-base print:text-black/75">
                             <span class="inline-flex gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -37,7 +37,7 @@
                                     <path d="M8 2v3" />
                                     <rect x="3" y="3" width="18" height="18" rx="2" />
                                 </svg>
-                                <time datetime="2026-09-20">20 September 2026</time>
+                                <span><%= meetingData.tanggal %></span>
                             </span>
                             <span class="inline-flex gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -46,7 +46,7 @@
                                     <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
                                     <circle cx="12" cy="10" r="3" />
                                 </svg>
-                                <span>Ruang CoC</span>
+                                <span><%= meetingData.ruang %></span>
                             </span>
                             <span class="inline-flex gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -55,12 +55,12 @@
                                     <circle cx="12" cy="8" r="5" />
                                     <path d="M20 21a8 8 0 0 0-16 0" />
                                 </svg>
-                                <span>Muhammad Fattahillah. Mz</span>
+                                <span><%= meetingData.pimpinan_rapat %></span>
                             </span>
                         </div>
                     </div>
                     <div class="flex items-center gap-3 shrink-0 print:hidden">
-                        <button id="btnShowQrCode" type="button" class="flex items-center gap-1.5 px-3 py-2 border border-blue-900/20 text-blue-900 text-xs font-medium rounded-xl hover:bg-blue-50 transition cursor-pointer">
+                        <button id="btnShowQrCode" type="button" class="flex items-center gap-1.5 px-3 py-2 border border-blue-900/20 text-blue-900 text-xs font-medium rounded-xl hover:bg-blue-50 transition cursor-pointer disabled:cursor-not-allowed disabled:opacity-60" <%= (meetingData.state !== "Sedang Berlangsung") ? "disabled" : "" %>>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                 class="size-4">
@@ -72,68 +72,82 @@
                             </svg>
                             <span>Bagikan</span>
                         </button>
-                        <button id="btnEndSession" type="button" class="flex items-center gap-1.5 px-3 py-2 bg-red-50 text-red-600 text-xs font-semibold border border-solid border-red-300 rounded-xl cursor-pointer transition-colors duration-150 ease-in hover:not-disabled:bg-red-100 hover:not-disabled:border-red-400 disabled:opacity-40 disabled:cursor-not-allowed">Akhiri Sesi</button>
+                        <button id="btnEndSession" data-meeting-id="<%= meetingData.id %>" type="button" class="flex items-center gap-1.5 px-3 py-2 bg-red-50 text-red-600 text-xs font-semibold border border-solid border-red-300 rounded-xl cursor-pointer transition-colors duration-150 ease-in hover:not-disabled:bg-red-100 hover:not-disabled:border-red-400 disabled:opacity-60 disabled:cursor-not-allowed" <%= (meetingData.state !== "Sedang Berlangsung") ? "disabled" : "" %>>Akhiri Sesi</button>
                     </div>
                 </div>
-                <div class="flex items-center justify-between px-4 py-3 rounded-xl border bg-amber-50 border-amber-200 print:hidden">
-                    <div class="flex items-center gap-2">
-                        <span class="size-2 rounded-full bg-amber-500 animate-pulse"></span>
-                        <span class="text-sm font-semibold text-amber-700">Sesi sedang berlangsung — absensi terbuka</span>
+                <% if(meetingData.state === "Sedang Berlangsung") { %>
+                    <div class="flex items-center justify-between px-4 py-3 rounded-xl border bg-amber-50 border-amber-200 print:hidden">
+                        <div class="flex items-center gap-2">
+                            <span class="size-2 rounded-full bg-amber-500 animate-pulse"></span>
+                            <span class="text-sm font-semibold text-amber-700">Sesi sedang berlangsung — absensi terbuka</span>
+                        </div>
+                        <span class="text-xs text-gray-400">Auto-refresh setiap 3 detik</span>
                     </div>
-                    <span class="text-xs text-gray-400">Auto-refresh setiap 3 detik</span>
-                </div>
+                <% } else { %>
+                    <div class="flex items-center justify-between px-4 py-3 rounded-xl border bg-gray-50 border-gray-200 print:hidden">
+                        <div class="flex items-center gap-2">
+                            <span class="size-2 rounded-full bg-gray-500"></span>
+                            <span class="text-sm font-semibold text-gray-500">Sesi telah berakhir, tidak dapat memantau kehadiran secara berkala.</span>
+                        </div>
+                    </div>
+                <% } %>
                 <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden print:mt-12 print:shadow-none print:border-gray-200 print:rounded-none">
                     <div class="px-6 py-4 border-b border-gray-50 flex items-center justify-between print:hidden">
                         <h3 class="font-semibold text-gray-800">Daftar Peserta Hadir</h3>
-                        <span class="text-xs text-gray-400 bg-gray-50 border border-gray-100 px-3 py-1 rounded-full font-semibold">1 Peserta</span>
+                        <span class="text-xs text-gray-400 bg-gray-50 border border-gray-100 px-3 py-1 rounded-full font-semibold"><%= totalParticipants %> Peserta</span>
                     </div>
                     <div class="p-6 print:py-3.5 print:px-2">
-                        <!-- __COMMENT__ Gunakan blok ini saat belum ada peserta yang hadir -->
-                        <div class="text-center py-16 text-gray-400 hidden">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="lucide lucide-users-round preview-icon size-16 mx-auto mb-3 opacity-30">
-                                <path d="M18 21a8 8 0 0 0-16 0" />
-                                <circle cx="10" cy="8" r="5" />
-                                <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" />
-                            </svg>
-                            <p class="text-sm font-medium">Belum Ada Peserta yang Hadir</p>
-                            <p class="text-xs mt-1">Bagikan tautan absensi kepada peserta rapat</p>
-                        </div>
-                        <!-- __COMMENT__ Gunakan blok ini saat sudah ada peserta yang hadir (>= 1) -->
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-sm">
-                                <thead class="text-gray-400 print:text-black">
-                                    <tr class="border-b border-gray-100 print:border-gray-200">
-                                        <th class="text-left py-2.5 px-3 text-xs font-semibold  uppercase tracking-wider w-10 print:hidden">No</th>
-                                        <th class="text-left py-2.5 px-3 text-xs font-semibold  uppercase tracking-wider">Nama Pegawai</th>
-                                        <th class="text-left py-2.5 px-3 text-xs font-semibold  uppercase tracking-wider">Jabatan</th>
-                                        <th class="text-left py-2.5 px-3 text-xs font-semibold  uppercase tracking-wider">OPD</th>
-                                        <th class="text-left py-2.5 px-3 text-xs font-semibold  uppercase tracking-wider">Nomor HP</th>
-                                        <th class="text-left py-2.5 px-3 text-xs font-semibold  uppercase tracking-wider">Tanda Tangan</th>
-                                        <th class="text-left py-2.5 px-3 text-xs font-semibold  uppercase tracking-wider print:hidden">Waktu Hadir</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-gray-50">
-                                    <tr class="hover:bg-gray-50/50 transition-colors group">
-                                        <td class="py-3 px-3 text-gray-400 text-sm print:hidden print:text-black/75">1</td>
-                                        <td class="py-3 px-3"><p class="font-medium text-gray-600 text-sm print:text-black/75">Susan Shannon</p></td>
-                                        <td class="py-3 px-3 text-gray-600 text-sm leading-snug max-w-40 print:text-black/75">Kepala Bagian Umum</td>
-                                        <td class="py-3 px-3 text-gray-600 text-sm print:text-black/75">Setwan Batang Hari</td>
-                                        <td class="py-3 px-3 text-gray-600 text-sm tracking-wider print:text-black/75">082280343857</td>
-                                        <td class="py-3 px-3">
-                                            <img
-                                                id="ttdImage"
-                                                src="https://i.pinimg.com/736x/f0/a9/93/f0a993fdc4e1d81651f1d820c746fc3f.jpg"
-                                                alt="Tanda Tangan Peserta"
-                                                title="Klik untuk melihat full view"
-                                                class="h-10 w-24 object-contain border border-gray-100 rounded bg-white cursor-pointer print:border-none" />
-                                        </td>
-                                        <td class="py-3 px-3 text-gray-500 text-sm print:hidden">13:45</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <% if(totalParticipants > 0) { %>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm">
+                                    <thead class="text-gray-400 print:text-black">
+                                        <tr class="border-b border-gray-100 print:border-gray-200">
+                                            <th class="text-left py-2.5 px-3 text-xs font-semibold  uppercase tracking-wider w-10 print:hidden">No
+                                            </th>
+                                            <th class="text-left py-2.5 px-3 text-xs font-semibold  uppercase tracking-wider">Nama Pegawai</th>
+                                            <th class="text-left py-2.5 px-3 text-xs font-semibold  uppercase tracking-wider">Jabatan</th>
+                                            <th class="text-left py-2.5 px-3 text-xs font-semibold  uppercase tracking-wider">OPD</th>
+                                            <th class="text-left py-2.5 px-3 text-xs font-semibold  uppercase tracking-wider">Nomor HP</th>
+                                            <th class="text-left py-2.5 px-3 text-xs font-semibold  uppercase tracking-wider">Tanda Tangan</th>
+                                            <th class="text-left py-2.5 px-3 text-xs font-semibold  uppercase tracking-wider print:hidden">Waktu
+                                                Hadir</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-50">
+                                        <% listParticipants.forEach((row, idx) => { %>
+                                            <tr class="hover:bg-gray-50/50 transition-colors group">
+                                                <td class="py-3 px-3 text-gray-400 text-sm print:hidden print:text-black/75"><%= ++idx %></td>
+                                                <td class="py-3 px-3">
+                                                    <p class="participant-name font-medium text-gray-600 text-sm print:text-black/75"><%= row.nama_pegawai %></p>
+                                                </td>
+                                                <td class="py-3 px-3 text-gray-600 text-sm leading-snug max-w-40 print:text-black/75"><%= row.jabatan %></td>
+                                                <td class="py-3 px-3 text-gray-600 text-sm print:text-black/75"><%= row.nama_opd %></td>
+                                                <td class="py-3 px-3 text-gray-600 text-sm tracking-wider print:text-black/75"><%= row.nomor_hp %></td>
+                                                <td class="py-3 px-3">
+                                                    <!-- TODO Source tanda tangan peserta harus diambil melalui endpoint -->
+                                                    <img src="https://i.pinimg.com/736x/f0/a9/93/f0a993fdc4e1d81651f1d820c746fc3f.jpg"
+                                                        alt="Tanda Tangan <%= row.nama_pegawai %>" title="Klik untuk melihat full view"
+                                                        class="ttd-image h-10 w-24 object-contain border border-gray-100 rounded bg-white cursor-pointer print:border-none" />
+                                                </td>
+                                                <td class="time-presence py-3 px-3 text-gray-500 text-sm print:hidden"><%= row.waktu_kehadiran %></td>
+                                            </tr>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <% } else { %>
+                            <div class="text-center py-16 text-gray-400 hidden">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    class="lucide lucide-users-round preview-icon size-16 mx-auto mb-3 opacity-30">
+                                    <path d="M18 21a8 8 0 0 0-16 0" />
+                                    <circle cx="10" cy="8" r="5" />
+                                    <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" />
+                                </svg>
+                                <p class="text-sm font-medium">Belum Ada Peserta yang Hadir</p>
+                                <p class="text-xs mt-1">Bagikan tautan absensi kepada peserta rapat</p>
+                            </div>
+                        <% } %>
                     </div>
                 </div>
             </div>
@@ -162,7 +176,7 @@
                 <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
                     <div>
                         <h2 class="font-display text-lg font-bold text-gray-900">Bagikan Tautan Absensi</h2>
-                        <p class="text-xs text-gray-400 mt-0.5 truncate max-w-70">Rapat Finalisasi APBD Tahun 2026</p>
+                        <p class="text-xs text-gray-400 mt-0.5 truncate max-w-70"><%= meetingData.judul %></p>
                     </div>
                     <button id="btnCloseQrCode" title="Tutup" class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 cursor-pointer hover:bg-gray-100 transition">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -176,8 +190,7 @@
                 <div class="p-6 space-y-5">
                     <div class="flex flex-col items-center">
                         <div class="p-3 border-2 border-gray-100 rounded-2xl bg-white">
-                            <!-- TODO source QR Code harus difetch ke internal API QR Code -->
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=https%3A%2F%2Fstir-chomp-77468054.figma.site%2F%23attend%2F1582e23b-55da-4df4-a322-81adafd3a135&color=1B3A5C&bgcolor=FFFFFF&margin=16"
+                            <img src="/api/meetings/qr-presence/<%= meetingData.slug_kehadiran %>"
                                 alt="QR Code"
                                 width="200"
                                 height="200"
@@ -191,8 +204,8 @@
                         <div class="flex-1 h-px bg-gray-200"></div>
                     </div>
                     <div class="flex gap-2">
-                        <div class="flex-1 min-w-0 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-gray-600 font-mono truncate">https://stir-chomp-77468054.figma.site/#attend/1582e23b-55da-4df4-a322-81adafd3a135</div>
-                        <button type="button" id="copyLink" data-link="https://stir-chomp-77468054.figma.site/#attend/1582e23b-55da-4df4-a322-81adafd3a135" class="shrink-0 px-4 py-2.5 rounded-xl text-sm font-semibold transition bg-blue-900 text-white cursor-copy hover:not-disabled:bg-blue-hover disabled:opacity-40">Salin</button>
+                        <div class="flex-1 min-w-0 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-gray-600 font-mono truncate"><%= link_kehadiran %></div>
+                        <button type="button" id="copyLink" data-link="<%= link_kehadiran %>" class="shrink-0 px-4 py-2.5 rounded-xl text-sm font-semibold transition bg-blue-900 text-white cursor-copy hover:not-disabled:bg-blue-hover disabled:opacity-40">Salin</button>
                     </div>
                     <p class="text-xs text-amber-600 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2">Catatan: Tautan ini hanya aktif selama sesi rapat berlangsung.</p>
                 </div>
@@ -203,7 +216,7 @@
                 <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
                     <div>
                         <h2 class="font-display text-lg font-bold text-gray-900">Tanda Tangan Peserta</h2>
-                        <p class="text-xs text-gray-400 mt-0.5 truncate max-w-70">Nama Peserta: Susan Shannon</p>
+                        <p class="text-xs text-gray-400 mt-0.5 truncate max-w-70">Nama Peserta: <span id="participantName"></span></p>
                     </div>
                     <button
                         id="btnCloseTtdImage"
@@ -220,11 +233,10 @@
                 <div class="p-6 space-y-5">
                     <div class="flex flex-col items-center">
                         <div class="p-3 border-2 border-gray-100 rounded-2xl bg-white">
-                            <!-- TODO source tanda tangan peserta harus melalui request ke internal API, karena gambar tidak disimpan secara publik -->
-                            <img src="https://i.pinimg.com/736x/f0/a9/93/f0a993fdc4e1d81651f1d820c746fc3f.jpg"
-                                alt="Tanda tangan Susan Shannon" width="200" height="200" class="rounded-lg">
+                            <img src=""
+                                width="200" height="200" class="rounded-lg">
                         </div>
-                        <p class="font-semibold text-sm text-gray-400 mt-4.5">Waktu Hadir: 13.45</p>
+                        <p class="font-semibold text-sm text-gray-400 mt-4.5">Waktu Hadir: <span id="timePresence"></span></p>
                     </div>
                 </div>
             </div>
