@@ -5,7 +5,8 @@ import {
     getAllHighlightMeetingsIsNotCompleted,
     getHighlightMeetingsWithParticipants,
     meetingsCompletedWithPresences,
-    meetingsInProgressWithLinkAttendance
+    meetingsInProgressWithLinkAttendance,
+    meetingSession,
 } from "../services/MeetingsSession.js";
 import { getTotalMeetingsSessionCompleted } from "../models/SesiRapatModel.js";
 import { getTotalPresencesOnMeetingsCompleted } from "../models/SesiRapatKehadiranModel.js";
@@ -64,10 +65,12 @@ router.get("/dashboard/sesi-rapat/detail/abc-def", (req, res) => {
     });
 });
 
-router.get("/dashboard/sesi-rapat/edit/abc-def", (req, res) => {
+router.get("/dashboard/sesi-rapat/edit/:meetingSlug", async (req, res) => {
+    const slug = req.params.meetingSlug;
     res.render("backend/edit_sesi_rapat", {
         title: "Edit Sesi Rapat",
-        currentNav: "kelola-sesi-rapat"
+        currentNav: "kelola-sesi-rapat",
+        meetingData: await meetingSession(slug),
     });
 });
 
