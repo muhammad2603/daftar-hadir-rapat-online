@@ -7,6 +7,7 @@ import {
     meetingsCompletedWithPresences,
     meetingsInProgressWithLinkAttendance,
     meetingSession,
+    meetingSessionWithListParticipants,
 } from "../services/MeetingsSession.js";
 import { getTotalMeetingsSessionCompleted } from "../models/SesiRapatModel.js";
 import { getTotalPresencesOnMeetingsCompleted } from "../models/SesiRapatKehadiranModel.js";
@@ -58,15 +59,22 @@ router.get("/dashboard/monitor-kehadiran/abc-def", (req, res) => {
     });
 });
 
-router.get("/dashboard/sesi-rapat/detail/abc-def", (req, res) => {
+router.get("/dashboard/sesi-rapat/detail/:meetingSlug", async (req, res) => {
+    const slug = req.params.meetingSlug;
+    const { meeting, listParticipants, totalParticipants, link_kehadiran } = await meetingSessionWithListParticipants(slug);
     res.render("backend/detail_sesi_rapat", {
         title: "Detail Sesi Rapat",
-        currentNav: "kelola-sesi-rapat"
+        currentNav: "kelola-sesi-rapat",
+        meetingData: meeting,
+        listParticipants,
+        totalParticipants,
+        link_kehadiran,
     });
 });
 
 router.get("/dashboard/sesi-rapat/edit/:meetingSlug", async (req, res) => {
     const slug = req.params.meetingSlug;
+    // TODO Cek ketersediaan sesi rapat dan pastikan sesi rapat hanya boleh diedit jika state-nya adalah "Belum Dimulai"
     res.render("backend/edit_sesi_rapat", {
         title: "Edit Sesi Rapat",
         currentNav: "kelola-sesi-rapat",
