@@ -66,3 +66,30 @@ export async function updateLastLogin(userId, datetime) {
         })
         .update("last_login", datetime);
 }
+
+/**
+ * Mengambil list pengguna
+ * 
+ * @param {number} currUserId User ID yang ditampilkan pertama (akun anda)
+ * 
+ * @returns {Promise<[{
+ *  id: number,
+ *  username: string,
+ *  email: string | null,
+ *  role: string,
+ *  last_login: Date | null,
+ * }]>}
+ */
+export async function getUsers(currUserId) {
+    return await db("users")
+        .select([
+            "users.id",
+            "users.username",
+            "users.email",
+            "roles.nama AS role",
+            "users.last_login",
+        ])
+        .join("roles", "roles.id", "users.role_id")
+        .orderByRaw("users.id = ? DESC", [currUserId])
+        .orderBy("users.id", "asc");
+}
