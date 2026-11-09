@@ -13,3 +13,23 @@ export const getTotalPresencesOnMeetingsCompleted = async () => {
         .first();
     return getCounts.total_semua_kehadiran;
 }
+
+/**
+ * Mengambil list daftar kehadiran peserta berdasarkan id sesi rapat
+ * 
+ * @param {number} meetingId
+ * 
+ * @returns {Promise<Object[]>}
+ */
+export const getListParticipants = async (meetingId) => {
+    return db(TABLE)
+        .select([
+            "nama_pegawai",
+            "nomor_hp",
+            "jabatan",
+            "nama_opd",
+            "file_ttd",
+            "waktu_kehadiran",
+        ])
+        .where("sesi_rapat_id", meetingId);
+}
