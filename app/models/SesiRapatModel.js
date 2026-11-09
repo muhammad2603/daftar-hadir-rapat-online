@@ -153,3 +153,17 @@ export const getMeetingsCompletedWithParticipants = async () => {
         )
         .where("sesi_rapat.state", "Selesai");
 }
+
+/**
+ * Mengambil sesi rapat yang sedang berlangsung beserta link kehadiran
+ */
+export const getMeetingsInProgressWithAttendanceLink = async () => {
+    return db(TABLE)
+        .select([
+            "judul",
+            "tanggal",
+            "ruang",
+            "slug_kehadiran",
+        ])
+        .where("state", "Sedang Berlangsung");
+}
