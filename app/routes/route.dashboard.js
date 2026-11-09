@@ -52,15 +52,24 @@ router.get("/dashboard/monitor-kehadiran", async (req, res) => {
     });
 });
 
-router.get("/dashboard/monitor-kehadiran/abc-def", (req, res) => {
+router.get("/dashboard/monitor-kehadiran/:meetingSlug", async (req, res) => {
+    const slug = req.params.meetingSlug;
+    // TODO Cek ketersediaan sesi rapat
+    // TODO Validasi state rapat, jika state Belum Dimulai, maka tidak dapat monitoring list peserta.
+    const { meeting, listParticipants, totalParticipants, link_kehadiran } = await meetingSessionWithListParticipants(slug);
     res.render("backend/live_view_kehadiran", {
         title: "Live View Kehadiran",
-        currentNav: "monitor-kehadiran"
+        currentNav: "monitor-kehadiran",
+        meetingData: meeting,
+        listParticipants,
+        totalParticipants,
+        link_kehadiran
     });
 });
 
 router.get("/dashboard/sesi-rapat/detail/:meetingSlug", async (req, res) => {
     const slug = req.params.meetingSlug;
+    // TODO Cek ketersediaan sesi rapat
     const { meeting, listParticipants, totalParticipants, link_kehadiran } = await meetingSessionWithListParticipants(slug);
     res.render("backend/detail_sesi_rapat", {
         title: "Detail Sesi Rapat",
