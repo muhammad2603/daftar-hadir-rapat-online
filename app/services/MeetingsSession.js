@@ -1,5 +1,6 @@
 import * as SesiRapatModel from "../models/SesiRapatModel.js";
 import { DateTimeParser, DateTimeDifferences } from "../services/DateTimeParser.js";
+import 'dotenv/config';
 
 const STATE = {
     INPROGRESS: "Sedang Berlangsung",
@@ -91,4 +92,18 @@ export const meetingsCompletedWithPresences = async () => {
     return await Promise.all(
         (await SesiRapatModel.getMeetingsCompletedWithParticipants()).map(row => toMeetingView(row, true))
     );
+}
+
+/**
+ * Menyajikan sesi rapat yang sedang berlangsung beserta tautan kehadiran
+ * 
+ * @returns {Promise<Object[]>}
+ */
+export const meetingsInProgressWithLinkAttendance = async () => {
+    const meetings = await SesiRapatModel.getMeetingsInProgressWithAttendanceLink();
+    return meetings.map((row) => ({
+        ...row,
+        tanggal: DateTimeParser(row.tanggal).toLocalizedString("dd MMMM yyyy"),
+        link_kehadiran: new URL(`/daftar-kehadiran/${encodeURIComponent(row.slug_kehadiran)}`, process.env.SITE_URL).href,
+    }))
 }
