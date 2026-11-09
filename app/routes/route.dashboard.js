@@ -5,6 +5,7 @@ import {
     getAllHighlightMeetingsIsNotCompleted,
     getHighlightMeetingsWithParticipants,
     meetingsCompletedWithPresences,
+    meetingsInProgressWithLinkAttendance
 } from "../services/MeetingsSession.js";
 import { getTotalMeetingsSessionCompleted } from "../models/SesiRapatModel.js";
 import { getTotalPresencesOnMeetingsCompleted } from "../models/SesiRapatKehadiranModel.js";
@@ -80,10 +81,11 @@ router.get("/dashboard/sesi-rapat/riwayat", async (req, res) => {
     });
 });
 
-router.get("/dashboard/sesi-rapat/bagikan-tautan", (req, res) => {
+router.get("/dashboard/sesi-rapat/bagikan-tautan", async (req, res) => {
     res.render("backend/bagikan_tautan", {
         title: "Bagikan Tautan",
-        currentNav: "bagikan-tautan"
+        currentNav: "bagikan-tautan",
+        meetingsWithLinkAttendance: await meetingsInProgressWithLinkAttendance(),
     });
 });
 
