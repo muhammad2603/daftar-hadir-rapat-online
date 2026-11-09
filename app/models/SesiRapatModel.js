@@ -167,3 +167,16 @@ export const getMeetingsInProgressWithAttendanceLink = async () => {
         ])
         .where("state", "Sedang Berlangsung");
 }
+
+/**
+ * Mengambil data sesi rapat berdasarkan slug
+ * 
+ * @param {string} slug
+ * 
+ * @returns {Promise<Object>}
+ */
+export const getMeetingBySlug = async (slug) => {
+    return db(TABLE)
+        .where("slug", slug)
+        .first();
+}
