@@ -1,4 +1,5 @@
 import * as SesiRapatModel from "../models/SesiRapatModel.js";
+import * as SesiRapatKehadiranModel from "../models/SesiRapatKehadiranModel.js";
 import { DateTimeParser, DateTimeDifferences } from "../services/DateTimeParser.js";
 import 'dotenv/config';
 
@@ -118,4 +119,24 @@ export const meetingsInProgressWithLinkAttendance = async () => {
  */
 export const meetingSession = async (slug) => {
     return await SesiRapatModel.getMeetingBySlug(slug);
+}
+
+/**
+ * Menyajikan data sesi rapat, list peserta, dan total peserta.
+ * 
+ * @param {string} slug
+ */
+export const meetingSessionWithListParticipants = async (slug) => {
+    const meeting = await SesiRapatModel.getMeetingBySlug(slug);
+    const listParticipants = (await SesiRapatKehadiranModel.getListParticipants(meeting.id)).map((row) => ({
+        ...row,
+        waktu_kehadiran: DateTimeParser(row.waktu_kehadiran).toLocalizedString("d MMM yyyy, 'Pukul' HH:mm"),
+    }));
+    const totalParticipants = listParticipants.length;
+    return {
+        meeting: toMeetingView(meeting),
+        listParticipants,
+        totalParticipants,
+        link_kehadiran: new URL(`/daftar-kehadiran/${encodeURIComponent(meeting.slug_kehadiran)}`, process.env.SITE_URL).href,
+    };
 }
