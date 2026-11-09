@@ -11,6 +11,9 @@ import {
 } from "../services/MeetingsSession.js";
 import { getTotalMeetingsSessionCompleted } from "../models/SesiRapatModel.js";
 import { getTotalPresencesOnMeetingsCompleted } from "../models/SesiRapatKehadiranModel.js";
+import { getUsers } from "../models/UsersModel.js";
+import { DateTimeParser } from "../services/DateTimeParser.js";
+import { getAllRole } from "../models/RolesModel.js";
 
 const router = Router();
 
@@ -116,11 +119,17 @@ router.get("/dashboard/pengaturan", (req, res) => {
     });
 });
 
-router.get("/dashboard/pengaturan/daftar-user", (req, res) => {
-    // TODO Halaman daftar user hanya dapat dilihat oleh Admin
+router.get("/dashboard/pengaturan/daftar-user", async (req, res) => {
+    // TODO Halaman daftar user hanya dapat dilihat oleh Super Admin
+    const users = (await getUsers(req.user.id)).map((row) => ({
+        ...row,
+        last_login: (row.last_login !== null) ? DateTimeParser(row.last_login).toLocalizedString("yyyy-mm-dd HH:mm") : "Belum pernah login",
+    }));
     res.render("backend/daftar_user", {
         title: "Daftar User",
-        currentNav: "pengaturan"
+        currentNav: "pengaturan",
+        users,
+        roles: await getAllRole(),
     });
 });
 
