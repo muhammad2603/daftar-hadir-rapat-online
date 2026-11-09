@@ -16,16 +16,16 @@
             <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-md overflow-y-auto">
                 <div class="header-form px-6 py-5 border-b border-slate-100">
                     <h1 class="font-bold text-lg text-slate-800 mb-1.5">Edit Sesi Rapat</h1>
-                    <p class="text-xs text-slate-600">Mengedit: <span class="font-semibold mr-1.5">#1</span>•<span class="font-semibold ml-1.5">Rapat Finalisasi APBD Tahun 2026</span></p>
+                    <p class="text-xs text-slate-600">Mengedit: <span class="font-semibold mr-1.5">#<%= meetingData.id %></span>•<span class="font-semibold ml-1.5"><%= meetingData.judul %></span></p>
                 </div>
                 <div class="form-body px-6 py-5 space-y-4">
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-3">
                         <div>
                             <label for="judulRapat"
-                                class="inline-block text-xs font-medium text-slate-600 mb-1.5">Judul Rapat <span
+                                class="block text-xs font-medium text-slate-600 mb-1.5">Judul Rapat <span
                                     class="font-semibold text-red-500">*</span></label>
                             <input type="text" placeholder="Masukkan Judul Rapat..." id="judulRapat"
-                                value="Rapat Finalisasi APBD Tahun 2026"
+                                value="<%= meetingData.judul %>"
                                 autocomplete="off"
                                 class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
                         </div>
@@ -34,7 +34,7 @@
                                 class="block text-xs font-medium text-slate-600 mb-1.5">Tanggal Rapat <span
                                     class="font-semibold text-red-500">*</span></label>
                             <input type="date" id="tanggalRapat"
-                                value="2026-09-22"
+                                value="<%= meetingData.tanggal %>"
                                 class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                                 class="block text-xs font-medium text-slate-600 mb-1.5">Waktu Presensi Dimulai
                                 <span class="font-semibold text-red-500">*</span></label>
                             <input type="time" id="waktuMulaiPresensi"
-                                value="13:40"
+                                value="<%= meetingData.waktu_presensi_dimulai %>"
                                 class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
                         </div>
                         <div>
@@ -52,7 +52,7 @@
                                 class="block text-xs font-medium text-slate-600 mb-1.5">Waktu Presensi Berakhir
                                 <span class="font-semibold text-red-500">*</span></label>
                             <input type="time" id="waktuAkhirPresensi"
-                                value="14:00"
+                                value="<%= meetingData.waktu_presensi_berakhir %>"
                                 class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
                         </div>
                     </div>
@@ -61,7 +61,7 @@
                             class="inline-block text-xs font-medium text-slate-600 mb-1.5">Lokasi / Ruang <span
                                 class="font-semibold text-red-500">*</span></label>
                         <input type="text" placeholder="Masukkan Lokasi / Ruang Rapat..." id="ruangRapat"
-                            value="Ruang Command Control (CoC)"
+                            value="<%= meetingData.ruang %>"
                             autocomplete="off"
                             class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
                     </div>
@@ -69,7 +69,7 @@
                         <label for="agendaRapat"
                             class="inline-block text-xs font-medium text-slate-600 mb-1.5">Agenda Rapat</label>
                         <textarea id="agendaRapat" rows="4" placeholder="Masukkan Topik yang Akan Dibahas..."
-                            class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors resize-none">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam commodi cumque, repudiandae necessitatibus explicabo quos tempore ducimus consectetur inventore? Laudantium cum quibusdam suscipit animi fugiat deserunt culpa optio dolorum officia quia libero ex quasi ab placeat obcaecati sed commodi ratione adipisci ipsam tempore nemo ut ea, ducimus maxime. Blanditiis, rem!</textarea>
+                            class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors resize-none"><%= meetingData.agenda %></textarea>
                     </div>
                     <div>
                         <span class="block text-xs font-medium text-slate-600 mb-1.5">Kop Surat
@@ -87,13 +87,16 @@
                                 </svg>
                                 <span class="text-xs text-slate-500 pointer-events-none">Klik atau seret gambar kop surat ke sini</span>
                                 <span class="text-xs text-slate-400 pointer-events-none">PNG, JPG, hingga 5MB. Disarankan rasio 4:1.</span>
-                                <span class="text-xs text-slate-400 pointer-events-none">Catatan: Jika note tidak diupload, maka akan diisi
-                                    dengan kop default.</span>
+                                <span class="text-xs text-slate-400 pointer-events-none">Catatan: Jika kop tidak diupload, maka akan diisi dengan kop default.</span>
                             </div>
                         </label>
-                        <!-- __COMMENT__ Gunakan blok ini ketika kop surat bukan default -->
+                        <%
+                        const kopSuratPath = "/uploads/kop-surat";
+                        const fileKopSurat = meetingData.file_kop_surat;
+                        const fileKopSuratPath = (fileKopSurat === null) ? `${kopSuratPath}/contoh-kop-surat.png` : `${kopSuratPath}/${fileKopSurat}`;
+                        %>
                         <div id="previewKopSurat" class="w-fit mx-auto">
-                            <img id="previewImg" src="/uploads/kop-surat/contoh-kop-surat.png" alt="Kop Surat Default"
+                            <img id="previewImg" src="<%= fileKopSuratPath %>" alt="Kop Surat Rapat"
                                 class="w-full h-40 aspect-4/1 object-contain border border-slate-200 rounded-lg p-2 bg-slate-50">
                             <div class="btn-kop-surat-actions flex justify-end gap-3">
                                 <button type="button" id="hapusKopSurat"
