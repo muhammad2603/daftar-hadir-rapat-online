@@ -1,6 +1,8 @@
 import { Router } from "express";
 import sharp from "sharp";
 import { getSVG } from "qreator/lib/svg";
+import path from 'node:path';
+import 'dotenv/config';
 
 const router = Router();
 
@@ -26,15 +28,14 @@ router.post("/api/meetings/:meetingId/attendances", async (req, res) => {
     }
 });
 
-router.get("/api/meetings/:meetingId/qr-code", (req, res) => {
-    /**
-     * // TODO Validasi apakah meeting id pada uri adalah number? gunakan fungsi bawaan JS isNaN.
-     * // TODO Validasi apakah meeting dengan id yang ada di-uri ada direcord?
-     * // TODO Jika ada, ambil slug-nya untuk membuat QR Code tautan ke-daftar kehadiran
-     */
-    const { meetingId } = req.params;
+/**
+ * Route endpoint untuk generate QR Code link kehadiran
+ */
+router.get("/api/meetings/qr-presence/:meetingSlug", (req, res) => {
+    const { meetingSlug } = req.params;
     try {
-        const url = "https://localhost:3000/daftar-kehadiran/abc-def";
+        let baseUrl = process.env.SITE_URL;
+        const url = new URL(`/daftar-kehadiran/${encodeURIComponent(meetingSlug)}`, baseUrl).href;
         const qrSvg = getSVG(url);
         res.type("svg").send(qrSvg);
     } catch (error) {
