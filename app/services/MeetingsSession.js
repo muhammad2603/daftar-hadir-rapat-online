@@ -26,6 +26,9 @@ const toMeetingView = (row, withPresenceDiff = false) => ({
         durasi_presensi: DateTimeDifferences(new Date(row.tanggal + "T" + row.waktu_presensi_dimulai)).onMinutes(new Date(row.tanggal + "T" + row.waktu_presensi_berakhir))
     }),
     created_at: DateTimeParser(row.created_at).toLocalizedString("dd MMMM yyyy"),
+    ...(row.updated_at !== undefined && {
+        updated_at: DateTimeParser(row.updated_at).toLocalizedString("dd MMMM yyyy HH.mm.ss")
+    }),
 });
 
 /**
@@ -106,4 +109,13 @@ export const meetingsInProgressWithLinkAttendance = async () => {
         tanggal: DateTimeParser(row.tanggal).toLocalizedString("dd MMMM yyyy"),
         link_kehadiran: new URL(`/daftar-kehadiran/${encodeURIComponent(row.slug_kehadiran)}`, process.env.SITE_URL).href,
     }))
+}
+
+/**
+ * Menyajikan data sesi rapat berdasarkan slug untuk diedit
+ * 
+ * @param {string} slug
+ */
+export const meetingSession = async (slug) => {
+    return await SesiRapatModel.getMeetingBySlug(slug);
 }
