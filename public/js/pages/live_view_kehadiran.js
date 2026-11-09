@@ -32,9 +32,24 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.replace('/dashboard/sesi-rapat/riwayat');
         }, 5000);
     });
-    const popUpTtdImage = new PopUp(document.getElementById("popUpTtdImage"));
-    const ttdImage = document.getElementById("ttdImage");
+    const popUpTtdEl = document.getElementById("popUpTtdImage");
+    const popUpTtdImage = new PopUp(popUpTtdEl);
+    /** @type {NodeListOf<HTMLImageElement>} */
+    const ttdImages = document.querySelectorAll("table td img.ttd-image");
     const btnCloseTtdImage = document.getElementById('btnCloseTtdImage');
-    ttdImage.addEventListener("click", () => popUpTtdImage.showPopUp());
+    ttdImages.forEach((img) => {
+        img.addEventListener("click", function () {
+            const tbRow = this.closest("tr");
+            const rowParticipantName = tbRow.querySelector("p.participant-name");
+            const rowTimePresence = tbRow.querySelector("td.time-presence");
+            const popUpImgEl = popUpTtdEl.querySelector("img");
+            const participantName = popUpTtdEl.querySelector("span#participantName");
+            const timePresence = popUpTtdEl.querySelector("span#timePresence");
+            popUpImgEl.src = this.src;
+            participantName.textContent = rowParticipantName.textContent;
+            timePresence.textContent = rowTimePresence.textContent;
+            popUpTtdImage.showPopUp();
+        });
+    })
     btnCloseTtdImage.addEventListener("click", () => popUpTtdImage.closePopUp())
 });
