@@ -1,7 +1,7 @@
 # TODO LIST
 
 - [ ] Setiap Role memiliki hak izin. Beberapa diantara hak izinnya adalah **create**, **update**, dan **delete**.
-- [ ] Role `user` diganti dengan `admin`, dan `admin` diganti menjadi `superadmin`.
+- [x] Role `user` diganti dengan `admin`, dan `admin` diganti menjadi `superadmin`.
 - [ ] `superadmin` memiliki hak akses penuh, sedangkan `admin` hanya dapat melakukan **create** dan **update** terhadap resource data.
     
     > **NOTE**: `admin` tidak dapat mengakhiri sesi rapat.
