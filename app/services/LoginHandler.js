@@ -10,6 +10,7 @@ import { HttpError } from "../error_handlers/HttpError.js";
  * @property {number} id User ID
  * @property {string} email
  * @property {string} role
+ * @property {string} roleLabel
  * @property {boolean} twoFactorEnabled
  * `true` jika 2FA telah diaktifkan oleh pengguna
  */
@@ -29,7 +30,7 @@ export async function loginAttempt(usernameReq, passwordReq) {
     if (!user) {
         throw new HttpError(401, "Username atau password salah!", ERR.INVALID_CREDENTIALS);
     }
-    const { id, username, password, email, role, is_2fa_active } = user;
+    const { id, username, password, email, role, roleLabel, is_2fa_active } = user;
     const isValidPassword = await bcrypt.compare(passwordReq, password);
     if (!isValidPassword) {
         throw new HttpError(401, "Username atau password salah!", ERR.INVALID_CREDENTIALS);
@@ -40,6 +41,7 @@ export async function loginAttempt(usernameReq, passwordReq) {
             username,
             email,
             role,
+            roleLabel,
             twoFactorEnabled: is_2fa_active
         },
         isValid: isValidPassword,
