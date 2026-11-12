@@ -91,7 +91,7 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-gray-400">Role</span>
-                                <span class="font-semibold text-xs text-blue-900 uppercase tracking-wider"><%= user.role %></span>
+                                <span class="font-semibold text-xs text-blue-900 uppercase tracking-wider"><%= user.roleLabel %></span>
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-gray-400">Status 2FA</span>
@@ -102,24 +102,18 @@
                     <div class="bg-white rounded-2xl border border-gray-100 p-6">
                         <div class="flex justify-between items-center gap-1.5 mb-4">
                             <h3 class="font-semibold text-gray-800">Daftar User</h3>
-                            <% if(user.role.toLowerCase() === 'admin') { %>
+                            <% if(user.role === 'superadmin') { %>
                                 <a href="/dashboard/pengaturan/daftar-user" class="py-0.5 px-2 text-xs border border-solid border-blue-300 bg-blue-50 text-blue-600 rounded-sm transition-colors hover:bg-blue-100 hover:border-blue-400">Semua User</a>
                             <% } %>
                         </div>
                         <div class="space-y-2 text-sm">
-                            <% if(user.role.toLowerCase() === 'admin') { %>
-                                <div class="flex justify-between items-center">
-                                    <span class="font-semibold text-gray-800">fattahillah (Anda)</span>
-                                    <span class="font-semibold text-xs text-blue-900 uppercase tracking-wider">Super Admin</span>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="font-semibold text-gray-800">susan</span>
-                                    <span class="font-semibold text-xs text-blue-900 uppercase tracking-wider">Admin</span>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="font-semibold text-gray-800">hanypulh</span>
-                                    <span class="font-semibold text-xs text-blue-900 uppercase tracking-wider">Admin</span>
-                                </div>
+                            <% if(user.role === 'superadmin') { %>
+                                <% usersList.forEach((user, idx) => { %>
+                                    <div class="flex justify-between items-center">
+                                        <span class="font-semibold text-gray-800"><%= user.username %> <%= (idx === 0) ? "(Anda)" : "" %></span>
+                                        <span class="font-semibold text-xs text-blue-900 uppercase tracking-wider"><%= user.roleLabel %></span>
+                                    </div>
+                                <% }) %>
                             <% } else { %>
                                 <p class="text-center text-gray-400">Anda tidak dapat melihat daftar pengguna lain.</p>
                             <% } %>
