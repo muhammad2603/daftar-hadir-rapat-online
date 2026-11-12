@@ -73,7 +73,7 @@ export const getMeetingsHighlight = async (date = false, state = false, withPart
             "judul",
             "agenda",
             "ruang",
-            "waktu_presensi_dimulai",
+            "tanggal",
             "slug",
             "state",
             "created_at",
@@ -118,7 +118,6 @@ export const getAllMeetingsHighlightWithoutCompleted = async (date = false) => {
             "judul",
             "agenda",
             "ruang",
-            "waktu_presensi_dimulai",
             "slug",
             "state",
             "created_at"
