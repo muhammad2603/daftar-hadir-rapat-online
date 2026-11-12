@@ -1,5 +1,7 @@
 import db from "../config/config.db.js";
 
+const TABLE = "users";
+
 /**
  * Mengubah tipe data value menjadi Boolean
  * 
@@ -20,7 +22,7 @@ const boolean = (value) => {
  */
 export async function getCredentials(username) {
     try {
-        const user = await db.table("users")
+        const user = await db.table(TABLE)
             .first('users.id', 'username', 'password', 'email', 'roles.nama AS role', 'is_2fa_active')
             .innerJoin('roles', 'roles.id', 'users.role_id')
             .where({ username });
@@ -43,7 +45,7 @@ export async function getCredentials(username) {
  * @param {string} email User Email
  */
 export async function activate2FA(id, email) {
-    return db("users")
+    return db(TABLE)
         .where({
             id,
             email
@@ -60,7 +62,7 @@ export async function activate2FA(id, email) {
  * @param {string} datetime Tanggal login
  */
 export async function updateLastLogin(userId, datetime) {
-    return db("users")
+    return db(TABLE)
         .where({
             id: userId
         })
@@ -81,7 +83,7 @@ export async function updateLastLogin(userId, datetime) {
  * }]>}
  */
 export async function getUsers(currUserId) {
-    return await db("users")
+    return await db(TABLE)
         .select([
             "users.id",
             "users.username",
@@ -92,4 +94,18 @@ export async function getUsers(currUserId) {
         .join("roles", "roles.id", "users.role_id")
         .orderByRaw("users.id = ? DESC", [currUserId])
         .orderBy("users.id", "asc");
+}
+
+/**
+ * Mengambil identitas role pengguna
+ * @param {number} userId
+ * 
+ * @returns {Promise<{ role: string }>}
+ */
+export async function getRoleIdentityUser(userId) {
+    return db(TABLE)
+        .select("roles.identitas AS role")
+        .join("roles", "roles.id", "users.role_id")
+        .where("users.id", userId)
+        .first();
 }
