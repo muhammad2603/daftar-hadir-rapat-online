@@ -62,7 +62,7 @@ export const requireFullAuth = (req, res, next) => {
     }
     try {
         const payload = verifyToken(token);
-        const { sub, username, email, role, twoFactorEnabled, isFullyAuthenticated } = payload;
+        const { sub, username, email, role, roleLabel, twoFactorEnabled, isFullyAuthenticated } = payload;
         if (isFullyAuthenticated === false) {
             throw new Error("Anda belum ter-autentikasi secara penuh.");
         }
@@ -71,6 +71,7 @@ export const requireFullAuth = (req, res, next) => {
             username,
             email,
             role,
+            roleLabel,
             twoFactorEnabled: Boolean(twoFactorEnabled),
             isFullyAuthenticated
         };
