@@ -39,7 +39,7 @@
                                             <span class="inline-flex items-center text-[10px] font-semibold px-2 py-0.5 rounded-full border bg-green-100 text-green-500 border-green-200"><%= row.state %></span>
                                         </div>
                                         <div class="max-[501px]:hidden flex flex-wrap gap-y-1.5 gap-x-4.5 mt-0.5 text-xs text-gray-400 group-focus:text-white group-[.active]:text-white">
-                                            <span><%= row.created_at %></span>
+                                            <span>Dibuat pada: <%= row.created_at %></span>
                                             <span><%= row.ruang %></span>
                                             <span><%= row.pimpinan_rapat %></span>
                                         </div>
@@ -70,18 +70,6 @@
                                     <div>
                                         <p class="text-gray-400 text-[10px] uppercase tracking-wider mb-0.5">Pimpinan Rapat</p>
                                         <p class="text-gray-700 font-semibold text-xs leading-snug"><%= row.pimpinan_rapat %></p>
-                                    </div>
-                                    <div>
-                                        <p class="text-gray-400 text-[10px] uppercase tracking-wider mb-0.5">Presensi Dimulai</p>
-                                        <p class="text-gray-700 font-semibold text-xs leading-snug"><%= row.waktu_presensi_dimulai %></p>
-                                    </div>
-                                    <div>
-                                        <p class="text-gray-400 text-[10px] uppercase tracking-wider mb-0.5">Presensi Berakhir</p>
-                                        <p class="text-gray-700 font-semibold text-xs leading-snug"><%= row.waktu_presensi_berakhir %></p>
-                                    </div>
-                                    <div>
-                                        <p class="text-gray-400 text-[10px] uppercase tracking-wider mb-0.5">Durasi Presensi</p>
-                                        <p class="text-gray-700 font-semibold text-xs leading-snug"><%= row.durasi_presensi %> Menit</p>
                                     </div>
                                     <div class="col-span-full mt-1">
                                         <p class="text-gray-400 text-[10px] uppercase tracking-wider mb-2">Deskripsi Agenda Rapat</p>
