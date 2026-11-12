@@ -14,6 +14,7 @@ import { getTotalPresencesOnMeetingsCompleted } from "../models/SesiRapatKehadir
 import { getUsers } from "../models/UsersModel.js";
 import { DateTimeParser } from "../services/DateTimeParser.js";
 import { getAllRole } from "../models/RolesModel.js";
+import { user as UserPermission } from "../services/UserPermission.js";
 
 const router = Router();
 
@@ -23,6 +24,7 @@ router.use((req, res, next) => {
         username: u.username,
         email: u.email,
         role: u.role,
+        roleLabel: u.roleLabel,
         twoFactorEnabled: u.twoFactorEnabled,
     };
     next();
@@ -112,24 +114,30 @@ router.get("/dashboard/sesi-rapat/bagikan-tautan", async (req, res) => {
     });
 });
 
-router.get("/dashboard/pengaturan", (req, res) => {
+router.get("/dashboard/pengaturan", async (req, res) => {
+    const usersList = await getUsers(req.user.id, 3);
     res.render("backend/pengaturan", {
         title: "Pengaturan",
-        currentNav: "pengaturan"
+        currentNav: "pengaturan",
+        usersList,
     });
 });
 
 router.get("/dashboard/pengaturan/daftar-user", async (req, res) => {
-    // TODO Halaman daftar user hanya dapat dilihat oleh Super Admin
+    const isAllowedToAccess = await UserPermission(req.user.id).can("user.create");
+    if (!isAllowedToAccess) {
+        return res.redirect("/dashboard/pengaturan");
+    }
     const users = (await getUsers(req.user.id)).map((row) => ({
         ...row,
         last_login: (row.last_login !== null) ? DateTimeParser(row.last_login).toLocalizedString("yyyy-mm-dd HH:mm") : "Belum pernah login",
     }));
+    const roles = await getAllRole();
     res.render("backend/daftar_user", {
         title: "Daftar User",
         currentNav: "pengaturan",
         users,
-        roles: await getAllRole(),
+        roles,
     });
 });
 
