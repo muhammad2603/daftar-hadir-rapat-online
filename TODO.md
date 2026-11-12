@@ -12,3 +12,4 @@
 - [ ] Tambahkan opsi role diform edit pengguna (tersedia dihalaman /dashboard/pengaturan/daftar-user).
 - [ ] Admin diperbolehkan mengedit user, dengan catatan hanya dapat mengedit akunnya sendiri.
 - [ ] Buat field untuk mencatat user yang membuat sesi rapat. Digunakan dihalaman Detail Sesi Rapat.
+- [ ] Sesuaikan tema visual dengan ikon Kabupaten Batang Hari. Lihat desain aplikasi Diskominfo Batang Hari sebagai referensi.
