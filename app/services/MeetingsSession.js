@@ -1,6 +1,6 @@
 import * as SesiRapatModel from "../models/SesiRapatModel.js";
 import * as SesiRapatKehadiranModel from "../models/SesiRapatKehadiranModel.js";
-import { DateTimeParser, DateTimeDifferences } from "../services/DateTimeParser.js";
+import { DateTimeParser } from "../services/DateTimeParser.js";
 import 'dotenv/config';
 
 const STATE = {
@@ -12,19 +12,11 @@ const STATE = {
  * Menyiapkan baris sesi rapat untuk view dengan parsing tanggal dan waktu
  * 
  * @param {Object[]} row
- * @param {boolean} withPresenceDiff `true` akan menyertakan durasi presensi sesi rapat dalam menit, default `false`.
  */
-const toMeetingView = (row, withPresenceDiff = false) => ({
+const toMeetingView = (row) => ({
     ...row,
-    waktu_presensi_dimulai: row.waktu_presensi_dimulai.slice(0, 5),
     ...(row.tanggal !== undefined && {
         tanggal: DateTimeParser(row.tanggal).toLocalizedString("dd MMMM yyyy")
-    }),
-    ...(row.waktu_presensi_berakhir !== undefined && {
-        waktu_presensi_berakhir: row.waktu_presensi_berakhir.slice(0, 5)
-    }),
-    ...(row.waktu_presensi_berakhir !== undefined && withPresenceDiff && {
-        durasi_presensi: DateTimeDifferences(new Date(row.tanggal + "T" + row.waktu_presensi_dimulai)).onMinutes(new Date(row.tanggal + "T" + row.waktu_presensi_berakhir))
     }),
     created_at: DateTimeParser(row.created_at).toLocalizedString("dd MMMM yyyy"),
     ...(row.updated_at !== undefined && {
@@ -94,7 +86,7 @@ export const getHighlightMeetingsWithParticipants = async () => {
  */
 export const meetingsCompletedWithPresences = async () => {
     return await Promise.all(
-        (await SesiRapatModel.getMeetingsCompletedWithParticipants()).map(row => toMeetingView(row, true))
+        (await SesiRapatModel.getMeetingsCompletedWithParticipants()).map(row => toMeetingView(row))
     );
 }
 
