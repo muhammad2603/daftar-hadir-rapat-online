@@ -18,12 +18,12 @@ const boolean = (value) => {
  * 
  * @param {string} username
  * 
- * @returns {Promise<{ id: number, username: string, password: string, email: string, role: string, is_2fa_active: boolean }>}
+ * @returns {Promise<{ id: number, username: string, password: string, email: string, role: string, roleLabel: string, is_2fa_active: boolean }>}
  */
 export async function getCredentials(username) {
     try {
         const user = await db.table(TABLE)
-            .first('users.id', 'username', 'password', 'email', 'roles.nama AS role', 'is_2fa_active')
+            .first('users.id', 'username', 'password', 'email', 'roles.identitas AS role', 'roles.nama AS roleLabel', 'is_2fa_active')
             .innerJoin('roles', 'roles.id', 'users.role_id')
             .where({ username });
         if (user) {
@@ -73,6 +73,7 @@ export async function updateLastLogin(userId, datetime) {
  * Mengambil list pengguna
  * 
  * @param {number} currUserId User ID yang ditampilkan pertama (akun anda)
+ * @param {number | null} limit Batas pengambilan row
  * 
  * @returns {Promise<[{
  *  id: number,
@@ -82,18 +83,23 @@ export async function updateLastLogin(userId, datetime) {
  *  last_login: Date | null,
  * }]>}
  */
-export async function getUsers(currUserId) {
-    return await db(TABLE)
+export async function getUsers(currUserId, limit = null) {
+    const qBuilder = db(TABLE)
         .select([
             "users.id",
             "users.username",
             "users.email",
-            "roles.nama AS role",
+            "roles.identitas AS role",
+            "roles.nama AS roleLabel",
             "users.last_login",
         ])
         .join("roles", "roles.id", "users.role_id")
         .orderByRaw("users.id = ? DESC", [currUserId])
         .orderBy("users.id", "asc");
+    if (limit !== null) {
+        qBuilder.limit(limit);
+    }
+    return qBuilder;
 }
 
 /**
