@@ -43,14 +43,14 @@
                             </thead>
                             <tbody class="divide-y divide-gray-50">
                                 <% users.forEach((row, idx) => { %>
-                                    <tr data-user='{"id": "<%= row.id %>","username":"<%= row.username %>","email":"<%= row.email %>"}'
+                                    <tr data-user='{"id": "<%= row.id %>","username":"<%= row.username %>","email":"<%= row.email %>","role":"<%= row.role %>"}'
                                         class="user-row hover:bg-gray-50/50 transition-colors group">
                                         <td class="py-3 px-3 text-gray-400 text-xs"><%= ++idx %></td>
                                         <td class="py-3 px-3">
                                             <p class="font-medium text-gray-900"><%= row.username %> <%= (idx === 1) ? '(Anda)' : ''%></p>
                                         </td>
                                         <td class="py-3 px-3 text-gray-600 text-xs leading-snug max-w-40"><%= row.email ?? '(Email belum ditambahkan)' %></td>
-                                        <td class="py-3 px-3 font-semibold text-gray-600 text-xs uppercase"><%= row.role %></td>
+                                        <td class="py-3 px-3 font-semibold text-gray-600 text-xs uppercase"><%= row.roleLabel %></td>
                                         <td class="py-3 px-3 text-gray-600 text-xs"><%= row.last_login %></td>
                                         <td class="py-3 px-3">
                                             <div class="flex justify-end gap-2">
@@ -156,23 +156,30 @@
                 <div class="form-body p-6 space-y-4">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label for="editUsername" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Ganti Username <span
-                                    class="font-semibold text-red-500">*</span></label>
+                            <label for="editUsername" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Ganti Username</label>
                             <input type="text" placeholder="Masukkan Username..." id="editUsername" autocomplete="off"
                                 class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
                         </div>
                         <div>
-                            <label for="editPassword" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Ganti Password <span
-                                    class="font-semibold text-red-500">*</span></label>
+                            <label for="editPassword" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Ganti Password</label>
                             <input type="password" id="editPassword" placeholder="Masukkan Password..." autocomplete="off"
                                 class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
                         </div>
                     </div>
                     <div>
-                        <label for="editEmail" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Ganti Email <span
-                                class="font-semibold text-red-500">*</span></label>
+                        <label for="editEmail" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Ganti Email</label>
                         <input type="email" id="editEmail" placeholder="example@gmail.com" autocomplete="off"
                             class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                    </div>
+                    <div>
+                        <label for="editEmail" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Ganti Role</label>
+                        <select
+                            id="editRole"
+                            class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors" />
+                            <% roles.forEach((row) => { %>
+                                <option data-role-option="<%= row.identitas %>" value="<%= row.id %>"><%= row.nama %></option>
+                            <% }) %>
+                        </select>
                     </div>
                     <div class="flex gap-3 pt-2">
                         <button
