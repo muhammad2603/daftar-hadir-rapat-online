@@ -130,7 +130,7 @@ router.get("/dashboard/pengaturan/daftar-user", async (req, res) => {
     }
     const users = (await getUsers(req.user.id)).map((row) => ({
         ...row,
-        last_login: (row.last_login !== null) ? DateTimeParser(row.last_login).toLocalizedString("yyyy-mm-dd HH:mm") : "Belum pernah login",
+        last_login: (row.last_login !== null) ? DateTimeParser(row.last_login).toLocalizedString("yyyy-MM-dd HH:mm") : "Belum pernah login",
     }));
     const roles = await getAllRole();
     res.render("backend/daftar_user", {
