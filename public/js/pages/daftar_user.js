@@ -42,14 +42,14 @@ document.addEventListener("DOMContentLoaded", () => {
             notification.success("User baru berhasil ditambahkan.");
         }, 5000);
     });
+    const popUpEditUserWindow = document.getElementById('popUpEditUser');
+    const btnConfirmPopUpEditUser = document.getElementById("btnConfirmPopUpEditUser");
     const btnEditUser = document.querySelectorAll("button.btn-edit-user");
     const btnClosePopUpEditUser = document.getElementById('btnClosePopUpEditUser');
     const inputEditUsername = document.getElementById('editUsername');
     const inputEditEmail = document.getElementById('editEmail');
-    const btnConfirmPopUpEditUser = document.getElementById("btnConfirmPopUpEditUser");
-    const popUpEditUserWindow = document.getElementById('popUpEditUser');
     const popUpEditUser = new PopUp(popUpEditUserWindow);
-    /** @type {Number|null} User ID yang akan diedit */
+    /** @type {number|null} User ID yang akan diedit */
     let editUserId = null;
     /** @type {string|null} Username yang akan diedit */
     let editUsername = null;
@@ -57,12 +57,16 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.addEventListener("click", function () {
             /** @type {HTMLElement} */
             const currBtn = this;
-            const { id, username, email } = JSON.parse(currBtn.closest("tr.user-row").dataset.user);
-            popUpEditUser.showPopUp();
+            const userRow = currBtn.closest("tr.user-row");
+            const { id, username, email, role } = JSON.parse(userRow.dataset.user);
+            /** @type {HTMLOptionElement | null} */
+            const getOptionRole = popUpEditUserWindow.querySelector(`select option[data-role-option="${role}"]`);
+            getOptionRole.selected = true;
+            editUserId = id;
             inputEditUsername.value = username;
             inputEditEmail.value = email;
-            editUserId = id;
             editUsername = username;
+            popUpEditUser.showPopUp();
         });
     });
     btnClosePopUpEditUser.addEventListener("click", () => {
