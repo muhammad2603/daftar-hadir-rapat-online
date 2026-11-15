@@ -100,11 +100,11 @@
             </div>
         </main>
         <div id="popUpCreateUser" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[calc(100vh-30px)] overflow-hidden">
                 <div class="px-6 py-5 border-b border-gray-100">
                     <h2 class="font-display text-xl font-bold text-gray-900">Tambah User</h2>
                 </div>
-                <div class="form-body p-6 space-y-4">
+                <div class="form-body px-6 pb-4 space-y-4 max-h-[calc(100vh-220px)] overflow-auto">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label for="username" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Username <span
@@ -140,18 +140,33 @@
                                 <% }) %>
                             </select>
                         </div>
+                        <div class="sm:col-span-2">
+                            <h2 class="text-xs font-medium text-slate-600 mb-3">Hak Izin Pengguna</h2>
+                            <div class="user-permissions grid sm:grid-cols-2 gap-y-1 gap-x-2 text-sm">
+                                <% let idx = 0 %>
+                                <% Object.entries(userPermissions).forEach(([_, perms]) => { %>
+                                    <% perms.forEach((perm) => { %>
+                                        <% idx++ %>
+                                        <label for="perm-<%= idx %>">
+                                            <input type="checkbox" id="perm-<%= idx %>" data-permission-name="<%= perm %>" class="permission" />
+                                            <span><%= perm %></span>
+                                        </label>
+                                    <% }) %>
+                                <% }) %>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex gap-3 pt-2">
-                        <button id="btnCancelCreateUser" class="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 transition cursor-pointer hover:not-disabled:bg-gray-50 disabled:opacity-60 disabled:cursor-not-allowed">Batalkan</button>
-                        <button id="btnCreateUser" class="flex-1 flex justify-center items-center gap-1.5 py-2.5 bg-blue-900 text-white rounded-xl text-sm font-semibold transition cursor-pointer hover:not-disabled:bg-blue-hover disabled:opacity-60 disabled:cursor-not-allowed">Tambah</button>
-                    </div>
+                </div>
+                <div class="flex gap-3 py-3 px-4">
+                    <button id="btnCancelCreateUser" class="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 transition cursor-pointer hover:not-disabled:bg-gray-50 disabled:opacity-60 disabled:cursor-not-allowed">Batalkan</button>
+                    <button id="btnCreateUser" class="flex-1 flex justify-center items-center gap-1.5 py-2.5 bg-blue-900 text-white rounded-xl text-sm font-semibold transition cursor-pointer hover:not-disabled:bg-blue-hover disabled:opacity-60 disabled:cursor-not-allowed">Tambah</button>
                 </div>
             </div>
         </div>
         <div id="popUpEditUser" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
             <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
                 <div class="px-6 py-5 border-b border-gray-100">
-                    <h2 class="font-display text-xl font-bold text-gray-900">Edit User Anda</h2>
+                    <h2 class="font-display text-xl font-bold text-gray-900">Edit User</h2>
                 </div>
                 <div class="form-body p-6 space-y-4">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
