@@ -22,7 +22,13 @@ document.addEventListener("DOMContentLoaded", () => {
     btnFormCreateUser.addEventListener("click", () => {
         popUpCreateUser.showPopUp();
     });
-    btnCancelCreateUser.addEventListener("click", () => popUpCreateUser.closePopUp());
+    const uncheckPermissionsSelected = () => {
+        document.querySelectorAll("input[type='checkbox'].permission:checked").forEach((inputChecked) => inputChecked.checked = false);
+    };
+    btnCancelCreateUser.addEventListener("click", () => {
+        uncheckPermissionsSelected();
+        popUpCreateUser.closePopUp();
+    });
     btnCreateUser.addEventListener("click", function () {
         /** @type {HTMLButtonElement} */
         const currBtn = this;
@@ -30,6 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // __COMMENT__ Animasi loading state
         currBtn.disabled = true;
         currBtn.innerHTML = loadingSvg + "Sebentar";
+        /** @type {string[]} Array berisi hak izin yang dichecklist/dipilih */
+        const getPermissionsSelected = Array.from(document.querySelectorAll("input[type='checkbox'].permission:checked"))
+            .map((inputChecked) => inputChecked.dataset.permissionName);
         console.log("Sedang menambahkan user...");
         // __COMMENT__ State ketika telah mendapatkan response dari server
         /**
@@ -38,6 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
             currBtn.innerText = textBtnCreateUser;
             currBtn.removeAttribute("disabled");
+            btnCancelCreateUser.removeAttribute("disabled");
+            uncheckPermissionsSelected();
             popUpCreateUser.closePopUp();
             notification.success("User baru berhasil ditambahkan.");
         }, 5000);
