@@ -15,6 +15,7 @@ import { getUsers } from "../models/UsersModel.js";
 import { DateTimeParser } from "../services/DateTimeParser.js";
 import { getAllRole } from "../models/RolesModel.js";
 import { user as UserPermission } from "../services/UserPermission.js";
+import { PERMISSIONS } from "../config/config.permissions.js";
 
 const router = Router();
 
@@ -138,6 +139,7 @@ router.get("/dashboard/pengaturan/daftar-user", async (req, res) => {
         currentNav: "pengaturan",
         users,
         roles,
+        userPermissions: PERMISSIONS,
     });
 });
 
