@@ -11,7 +11,6 @@ const loadingSvgSmall = `<svg xmlns="http://www.w3.org/2000/svg" width="24" heig
 </svg>`;
 
 const notification = Notification();
-const { saveCheck } = IconsNotification;
 
 document.addEventListener("DOMContentLoaded", () => {
     const popUpCreateUser = new PopUp(document.getElementById("popUpCreateUser"));
@@ -53,6 +52,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const inputEditUsername = document.getElementById('editUsername');
     const inputEditEmail = document.getElementById('editEmail');
     const popUpEditUser = new PopUp(popUpEditUserWindow);
+    /** @type {HTMLSelectElement} */
+    const selectRoleOnEditUser = popUpEditUserWindow.querySelector("select#editRole");
+    /** @type {HTMLSpanElement} */
+    const cannotChangeRoleMessageEl = selectRoleOnEditUser.nextElementSibling;
     /** @type {number|null} User ID yang akan diedit */
     let editUserId = null;
     /** @type {string|null} Username yang akan diedit */
@@ -61,6 +64,14 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.addEventListener("click", function () {
             /** @type {HTMLElement} */
             const currBtn = this;
+            const isCurrentUser = Boolean(parseInt(currBtn.dataset.isCurrentUser));
+            if (isCurrentUser) {
+                selectRoleOnEditUser.disabled = true;
+                cannotChangeRoleMessageEl.classList.remove("hidden");
+            } else {
+                selectRoleOnEditUser.disabled = false;
+                cannotChangeRoleMessageEl.classList.add("hidden");
+            }
             const userRow = currBtn.closest("tr.user-row");
             const { id, username, email, role } = JSON.parse(userRow.dataset.user);
             /** @type {HTMLOptionElement | null} */
