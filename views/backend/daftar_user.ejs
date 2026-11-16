@@ -43,7 +43,7 @@
                             </thead>
                             <tbody class="divide-y divide-gray-50">
                                 <% users.forEach((row, idx) => { %>
-                                    <tr data-user='{"id": "<%= row.id %>","username":"<%= row.username %>","email":"<%= row.email %>","role":"<%= row.role %>"}'
+                                    <tr data-user='{"id": "<%= row.id %>","username":"<%= row.username %>","email":"<%= row.email %>","role":"<%= row.role %>","permissions":"<%= row.permissions %>"}'
                                         class="user-row hover:bg-gray-50/50 transition-colors group">
                                         <td class="py-3 px-3 text-gray-400 text-xs"><%= ++idx %></td>
                                         <td class="py-3 px-3">
@@ -66,9 +66,9 @@
                                                         </svg>
                                                     </button>
                                                 <% } %>
-                                                <% if(user.role === 'superadmin') { %>
+                                                <% if(user.role === 'superadmin' && row.role === 'admin') { %>
                                                     <button type="button" title="Hak izin pengguna"
-                                                        class="btn-prvileges-user flex justify-center items-center gap-2 py-2 px-2 border border-solid border-sky-300 text-xs rounded-md bg-sky-50 text-sky-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-sky-100 hover:border-sky-400">
+                                                        class="btn-privileges-user flex justify-center items-center gap-2 py-2 px-2 border border-solid border-sky-300 text-xs rounded-md bg-sky-50 text-sky-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-sky-100 hover:border-sky-400">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                                             class="lucide lucide-user-round-shield preview-icon size-3.5">
@@ -140,21 +140,6 @@
                                 <% }) %>
                             </select>
                         </div>
-                        <div class="sm:col-span-2">
-                            <h2 class="text-xs font-medium text-slate-600 mb-3">Hak Izin Pengguna</h2>
-                            <div class="user-permissions grid sm:grid-cols-2 gap-y-1 gap-x-2 text-sm">
-                                <% let idx = 0 %>
-                                <% Object.entries(userPermissions).forEach(([_, perms]) => { %>
-                                    <% perms.forEach((perm) => { %>
-                                        <% idx++ %>
-                                        <label for="perm-<%= idx %>">
-                                            <input type="checkbox" id="perm-<%= idx %>" data-permission-name="<%= perm %>" class="permission" />
-                                            <span><%= perm %></span>
-                                        </label>
-                                    <% }) %>
-                                <% }) %>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="flex gap-3 py-3 px-4">
@@ -202,6 +187,36 @@
                             class="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 transition cursor-pointer hover:not-disabled:bg-gray-50 disabled:opacity-60 disabled:cursor-not-allowed">Batalkan</button>
                         <button
                             id="btnConfirmPopUpEditUser"
+                            class="flex-1 flex justify-center items-center gap-1.5 py-2.5 bg-blue-900 text-white rounded-xl text-sm font-semibold transition cursor-pointer hover:not-disabled:bg-blue-hover disabled:opacity-60 disabled:cursor-not-allowed">Perbarui</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="popUpEditUserPermission" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
+                <div class="px-6 py-5 border-b border-gray-100">
+                    <h2 class="font-display text-xl font-bold text-gray-900">Edit Hak Izin Pengguna</h2>
+                    <p class="mt-0.5 text-sm text-slate-600">Username: <span id="username"></span></p>
+                </div>
+                <div class="form-body p-6 space-y-4">
+                    <div class="grid sm:grid-cols-2 gap-y-1 gap-x-2 text-sm">
+                        <% let idxEditUserPerm = 0 %>
+                        <% Object.entries(userPermissions).forEach(([_, perms]) => { %>
+                            <% perms.forEach((perm) => { %>
+                                <% if(!DENY_FROM_OTHER_ROLES.includes(perm)) { %>
+                                    <% idxEditUserPerm++ %>
+                                    <label for="edit-user-perm-<%= idxEditUserPerm %>">
+                                        <input type="checkbox" id="edit-user-perm-<%= idxEditUserPerm %>" data-permission-name="<%= perm %>" class="edit-permission" />
+                                        <span><%= PERMISSION_LABELS[perm] ?? perm %></span>
+                                    </label>
+                                <% } %>
+                            <% }) %>
+                        <% }) %>
+                    </div>
+                    <div class="flex gap-3 pt-2">
+                        <button id="btnClosePopUpEditUserPermission"
+                            class="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 transition cursor-pointer hover:not-disabled:bg-gray-50 disabled:opacity-60 disabled:cursor-not-allowed">Batalkan</button>
+                        <button id="btnConfirmPopUpEditUserPermission"
                             class="flex-1 flex justify-center items-center gap-1.5 py-2.5 bg-blue-900 text-white rounded-xl text-sm font-semibold transition cursor-pointer hover:not-disabled:bg-blue-hover disabled:opacity-60 disabled:cursor-not-allowed">Perbarui</button>
                     </div>
                 </div>
