@@ -11,11 +11,11 @@ import {
 } from "../services/MeetingsSession.js";
 import { getTotalMeetingsSessionCompleted } from "../models/SesiRapatModel.js";
 import { getTotalPresencesOnMeetingsCompleted } from "../models/SesiRapatKehadiranModel.js";
-import { getUsers } from "../models/UsersModel.js";
+import { getUsers, getUsersWithPermissions } from "../models/UsersModel.js";
 import { DateTimeParser } from "../services/DateTimeParser.js";
 import { getAllRole } from "../models/RolesModel.js";
 import { user as UserPermission } from "../services/UserPermission.js";
-import { PERMISSIONS } from "../config/config.permissions.js";
+import { PERMISSIONS, DENY_FROM_OTHER_ROLES, PERMISSION_LABELS } from "../config/config.permissions.js";
 
 const router = Router();
 
@@ -125,11 +125,11 @@ router.get("/dashboard/pengaturan", async (req, res) => {
 });
 
 router.get("/dashboard/pengaturan/daftar-user", async (req, res) => {
-    const isAllowedToAccess = await UserPermission(req.user.id).can("user.create");
+    const isAllowedToAccess = await UserPermission(req.user.id).can("user.update");
     if (!isAllowedToAccess) {
         return res.redirect("/dashboard/pengaturan");
     }
-    const users = (await getUsers(req.user.id)).map((row) => ({
+    const users = (await getUsersWithPermissions(req.user.id)).map((row) => ({
         ...row,
         last_login: (row.last_login !== null) ? DateTimeParser(row.last_login).toLocalizedString("yyyy-MM-dd HH:mm") : "Belum pernah login",
     }));
@@ -140,6 +140,8 @@ router.get("/dashboard/pengaturan/daftar-user", async (req, res) => {
         users,
         roles,
         userPermissions: PERMISSIONS,
+        PERMISSION_LABELS,
+        DENY_FROM_OTHER_ROLES,
     });
 });
 
