@@ -6,10 +6,13 @@
     
   > **NOTE**: `admin` tidak dapat mengakhiri sesi rapat.
 
-- [ ] `admin` tidak dapat memberikan atau mencabut hak izin pengguna lain.
 - [ ] Informasi yang mengetahui dan tanda tangan-nya dapat disimpan didatabase, tanda tangan dibuat menjadi sebuah file yang disimpan difolder `storage`.
 - [x] Waktu presensi dimulai dan berakhir tidak perlukan lagi, presensi berakhir saat `superadmin` mengakhiri sesi.
-- [x] Tambahkan opsi role diform edit pengguna (tersedia dihalaman /dashboard/pengaturan/daftar-user).
+- [x] Tambahkan opsi role diform edit pengguna dihalaman /dashboard/pengaturan/daftar-user.
 - [ ] Admin diperbolehkan mengedit user, dengan catatan hanya dapat mengedit akunnya sendiri.
 - [ ] Buat field untuk mencatat user yang membuat sesi rapat. Digunakan dihalaman Detail Sesi Rapat.
 - [ ] Sesuaikan tema visual dengan ikon Kabupaten Batang Hari. Lihat desain aplikasi Diskominfo Batang Hari sebagai referensi.
+- [ ] Saat melakukan update perizinan pengguna oleh `superadmin`, `admin` hanya dapat melakukan **user.create**.
+- [ ] `superadmin` tidak dapat dirubah hak izinnya, hak izin `superadmin` dapat dilakukan hanya dari config.permissions.js.
+- [ ] Jika `superadmin` mengganti user dengan role `admin` menjadi `superadmin`, pastikan hak izin user didatabase juga dihapus. Karena `superadmin` mengikuti config.permissions.js.
+- [ ] Tambahkan form untuk menambah user baru (hanya untuk role `admin`) dipengaturan. Pastikan tidak ada opsi untuk mengatur role, karena default harus `admin`.
