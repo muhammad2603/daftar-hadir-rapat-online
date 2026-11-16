@@ -22,11 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btnFormCreateUser.addEventListener("click", () => {
         popUpCreateUser.showPopUp();
     });
-    const uncheckPermissionsSelected = () => {
-        document.querySelectorAll("input[type='checkbox'].permission:checked").forEach((inputChecked) => inputChecked.checked = false);
-    };
     btnCancelCreateUser.addEventListener("click", () => {
-        uncheckPermissionsSelected();
         popUpCreateUser.closePopUp();
     });
     btnCreateUser.addEventListener("click", function () {
@@ -36,9 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
         // __COMMENT__ Animasi loading state
         currBtn.disabled = true;
         currBtn.innerHTML = loadingSvg + "Sebentar";
-        /** @type {string[]} Array berisi hak izin yang dichecklist/dipilih */
-        const getPermissionsSelected = Array.from(document.querySelectorAll("input[type='checkbox'].permission:checked"))
-            .map((inputChecked) => inputChecked.dataset.permissionName);
         console.log("Sedang menambahkan user...");
         // __COMMENT__ State ketika telah mendapatkan response dari server
         /**
@@ -146,5 +139,62 @@ document.addEventListener("DOMContentLoaded", () => {
                 }, 5000);
             }
         });
+    });
+    const popUpEditUserPermissionEl = document.getElementById("popUpEditUserPermission");
+    const popUpEditUserPermission = new PopUp(popUpEditUserPermissionEl);
+    /** @type {HTMLButtonElement} */
+    const btnClosePopUpEditUserPermission = document.getElementById("btnClosePopUpEditUserPermission");
+    /** @type {HTMLButtonElement} */
+    const btnConfirmPopUpEditUserPermission = document.getElementById("btnConfirmPopUpEditUserPermission");
+    btnClosePopUpEditUserPermission.addEventListener("click", () => {
+        popUpEditUserPermission.closePopUp();
+    })
+    const btnEditPrivilegesUser = document.querySelectorAll("button.btn-privileges-user");
+    const usernameOnPopUpEditUserPerm = popUpEditUserPermissionEl.querySelector("span#username");
+    /** @type {NodeListOf<HTMLInputElement>} */
+    const checkboxEditPermissions = popUpEditUserPermissionEl.querySelectorAll("input[type='checkbox']");
+    /** @type {null | string} User ID yang akan diubah hak izinnya */
+    let editPermissionUserId = null;
+    /** @type {null | string} Username yang akan diubah hak izinnya */
+    let editPermissionUsername = null;
+    btnEditPrivilegesUser.forEach((btn) => {
+        btn.addEventListener("click", function () {
+            btnConfirmPopUpEditUserPermission.disabled = true;
+            const userRow = this.closest("tr.user-row");
+            const { id, username, permissions } = JSON.parse(userRow.dataset.user);
+            const permissionArray = permissions.split(",");
+            permissionArray.forEach((perm) => {
+                document.querySelector(`input[type='checkbox'][data-permission-name='${perm}']`).checked = true;
+            });
+            editPermissionUserId = id;
+            editPermissionUsername = username;
+            usernameOnPopUpEditUserPerm.textContent = username;
+            popUpEditUserPermission.showPopUp();
+        })
+    });
+    checkboxEditPermissions.forEach((cb) => {
+        cb.addEventListener("change", () => {
+            btnConfirmPopUpEditUserPermission.removeAttribute("disabled");
+        });
+    })
+    btnConfirmPopUpEditUserPermission.addEventListener("click", function () {
+        /** @type {HTMLButtonElement} */
+        const currBtn = this;
+        btnClosePopUpEditUserPermission.disabled = true;
+        // __COMMENT__ Animasi loading state
+        currBtn.disabled = true;
+        currBtn.innerHTML = loadingSvg + "Sebentar";
+        console.log(`Sedang mengubah hak izin user dengan ID ${editPermissionUserId}...`);
+        // __COMMENT__ State ketika telah mendapatkan response dari server
+        /**
+         * Saat server mengembalikan response OK, server harus memberikan list user yg terbaru 
+         */
+        setTimeout(() => {
+            currBtn.innerText = textBtnEditUserDefault;
+            currBtn.removeAttribute("disabled");
+            popUpEditUserPermission.closePopUp();
+            btnClosePopUpEditUserPermission.removeAttribute("disabled");
+            notification.success(`Hak izin user ${editPermissionUsername} berhasil diperbarui!`);
+        }, 5000);
     });
 });
