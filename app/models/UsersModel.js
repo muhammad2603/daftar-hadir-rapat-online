@@ -103,6 +103,51 @@ export async function getUsers(currUserId, limit = null) {
 }
 
 /**
+ * Mengambil list pengguna beserta hak izinnya
+ * 
+ * Catatan: Role superadmin tidak memiliki hak izin didatabase, sehingga hak izin hanya berisi array kosong.
+ * 
+ * @param {number} currUserId User ID yang ditampilkan pertama (akun anda)
+ * @param {number | null} limit Batas pengambilan row
+ * 
+ * @returns {Promise<[{
+ *  id: number,
+ *  username: string,
+ *  email: string | null,
+ *  role: string,
+ *  permissions: string[],
+ *  last_login: Date | null,
+ * }]>}
+ */
+export async function getUsersWithPermissions(currUserId, limit = null) {
+    const qBuilder = db(TABLE)
+        .select([
+            "users.id",
+            "users.username",
+            "users.email",
+            "roles.identitas AS role",
+            "roles.nama AS roleLabel",
+            db.raw("GROUP_CONCAT(user_permissions.permission) AS permissions"),
+            "users.last_login",
+        ])
+        .leftJoin("user_permissions", function () {
+            this.on("user_permissions.user_id", "=", "users.id").andOnVal(
+                "user_permissions.effect",
+                "=",
+                "grant"
+            );
+        })
+        .join("roles", "roles.id", "users.role_id")
+        .orderByRaw("users.id = ? DESC", [currUserId])
+        .orderBy("users.id", "asc")
+        .groupBy("user_permissions.user_id");
+    if (limit !== null) {
+        qBuilder.limit(limit);
+    }
+    return qBuilder;
+}
+
+/**
  * Mengambil identitas role pengguna
  * @param {number} userId
  * 
