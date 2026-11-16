@@ -16,3 +16,4 @@
 - [ ] `superadmin` tidak dapat dirubah hak izinnya, hak izin `superadmin` dapat dilakukan hanya dari config.permissions.js.
 - [ ] Jika `superadmin` mengganti user dengan role `admin` menjadi `superadmin`, pastikan hak izin user didatabase juga dihapus. Karena `superadmin` mengikuti config.permissions.js.
 - [ ] Tambahkan form untuk menambah user baru (hanya untuk role `admin`) dipengaturan. Pastikan tidak ada opsi untuk mengatur role, karena default harus `admin`.
+- [ ] Pastikan saat mengubah data user, user yang sedang login saat ini tidak dapat mengganti role dan hak izin pada akunnya sendiri.
