@@ -43,7 +43,7 @@
                             </thead>
                             <tbody class="divide-y divide-gray-50">
                                 <% users.forEach((row, idx) => { %>
-                                    <tr data-user='{"id": "<%= row.id %>","username":"<%= row.username %>","email":"<%= row.email %>","role":"<%= row.role %>","permissions":"<%= row.permissions %>"}'
+                                    <tr data-user='{"id":"<%= row.id %>","username":"<%= row.username %>","email":"<%= row.email %>","role":"<%= row.role %>","permissions":"<%= row.permissions %>"}'
                                         class="user-row hover:bg-gray-50/50 transition-colors group">
                                         <td class="py-3 px-3 text-gray-400 text-xs"><%= ++idx %></td>
                                         <td class="py-3 px-3">
@@ -79,6 +79,7 @@
                                                     </button>
                                                 <% } %>
                                                 <button type="button" title="Edit"
+                                                    data-is-current-user="<%= (row.username === user.username) ? 1 : 0 %>"
                                                     class="btn-edit-user flex justify-center items-center gap-2 py-2 px-2 border border-solid border-purple-300 text-xs rounded-md bg-purple-50 text-purple-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-purple-100 hover:border-purple-400">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -175,11 +176,12 @@
                         <label for="editEmail" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Ganti Role</label>
                         <select
                             id="editRole"
-                            class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors" />
+                            class="w-full border border-slate-200 rounded-lg mb-1 px-3.5 py-2.5 text-sm text-slate-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors disabled:opacity-60 disabled:cursor-not-allowed" />
                             <% roles.forEach((row) => { %>
                                 <option data-role-option="<%= row.identitas %>" value="<%= row.id %>"><%= row.nama %></option>
                             <% }) %>
                         </select>
+                        <span class="hidden px-1 text-xs text-orange-400">Anda tidak dapat mengganti role anda sendiri.</span>
                     </div>
                     <div class="flex gap-3 pt-2">
                         <button
