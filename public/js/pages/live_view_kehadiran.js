@@ -210,6 +210,29 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    /** @type {HTMLSelectElement} */
+    const configSavedSelectEl = document.getElementById("configSelect");
+    const configOptionFragmet = document.createDocumentFragment();
+
+    if (configArray.length > 0) {
+        configArray.forEach(config => configOptionFragmet.appendChild(new Option(`${config.personChargeName} - ${config.personChargeIdNumber}`, config.personChargeIdNumber)));
+        configSavedSelectEl.appendChild(configOptionFragmet);
+    } else {
+        btnOpenSavedConfig.disabled = true;
+    }
+
+    // Terapkan konfigurasi yang terpilih dibagian "Yang Mengetahui"
+    configSavedSelectEl.addEventListener("change", function () {
+        const selectedIdNumber = this.value.trim();
+        const findConfig = configArray.find(config => config.personChargeIdNumber === selectedIdNumber);
+        if (findConfig) {
+            Object.entries(findConfig).forEach(([inputId, val]) => {
+                document.getElementById(inputId).value = val;
+                document.querySelector(`[data-input-id='${inputId}']`).textContent = val;
+            })
+        }
+    });
+
     btnSavedConfig.addEventListener("click", function () {
         const configLength = configArray.length;
         if (configLength >= MAX_CONFIG_SAVED) {
@@ -239,7 +262,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const inputId = inputEl.id;
             createRow[inputId] = inputValue;
         }
+        if (configArray.length === 1) {
+            btnOpenSavedConfig.removeAttribute("disabled");
+        }
         configArray.push(createRow);
         localStorage.setItem(keySavedConfigOnLocalStorage, JSON.stringify(configArray));
+        configSavedSelectEl.appendChild(new Option(`${createRow.personChargeName} - ${createRow.personChargeIdNumber}`, createRow.personChargeIdNumber));
+        alert("Informasi penanggung jawab berhasil disimpan!");
     });
 });
