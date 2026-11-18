@@ -1,4 +1,5 @@
 import { PopUp } from "../cores/PopUp.js";
+import SignaturePad from '/js/libs/signature_pad/dist/signature_pad.min.js';
 
 const loadingSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-loader-circle preview-icon size-4 animate-spin">
 <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
@@ -50,6 +51,172 @@ document.addEventListener("DOMContentLoaded", () => {
             timePresence.textContent = rowTimePresence.textContent;
             popUpTtdImage.showPopUp();
         });
-    })
-    btnCloseTtdImage.addEventListener("click", () => popUpTtdImage.closePopUp())
+    });
+    btnCloseTtdImage.addEventListener("click", () => popUpTtdImage.closePopUp());
+    const canvas = document.querySelector("canvas");
+    const ttdText = document.getElementById("ttdText");
+    const resetTtdBtn = document.getElementById("resetTtd");
+
+    const disableSignaturePadAtEnd = () => {
+        signaturePad.off();
+        resetTtdBtn.classList.add("flex");
+        resetTtdBtn.classList.remove("hidden");
+        canvas.classList.remove("cursor-pen-tool");
+    };
+
+    const enableSignaturePad = () => {
+        signaturePad.clear();
+        canvas.classList.add("cursor-pen-tool");
+        ttdText.classList.remove("hidden");
+        signaturePad.on();
+        resetTtdBtn.classList.remove("flex");
+        resetTtdBtn.classList.add("hidden");
+    };
+
+    const signaturePad = new SignaturePad(canvas, {
+        minWidth: 0.8
+    });
+    let lastWidth = 0;
+
+    const resizeCanvas = () => {
+        if (!canvas.offsetWidth) return;
+        if (canvas.offsetWidth === lastWidth) return;
+        lastWidth = canvas.offsetWidth;
+        const data = signaturePad.toData();
+        const ratio = Math.max(window.devicePixelRatio || 1, 1);
+        canvas.width = canvas.offsetWidth * ratio;
+        canvas.height = canvas.offsetHeight * ratio;
+        canvas.getContext('2d').scale(ratio, ratio);
+        signaturePad.clear();
+        if (data.length) {
+            signaturePad.fromData(data);
+        }
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    signaturePad.addEventListener("beginStroke", () => {
+        ttdText.classList.add("hidden");
+    });
+
+    signaturePad.addEventListener("endStroke", () => {
+        disableSignaturePadAtEnd();
+    });
+
+    resetTtdBtn.addEventListener("click", () => {
+        enableSignaturePad();
+    });
+
+    const configurationsPanel = document.getElementById("configurationsPanel");
+    const btnOpenConfig = document.getElementById("openConfig");
+    const btnSavedConfig = document.getElementById("saveAsConfig");
+    const inputsConfig = configurationsPanel.querySelectorAll("input");
+    const btnCloseConfigurationsPanel = document.getElementById("closeConfigurationsPanel");
+    const savedConfigPanel = document.getElementById("savedConfigPanel");
+
+    btnOpenConfig.addEventListener("click", function () {
+        const isSavedConfigPanelOpened = !savedConfigPanel.classList.contains("hidden");
+        if (isSavedConfigPanelOpened) {
+            btnOpenSavedConfig.classList.remove("pointer-events-none");
+            savedConfigPanel.classList.add("hidden");
+        }
+        this.classList.add("pointer-events-none");
+        configurationsPanel.classList.remove("hidden");
+    });
+
+    btnCloseConfigurationsPanel.addEventListener("click", function () {
+        btnOpenConfig.classList.remove("pointer-events-none");
+        configurationsPanel.classList.add("hidden");
+    });
+
+    const setPersonChargeFromConfig = function () {
+        /** @type {HTMLInputElement} */
+        const inputEl = this;
+        inputEl.classList.remove("invalid");
+        const getInputId = inputEl.getAttribute("id");
+        const getReferenceEl = document.querySelector(`[data-input-id='${getInputId}']`);
+        let inputValue = inputEl.value.trim();
+        if (inputEl.type === 'date') {
+            const parseDatePublish = new Date(inputValue);
+            const dateFormatted = Intl.DateTimeFormat("id-ID", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+            }).format(parseDatePublish);
+            inputValue = dateFormatted;
+        }
+        getReferenceEl.textContent = inputValue;
+    }
+
+    /** @type {HTMLInputElement[]} Input penanggung jawab */
+    const inputsConfigEl = [];
+
+    inputsConfig.forEach(input => {
+        if (input.classList.contains("input-config")) {
+            inputsConfigEl.push(input);
+        }
+        input.addEventListener("change", setPersonChargeFromConfig);
+    });
+
+    const btnOpenSavedConfig = document.getElementById("openSavedConfig");
+    const btnCloseSavedConfigPanel = document.getElementById("closeSavedConfigPanel");
+
+    btnOpenSavedConfig.addEventListener("click", function () {
+        const isInputsConfigPanelOpened = !configurationsPanel.classList.contains("hidden");
+        if (isInputsConfigPanelOpened) {
+            btnOpenConfig.classList.remove("pointer-events-none");
+            configurationsPanel.classList.add("hidden");
+        }
+        this.classList.add("pointer-events-none");
+        savedConfigPanel.classList.remove("hidden");
+    });
+
+    btnCloseSavedConfigPanel.addEventListener("click", () => {
+        btnOpenSavedConfig.classList.remove("pointer-events-none");
+        savedConfigPanel.classList.add("hidden");
+    });
+
+    const keySavedConfigOnLocalStorage = "daftar_hadir:config:penanggung_jawab";
+
+    btnSavedConfig.addEventListener("click", function () {
+        const getItemConfigOnLocalStorage = localStorage.getItem(keySavedConfigOnLocalStorage);
+        /**
+         * @type {Array<{
+         *  personChargePosition: string,
+         *  personChargeName: string,
+         *  personChargeRank: string,
+         *  personChargeIdNumber: string,
+         * }>}
+         * Konfigurasi dari Local Storage Browser
+         */
+        const configJson = JSON.parse(getItemConfigOnLocalStorage ?? '[]');
+        const configLength = configJson.length;
+        const createRow = {};
+        for (let i = 0; i < inputsConfigEl.length; i++) {
+            const inputEl = inputsConfigEl[i];
+            const inputValue = inputEl.value.trim();
+            // Cek apakah NIP telah tersimpan diconfig
+            if (configLength > 0 && inputEl.id === "personChargeIdNumber") {
+                const isPersonIdNumberExist = configJson.some(config => config.personChargeIdNumber === inputValue);
+                if (isPersonIdNumberExist) {
+                    const findPersonByIdNumber = configJson.find(config => config.personChargeIdNumber === inputValue);
+                    return alert(`Tidak dapat menyimpan informasi penanggung jawab, NIP telah tersedia sebagai: ${findPersonByIdNumber.personChargeName}`);
+                }
+            }
+            if (inputValue === '') {
+                inputsConfigEl.forEach(input => {
+                    if (input.value.trim() === '') {
+                        input.classList.add("invalid");
+                    }
+                });
+                alert("Mohon isi informasi penanggung jawab secara lengkap!");
+                return;
+            }
+            const inputId = inputEl.id;
+            createRow[inputId] = inputValue;
+        }
+        configJson.push(createRow);
+        localStorage.setItem(keySavedConfigOnLocalStorage, JSON.stringify(configJson));
+    });
 });
