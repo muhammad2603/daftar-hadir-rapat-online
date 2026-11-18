@@ -178,29 +178,34 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const keySavedConfigOnLocalStorage = "daftar_hadir:config:penanggung_jawab";
+    const getConfig = localStorage.getItem(keySavedConfigOnLocalStorage);
+    const MAX_CONFIG_SAVED = 8;
+
+    /**
+     * @type {Array<{
+     *  personChargePosition: string,
+     *  personChargeName: string,
+     *  personChargeRank: string,
+     *  personChargeIdNumber: string,
+     * }>}
+     * Konfigurasi dari Local Storage Browser
+     */
+    const configArray = JSON.parse(getConfig ?? '[]');
 
     btnSavedConfig.addEventListener("click", function () {
-        const getItemConfigOnLocalStorage = localStorage.getItem(keySavedConfigOnLocalStorage);
-        /**
-         * @type {Array<{
-         *  personChargePosition: string,
-         *  personChargeName: string,
-         *  personChargeRank: string,
-         *  personChargeIdNumber: string,
-         * }>}
-         * Konfigurasi dari Local Storage Browser
-         */
-        const configJson = JSON.parse(getItemConfigOnLocalStorage ?? '[]');
-        const configLength = configJson.length;
+        const configLength = configArray.length;
+        if (configLength >= MAX_CONFIG_SAVED) {
+            return alert(`Tidak dapat menambahkan informasi penanggung jawab (Maks. ${MAX_CONFIG_SAVED})!`);
+        }
         const createRow = {};
         for (let i = 0; i < inputsConfigEl.length; i++) {
             const inputEl = inputsConfigEl[i];
             const inputValue = inputEl.value.trim();
             // Cek apakah NIP telah tersimpan diconfig
             if (configLength > 0 && inputEl.id === "personChargeIdNumber") {
-                const isPersonIdNumberExist = configJson.some(config => config.personChargeIdNumber === inputValue);
+                const isPersonIdNumberExist = configArray.some(config => config.personChargeIdNumber === inputValue);
                 if (isPersonIdNumberExist) {
-                    const findPersonByIdNumber = configJson.find(config => config.personChargeIdNumber === inputValue);
+                    const findPersonByIdNumber = configArray.find(config => config.personChargeIdNumber === inputValue);
                     return alert(`Tidak dapat menyimpan informasi penanggung jawab, NIP telah tersedia sebagai: ${findPersonByIdNumber.personChargeName}`);
                 }
             }
@@ -216,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const inputId = inputEl.id;
             createRow[inputId] = inputValue;
         }
-        configJson.push(createRow);
-        localStorage.setItem(keySavedConfigOnLocalStorage, JSON.stringify(configJson));
+        configArray.push(createRow);
+        localStorage.setItem(keySavedConfigOnLocalStorage, JSON.stringify(configArray));
     });
 });
