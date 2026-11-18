@@ -151,22 +151,99 @@
                     </div>
                 </div>
             </div>
-            <div class="bottom-fingerprint-attendance px-14">
-                <div class="box-fingerprint w-60 ml-auto text-center">
-                    <div class="top">
-                        <p>Muara Bulian, &nbsp;03&nbsp; Oktober 2026</p>
+            <div class="bottom-fingerprint-attendance px-14 flex justify-end-safe gap-14">
+                <div id="configurationsPanel" class="box-fingerprint-inputs w-150 h-fit bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4 print:hidden">
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <input type="text"
+                            id="placeName"
+                            placeholder="Nama Tempat"
+                            class="w-full h-fit border border-slate-200 rounded-lg px-2 py-1.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors" />
+                        <div>
+                            <input type="date"
+                                id="datePublish"
+                                class="w-full h-fit mb-1 border border-slate-200 rounded-lg px-2 py-1.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors" />
+                            <label for="sameAsMeetingDate" class="text-xs cursor-pointer">
+                                <input type="checkbox" id="sameAsMeetingDate" class="ml-1 align-middle" />
+                                <span>Samakan dengan tanggal rapat</span>
+                            </label>
+                        </div>
                     </div>
-                    <div class="ttd-box mt-3 mb-2 w-full h-20">
-                        <!-- __FIX__ Src TTD menggunakan Base64 Encoding sebagai contoh, sebaiknya gunakan metode yang sesuai. -->
-                        <img
-                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAABjCAYAAAARgbk1AAAACXBIWXMAAAsSAAALEgHS3X78AAAE4klEQVRogc1bW2hVRxRdGiNR/JCqxScGKShRrEXSoB96aRQ0H1YLVyoqKra+fkRLi48PAyo22qqoKFHQUOsT++ELEZQrCj5TqpjGt9FEfKH4wnf0yMAc2Wzm3jMzZ+beu2A+cs7ee9admbNnz54dwD2KAUwGkEQeoB5AIFt1LolUEiJhawBQkm0ixQoiYduSD6MSkNYym2TqSMeC2HVGZlu2iAxhHXcCcIs9O5YNIoUALpFOb8rnaxmZ/7NB5hfS4UcAK+XzBYzMM99EOgJ4RTo8AqBAvhurWMRdfJL5i3TUDGAoefeVgsx3voh8zTrarJB5xGSm+iJzinTyEEBfhcwBRmaGDyKzWCfL0sj9weQmuCaSAHCHdPAYQNs0svyLGuzb7W/NILuKyfZ0SSTJjKci5Mcz+a4uyaSY8YEaU0rl+7ki8iMzLKYrCn2YToULIn0AvGWGSzQ9NNURXjkW2snNjxqdbbCJviN6Yh+LheWMyCuy/+iggegKW9YYrNhfphjaOEF0a+KQOc+IPJTTZoIaon/IlsgMxaj8ZmHnV6Jfa0OkNYC7ilHpbmFrNLEhQlFjrGBEngP4ycYQgN7EzksbAw8Ymcsxo7RnJABrYaI4TLFWhPeNg/+ILeEItbGXEbkmjx5xsJ/YEydPLfRjRJ442va3GGyun7GDKL13GJmNIHYn6SgMYKOyCUAbR2Q6E7urTee1HkAHuEX4RR2OEvyejco4uMcZaftGlLcND+kfAOwy9QWG67E50/TXsLOyyCj4wFKd8JPm4MShyxdocD4xnZCIvl7LjbCbRzLf5EviUaCVXJOCTBPyAE/J2izKNZmdZKpKc01mnum24BOjCJnfc02mLyGzJ9dkCmU0IMhcRB7gtuVh0AuOkqmyOW04g4iZrhAy5cgBigD8qQj0p2ebSHsAZxVEAukEs4YvAVxgBMItQbSD2SLSiWVFA3kNVEb+FhkK7+jGRkC0dXLKCoivEed5r0iyVMpHeXanAf5l8r7IJ5EUG5H1ipPGMfJeJAaco0TxtRyXAT/HNiIz3AeZFCOSKbSs8nXT0l6Rwt8doTOXyC52SWaTYQofMnXr/CI1qSAiUvRR+Jn5nthIsLvsZoNijP5E718fC3a8oVMM9e7HJVJpuGA5WjL9WEFWHTHUpLlOOO4RGz1siaxmvyoZM0Ui2rc2BhLslsR0eij2ETtjbAxUs1GxmZ4QG4idmabKCUbkb8TDImJrYZxPuRbxMc02RVJicT8ZhSnEnohvrP2KC5TaeuEmohjWx7iA8bQPYqMy2gMZ7S9zPVF4Iw/vrnDXxHkWMrftuojrjcn0l7OhjHUVrICR31rDFH5wTCZlEiGeY2R65YpMAdsUX3i4U9Am04uNirhndA1t+8OZ8D+OiVQw+6IWNC02MuHtHtOwkV64ngkL5+cSfL/LmBcOPOzU6SK9yO0g8EimO7Mtamwy4qpHMvSeO5DFhTAZmUZHRMYpbEdevDd68DMJVvakPeJVTMnFAX23YlS04piBjkv2VdX3op441i9ZYkGEFoFp79I6ebrA4EhbrFgjRtPDwev06FlnZAY90dnJNLqVcXJ2a9IYDYt95sjOk5JkbQZ5J//dU5ehA5121aSqyHZBBxrNeLHqokxW0uuQEORN0mvW+EIWttM1clr6ovk2CaBPCL/P4LondCsAAAAASUVORK5CYII="
-                            alt="TTD"
-                            class="w-full h-full object-contain object-center">
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <input type="text"
+                            id="personChargeName"
+                            placeholder="Nama Penanggung Jawab"
+                            class="input-config w-full h-fit mb-1 border border-slate-200 rounded-lg px-2 py-1.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors [&.invalid]:border-red-400" />
+                        <input type="text"
+                            id="personChargePosition"
+                            placeholder="Jabatan Penanggung Jawab"
+                            class="input-config w-full h-fit border border-slate-200 rounded-lg px-2 py-1.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors [&.invalid]:border-red-400" />
+                    </div>
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <input type="text"
+                            id="personChargeRank"
+                            placeholder="Pangkat Penanggung Jawab"
+                            class="input-config w-full h-fit border border-slate-200 rounded-lg px-2 py-1.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors [&.invalid]:border-red-400" />
+                        <input type="text"
+                            id="personChargeIdNumber"
+                            placeholder="NIP Penanggung Jawab"
+                            class="input-config w-full h-fit mb-1 border border-slate-200 rounded-lg px-2 py-1.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors [&.invalid]:border-red-400" />
+                    </div>
+                    <p class="w-fit text-xs text-amber-500">Catatan: Informasi penanggung jawab hanya dapat disimpan sebanyak 8 konfigurasi.</p>
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <button type="button" id="saveAsConfig" class="bg-blue-900 hover:bg-blue-hover disabled:opacity-60 text-xs text-white font-semibold py-2.5 rounded-xl transition-colors shadow-md cursor-pointer">Simpan Informasi Penanggung Jawab</button>
+                        <button type="button" id="closeConfigurationsPanel" class="bg-blue-900 hover:bg-blue-hover disabled:opacity-60 text-xs text-white font-semibold py-2.5 rounded-xl transition-colors shadow-md cursor-pointer">Selesai</button>
+                    </div>
+                </div>
+                <div id="savedConfigPanel"
+                    class="box-fingerprint-inputs hidden w-fit h-fit bg-white rounded-2xl border border-slate-200 shadow-sm p-4 space-y-4 print:hidden">
+                    <select
+                        id="configSelect"
+                        class="w-full border border-slate-200 rounded-lg p-2 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                        <option value="#">Pilih Konfigurasi Tersimpan:</option>
+                        <option value="JSON STRING">Boni Bonanza, S.Kom - Kepala Bidang TIK</option>
+                    </select>
+                    <div class="flex justify-end">
+                        <button type="button" id="closeSavedConfigPanel"
+                            class="py-2.5 px-8 bg-blue-900 hover:bg-blue-hover disabled:opacity-60 text-xs text-white font-semibold rounded-xl transition-colors shadow-md cursor-pointer">Selesai</button>
+                    </div>
+                </div>
+                <div class="box-fingerprint w-65 text-left relative">
+                    <div class="icon-config absolute top-0 right-full mr-3 space-y-3 print:hidden">
+                        <button type="button" id="openConfig" class="transition duration-100 hover:rotate-90 cursor-pointer group" title="Buka Konfigurasi">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="lucide lucide-settings preview-icon text-slate-500 hover:text-slate-700">
+                                <path
+                                    d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                        </button>
+                        <button type="button" id="openSavedConfig" class="transition duration-100 cursor-pointer group" title="Konfigurasi Tersimpan">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="lucide lucide-bookmark-check preview-icon text-slate-500 group-hover:text-slate-700">
+                                <path
+                                    d="M17 3a2 2 0 0 1 2 2v15a1 1 0 0 1-1.496.868l-4.512-2.578a2 2 0 0 0-1.984 0l-4.512 2.578A1 1 0 0 1 5 20V5a2 2 0 0 1 2-2z" />
+                                <path d="m9 10 2 2 4-4" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="top">
+                        <p><span data-input-id="placeName">...</span>, <span data-input-id="datePublish" data-meeting-date="<%= meetingData.tanggal %>">...</span></p>
+                        <p>Mengetahui,</p>
+                        <p><span data-input-id="personChargePosition">...</span>,</p>
+                    </div>
+                    <div class="ttd-box mt-3 w-full relative border-2 border-dashed border-slate-300 rounded-lg print:border-transparent">
+                        <div id="resetTtd" class="hidden absolute -top-2.5 right-1.5 justify-end mt-4 print:hidden">
+                            <button class="py-1 px-2.5 border border-solid border-red-300 text-[11px] rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">Ulangi Tanda Tangan</button>
+                        </div>
+                        <span id="ttdText" class="signature-area absolute top-1/2 left-1/2 -translate-1/2 font-semibold text-sm text-slate-400 print:hidden">(TTD Disini)</span>
+                        <canvas id="signaturePad" class="w-full h-32 cursor-pen-tool block touch-none!"></canvas>
+                        <p class="absolute w-full bottom-0"><b data-input-id="personChargeName">...</b></p>
                     </div>
                     <div class="bottom">
-                        <p><b>Muhammad Fattahillah. Mz</b></p>
-                        <p>Pranata Komputer Ahli Pertama</p>
-                        <p>NIP. 1919XXXXXXXXXXX</p>
+                        <p><span data-input-id="personChargeRank">...</span></p>
+                        <p>NIP <span data-input-id="personChargeIdNumber">...</span></p>
                     </div>
                 </div>
             </div>
@@ -244,6 +321,7 @@
     </div>
     <script src="/js/copy-link.js"></script>
     <script type="module" src="/js/pages/live_view_kehadiran.js"></script>
+    <!-- <script type="module" src="/js/signature-pad.js"></script> -->
 </body>
 
 </html>
