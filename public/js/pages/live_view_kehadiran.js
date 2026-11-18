@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const configurationsPanel = document.getElementById("configurationsPanel");
     const btnOpenConfig = document.getElementById("openConfig");
     const btnSavedConfig = document.getElementById("saveAsConfig");
-    const inputsConfig = configurationsPanel.querySelectorAll("input");
+    const inputsConfig = configurationsPanel.querySelectorAll("input:not([type='checkbox'])");
     const btnCloseConfigurationsPanel = document.getElementById("closeConfigurationsPanel");
     const savedConfigPanel = document.getElementById("savedConfigPanel");
 
@@ -191,6 +191,24 @@ document.addEventListener("DOMContentLoaded", () => {
      * Konfigurasi dari Local Storage Browser
      */
     const configArray = JSON.parse(getConfig ?? '[]');
+
+    const sameAsMeetingDateCheckbox = document.getElementById("sameAsMeetingDate");
+    /** @type {HTMLInputElement} */
+    const inputDatePublish = document.getElementById("datePublish");
+    /** @type {HTMLSpanElement} */
+    const datePublishSpan = document.querySelector("span[data-input-id='datePublish']");
+    const getMeetingDate = datePublishSpan.dataset.meetingDate;
+
+    sameAsMeetingDateCheckbox.addEventListener("change", function () {
+        const isChecked = this.checked;
+        if (isChecked) {
+            inputDatePublish.value = '';
+            inputDatePublish.disabled = true;
+            datePublishSpan.textContent = getMeetingDate;
+        } else {
+            inputDatePublish.removeAttribute("disabled");
+        }
+    });
 
     btnSavedConfig.addEventListener("click", function () {
         const configLength = configArray.length;
