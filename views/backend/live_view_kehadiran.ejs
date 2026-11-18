@@ -198,9 +198,8 @@
                     class="box-fingerprint-inputs hidden w-fit h-fit bg-white rounded-2xl border border-slate-200 shadow-sm p-4 space-y-4 print:hidden">
                     <select
                         id="configSelect"
-                        class="w-full border border-slate-200 rounded-lg p-2 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                        class="min-w-75 border border-slate-200 rounded-lg p-2 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
                         <option value="#">Pilih Konfigurasi Tersimpan:</option>
-                        <option value="JSON STRING">Boni Bonanza, S.Kom - Kepala Bidang TIK</option>
                     </select>
                     <div class="flex justify-end">
                         <button type="button" id="closeSavedConfigPanel"
@@ -218,7 +217,7 @@
                                 <circle cx="12" cy="12" r="3" />
                             </svg>
                         </button>
-                        <button type="button" id="openSavedConfig" class="transition duration-100 cursor-pointer group" title="Konfigurasi Tersimpan">
+                        <button type="button" id="openSavedConfig" class="transition duration-100 cursor-pointer group disabled:cursor-not-allowed disabled:opacity-60" title="Konfigurasi Tersimpan">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                 class="lucide lucide-bookmark-check preview-icon text-slate-500 group-hover:text-slate-700">
