@@ -23,6 +23,7 @@
     "jsonwebtoken": "^9.0.3",
     "knex": "^3.3.0",
     "maxmind": "^5.0.7",
+    "multer": "^2.5.0",
     "mysql2": "^3.24.5",
     "nodemailer": "^10.2.1",
     "otplib": "^13.5.0",
