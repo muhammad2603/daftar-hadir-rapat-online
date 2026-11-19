@@ -2,7 +2,8 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import { requireFullAuth } from './app/middlewares/auth.js';
 import daftarKehadiranRoute from './app/routes/route.daftarkehadiran.js';
-import APIRoute from './app/routes/route.api.js';
+import publicAPIRoute from './app/routes/route.publicapi.js';
+import restrictAPIRoute from './app/routes/route.restrictapi.js';
 import activateTwoFactor from './app/routes/route.activatetwofactor.js';
 import verifyTwoFactor from './app/routes/route.verifytwofactor.js';
 import resendTwoFactor from './app/routes/route.resendtwofactor.js';
@@ -33,13 +34,14 @@ app.use(generateCsrf);
 
 app.use(daftarKehadiranRoute);
 app.use(login);
-app.use(APIRoute);
+app.use(publicAPIRoute);
 app.use(activateTwoFactor);
 app.use(verifyTwoFactor);
 app.use(resendTwoFactor);
 app.use(requireFullAuth);
 app.use(dashboardRoute);
 app.use(logout);
+app.use(restrictAPIRoute);
 
 app.use((err, req, res, next) => {
     if (res.headersSent) return next(err);
