@@ -18,3 +18,8 @@
 - [ ] Tambahkan form untuk menambah user baru (hanya untuk role `admin`) dipengaturan. Pastikan tidak ada opsi untuk mengatur role, karena default harus `admin`.
 - [ ] Pastikan saat mengubah data user, user yang sedang login saat ini tidak dapat mengganti role dan hak izin pada akunnya sendiri.
 - [ ] Buat halaman untuk operasi penyimpanan di Local Storage.
+- [ ] Kop surat default hanya dapat ditambah atau diubah oleh `superadmin`.
+- [ ] Kop surat default tidak boleh NULL, karena otomatis fallback ke nama file defaultnya. Kop surat default adalah global dan hanya dapat diubah oleh `superadmin`.
+- [ ] Ubah ekstensi saat menambah/mengubah kop surat default yang hanya menerima ekstensi image/jpeg dan pastikan ekstensi file difix menjadi jpg.
+- [ ] Hapus field pimpinan_rapat ditable sesi_rapat.
+- [ ] Hapus field is_finished dan finished_at ditable user_activities.
