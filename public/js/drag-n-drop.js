@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const dropFileZone = document.getElementById("dropFileZone");
     const previewKopSuratWrapper = document.getElementById("previewKopSurat");
     const previewImgEl = document.getElementById("previewImg");
-    const fileInput = document.getElementById("kopSuratDefault");
+    const fileInput = document.getElementById("kopSuratDefault") ?? document.getElementById("kopSurat");
     const hapusKopSuratBtn = document.getElementById("hapusKopSurat");
 
     dropFileZone.addEventListener("dragover", (event) => {
