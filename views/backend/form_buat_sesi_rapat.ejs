@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="X-CSRF-TOKEN" content="<%= csrfToken %>" />
     <title>.:: <%= title %> ::.</title>
     <link rel="stylesheet" href="/css/base.css">
 </head>
@@ -22,26 +23,30 @@
                         <div>
                             <label for="judulRapat" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Judul Rapat <span class="font-semibold text-red-500">*</span></label>
                             <input type="text" placeholder="Masukkan Judul Rapat..." id="judulRapat" autocomplete="off" class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                            <p id="judulRapatError" class="mt-2 text-xs text-red-500">Input tidak boleh kosong.</p>
                         </div>
                         <div>
-                            <label for="tanggalRapat" class="block text-xs font-medium text-slate-600 mb-1.5">Tanggal Rapat <span
+                            <label for="tanggalRapat" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Tanggal Rapat <span
                                     class="font-semibold text-red-500">*</span></label>
                             <input type="date" id="tanggalRapat" class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                            <p id="tanggalRapatError" class="mt-2 text-xs text-red-500">Pilih tanggal rapat.</p>
                         </div>
                     </div>
                     <div>
                         <label for="ruangRapat" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Lokasi / Ruang <span class="font-semibold text-red-500">*</span></label>
                         <input type="text" placeholder="Masukkan Lokasi / Ruang Rapat..." id="ruangRapat" autocomplete="off" class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors">
+                        <p id="ruangRapatError" class="mt-2 text-xs text-red-500">Input tidak boleh kosong.</p>
                     </div>
                     <div>
                         <label for="agendaRapat" class="inline-block text-xs font-medium text-slate-600 mb-1.5">Agenda Rapat</label>
-                        <textarea id="agendaRapat" rows="4" placeholder="Masukkan Topik yang Akan Dibahas..." class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors resize-none"></textarea>
+                        <textarea id="agendaRapat" rows="4" placeholder="Masukkan Topik yang Akan Dibahas... (Kosongkan jika tidak diperlukan)" class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors resize-none"></textarea>
+                        <p id="agendaRapatError" class="mt-2 text-xs text-red-500"></p>
                     </div>
                     <div>
                         <span class="block text-xs font-medium text-slate-600 mb-1.5">Kop Surat (Opsional)</span>
                         <div>
-                            <input type="file" id="kopSuratDefault" accept="image/*" class="hidden">
-                            <label for="kopSuratDefault" id="dropFileZone" class="block border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all border-gray-200 hover:border-blue-700/70 hover:bg-gray-50">
+                            <input type="file" id="kopSurat" accept="image/*" class="hidden">
+                            <label for="kopSurat" id="dropFileZone" class="block border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all border-gray-200 hover:border-blue-700/70 hover:bg-gray-50">
                                 <div class="cursor-pointer flex flex-col items-center gap-2 pointer-events-none">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -52,7 +57,7 @@
                                     </svg>
                                     <span class="text-xs text-slate-500 pointer-events-none">Klik atau seret gambar kop surat ke sini</span>
                                     <span class="text-xs text-slate-400 pointer-events-none">PNG, JPG, hingga 5MB. Disarankan rasio 4:1.</span>
-                                    <span class="text-xs text-slate-400 pointer-events-none">Catatan: Jika note tidak diupload, maka akan diisi dengan kop default.</span>
+                                    <span class="text-xs text-slate-400 pointer-events-none">Catatan: Jika kop surat tidak diupload, maka akan diisi dengan kop default.</span>
                                 </div>
                             </label>
                         </div>
@@ -74,6 +79,7 @@
                                 </button>
                             </div>
                         </div>
+                        <p id="fileKopError" class="mt-2 text-xs text-red-500"></p>
                     </div>
                     <div class="flex gap-3 pt-2">
                         <a href="/dashboard/sesi-rapat/kelola" id="backPage" class="flex-1 border border-slate-200 text-slate-600 font-semibold text-center py-2.5 rounded-xl text-sm transition-colors hover:bg-slate-50 [&.disabled]:opacity-60">Batalkan</a>
