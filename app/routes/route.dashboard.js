@@ -60,31 +60,41 @@ router.get("/dashboard/monitor-kehadiran", async (req, res) => {
 
 router.get("/dashboard/monitor-kehadiran/:meetingSlug", async (req, res) => {
     const slug = req.params.meetingSlug;
-    // TODO Cek ketersediaan sesi rapat
-    // TODO Validasi state rapat, jika state Belum Dimulai, maka tidak dapat monitoring list peserta.
-    const { meeting, listParticipants, totalParticipants, link_kehadiran } = await meetingSessionWithListParticipants(slug);
-    res.render("backend/live_view_kehadiran", {
-        title: "Live View Kehadiran",
-        currentNav: "monitor-kehadiran",
-        meetingData: meeting,
-        listParticipants,
-        totalParticipants,
-        link_kehadiran
-    });
+    try {
+        const { meeting, totalParticipants, link_kehadiran } = await meetingSessionWithListParticipants(slug);
+        res.render("backend/live_view_kehadiran", {
+            title: "Live View Kehadiran",
+            currentNav: "monitor-kehadiran",
+            meetingData: meeting,
+            totalParticipants,
+            link_kehadiran
+        });
+    } catch (err) {
+        if (err.status === 404) {
+            return res.status(err.status).json({ error: err.message });
+        }
+        return res.status(500).json({ error: "Terjadi kesalahan pada server!" });
+    }
 });
 
 router.get("/dashboard/sesi-rapat/detail/:meetingSlug", async (req, res) => {
     const slug = req.params.meetingSlug;
-    // TODO Cek ketersediaan sesi rapat
-    const { meeting, listParticipants, totalParticipants, link_kehadiran } = await meetingSessionWithListParticipants(slug);
-    res.render("backend/detail_sesi_rapat", {
-        title: "Detail Sesi Rapat",
-        currentNav: "kelola-sesi-rapat",
-        meetingData: meeting,
-        listParticipants,
-        totalParticipants,
-        link_kehadiran,
-    });
+    try {
+        const { meeting, listParticipants, totalParticipants, link_kehadiran } = await meetingSessionWithListParticipants(slug);
+        res.render("backend/detail_sesi_rapat", {
+            title: "Detail Sesi Rapat",
+            currentNav: "kelola-sesi-rapat",
+            meetingData: meeting,
+            listParticipants,
+            totalParticipants,
+            link_kehadiran,
+        });
+    } catch (err) {
+        if (err.status === 404) {
+            return res.status(err.status).json({ error: err.message });
+        }
+        return res.status(500).json({ error: "Terjadi kesalahan pada server!" });
+    }
 });
 
 router.get("/dashboard/sesi-rapat/edit/:meetingSlug", async (req, res) => {
@@ -117,10 +127,13 @@ router.get("/dashboard/sesi-rapat/bagikan-tautan", async (req, res) => {
 
 router.get("/dashboard/pengaturan", async (req, res) => {
     const usersList = await getUsers(req.user.id, 3);
+    // __FIX__ Setiap user memiliki kop default masing-masing agar dibagi merata. User tidak dapat mengubah kop default yang bukan miliknya.
+    const isKopDefaultExist = (await import('fs')).existsSync("public/uploads/kop-surat/default.jpg");
     res.render("backend/pengaturan", {
         title: "Pengaturan",
         currentNav: "pengaturan",
         usersList,
+        isKopDefaultExist,
     });
 });
 
