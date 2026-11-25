@@ -12,6 +12,8 @@ const { octagonX, clockCheck, trash } = IconsNotification;
 
 document.addEventListener("DOMContentLoaded", () => {
     const btnEndSession = document.querySelectorAll(".btn-end-session[data-pop-up-type]");
+    /** @type {string} Token CSRF */
+    const csrfToken = document.querySelector('meta[name=X-CSRF-TOKEN]').getAttribute("content");
     btnEndSession.forEach(btn => {
         btn.addEventListener("click", async function () {
             /** @type {HTMLButtonElement} */
@@ -27,21 +29,38 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             if (confirmed) {
                 popUp.closePopUp(popUpWindowEl);
-                // __COMMENT__ Animasi loading state
+                const sessionId = currBtn.dataset.sessionId;
                 currBtn.disabled = true;
                 currBtn.firstElementChild.classList.add("hidden");
                 currBtn.insertAdjacentHTML("afterbegin", loadingSvg);
-                console.log("Sedang mengakhiri sesi...");
-                // __COMMENT__ State saat server memberikan response
-                /**
-                 * Ketika server memberikan response OK, server harus mengirim list data yang baru.
-                 */
-                setTimeout(() => {
-                    currBtn.firstElementChild.remove();
-                    currBtn.firstElementChild.classList.remove("hidden")
-                    currBtn.removeAttribute("disabled");
-                    notification.success("Sesi telah berakhir.", octagonX);
-                }, 5000);
+                fetch(`/api/meeting/${sessionId}/end-session`, {
+                    method: "PATCH",
+                    headers: {
+                        "x-csrf-token": csrfToken,
+                    },
+                })
+                    .then(async resp => {
+                        const text = await resp.text();
+                        const response = text ? JSON.parse(text) : {};
+                        if (!resp.ok) {
+                            const error = new Error(response.error || "Terjadi kesalahan pada server.");
+                            error.status = resp.status;
+                            throw error;
+                        }
+                        return response;
+                    })
+                    .then(() => {
+                        notification.success("Sesi telah berakhir. Tunggu halaman selesai memuat ulang!", octagonX)
+                        setTimeout(() => window.location.reload(), 3800);
+                    })
+                    .catch(err => {
+                        notification.error(err.message);
+                    })
+                    .finally(() => {
+                        currBtn.firstElementChild.remove();
+                        currBtn.firstElementChild.classList.remove("hidden")
+                        currBtn.removeAttribute("disabled");
+                    });
             }
         });
     });
@@ -52,23 +71,40 @@ document.addEventListener("DOMContentLoaded", () => {
             const currBtn = this;
             /** @type {HTMLButtonElement} */
             const nextBtn = currBtn.nextElementSibling;
-            // __COMMENT__ Tombol setelah mulai sesi harus diberikan disabled agar tidak terjadi race condition disisi frontend UI
+            const sessionId = currBtn.dataset.sessionId;
             nextBtn.disabled = true;
-            // __COMMENT__ Animasi loading state
             currBtn.disabled = true;
             currBtn.firstElementChild.classList.add("hidden");
             currBtn.insertAdjacentHTML("afterbegin", loadingSvg);
-            // __COMMENT__ State ketika server telah memberikan response
-            /**
-             * Ketika server memberikan response OK, server juga harus memberikan list data yang baru.
-             */
-            setTimeout(() => {
-                currBtn.firstElementChild.remove();
-                currBtn.firstElementChild.classList.remove("hidden");
-                currBtn.removeAttribute("disabled");
-                nextBtn.removeAttribute("disabled");
-                notification.success("Sesi telah dimulai!", clockCheck)
-            }, 5000);
+            fetch(`/api/meeting/${sessionId}/start-session`, {
+                method: "PATCH",
+                headers: {
+                    "x-csrf-token": csrfToken,
+                },
+            })
+                .then(async resp => {
+                    const text = await resp.text();
+                    const response = text ? JSON.parse(text) : {};
+                    if (!resp.ok) {
+                        const error = new Error(response.error || "Terjadi kesalahan pada server.");
+                        error.status = resp.status;
+                        throw error;
+                    }
+                    return response;
+                })
+                .then(() => {
+                    notification.success("Sesi telah dimulai. Tunggu halaman selesai memuat ulang!", clockCheck)
+                    setTimeout(() => window.location.reload(), 3800);
+                })
+                .catch(err => {
+                    notification.error(err.message);
+                })
+                .finally(() => {
+                    currBtn.firstElementChild.remove();
+                    currBtn.firstElementChild.classList.remove("hidden");
+                    currBtn.removeAttribute("disabled");
+                    nextBtn.removeAttribute("disabled");
+                });
         });
     });
     const btnDeleteSession = document.querySelectorAll(".btn-delete-session[data-pop-up-type]");
@@ -89,27 +125,40 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             if (confirmed) {
                 popUp.closePopUp(popUpWindowEl);
-                // __COMMENT__ Tombol sebelum hapus sesi harus diberikan disabled agar tidak terjadi race condition disisi frontend UI
+                const sessionId = currBtn.dataset.sessionId;
                 previousBtn.disabled = true;
-                // __COMMENT__ Animasi loading state
                 currBtn.disabled = true;
                 currBtn.firstElementChild.classList.add("hidden");
                 currBtn.insertAdjacentHTML("afterbegin", loadingSvg);
-                console.log("Sedang menghapus sesi...");
-                // __COMMENT__ State saat server memberikan response
-                /**
-                 * Ketika server memberikan response OK, server harus mengirim list data yang baru.
-                 */
-                setTimeout(() => {
-                    currBtn.firstElementChild.remove();
-                    currBtn.firstElementChild.classList.remove("hidden")
-                    currBtn.removeAttribute("disabled");
-                    previousBtn.removeAttribute("disabled");
-                    notification.success(
-                        "Sesi berhasil dihapus!",
-                        trash
-                    );
-                }, 5000);
+                fetch(`/api/meeting/${sessionId}`, {
+                    method: "DELETE",
+                    headers: {
+                        "x-csrf-token": csrfToken,
+                    },
+                })
+                    .then(async resp => {
+                        const text = await resp.text();
+                        const response = text ? JSON.parse(text) : {};
+                        if (!resp.ok) {
+                            const error = new Error(response.error || "Terjadi kesalahan pada server.");
+                            error.status = resp.status;
+                            throw error;
+                        }
+                        return response;
+                    })
+                    .then(() => {
+                        notification.success("Sesi berhasil dihapus. Tunggu halaman selesai memuat ulang!", trash);
+                        setTimeout(() => window.location.reload(), 3800);
+                    })
+                    .catch(err => {
+                        notification.error(err.message);
+                    })
+                    .finally(() => {
+                        currBtn.firstElementChild.remove();
+                        currBtn.firstElementChild.classList.remove("hidden")
+                        currBtn.removeAttribute("disabled");
+                        previousBtn.removeAttribute("disabled");
+                    });
             }
         });
     });
