@@ -41,7 +41,6 @@
                                         <div class="max-[501px]:hidden flex flex-wrap gap-y-1.5 gap-x-4.5 mt-0.5 text-xs text-gray-400 group-focus:text-white group-[.active]:text-white">
                                             <span>Dibuat pada: <%= row.created_at %></span>
                                             <span><%= row.ruang %></span>
-                                            <span><%= row.pimpinan_rapat %></span>
                                         </div>
                                     </div>
                                 </div>
@@ -68,8 +67,8 @@
                                         <p class="text-gray-700 font-semibold text-xs leading-snug"><%= row.ruang %></p>
                                     </div>
                                     <div>
-                                        <p class="text-gray-400 text-[10px] uppercase tracking-wider mb-0.5">Pimpinan Rapat</p>
-                                        <p class="text-gray-700 font-semibold text-xs leading-snug"><%= row.pimpinan_rapat %></p>
+                                        <p class="text-gray-400 text-[10px] uppercase tracking-wider mb-0.5">Total Peserta (sejak halaman dimuat)</p>
+                                        <p class="text-gray-700 font-semibold text-xs leading-snug"><%= row.total_kehadiran %></p>
                                     </div>
                                     <div class="col-span-full mt-1">
                                         <p class="text-gray-400 text-[10px] uppercase tracking-wider mb-2">Deskripsi Agenda Rapat</p>
