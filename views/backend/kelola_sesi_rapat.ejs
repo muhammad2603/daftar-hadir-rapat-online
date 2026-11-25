@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="X-CSRF-TOKEN" content="<%= csrfToken %>" />
     <title>.:: <%= title %> ::.</title>
     <link rel="stylesheet" href="/css/base.css">
 </head>
@@ -60,7 +61,7 @@
                                         <span>Mulai Sesi</span>
                                     </button>
                                     <button
-                                        data-session-id="1"
+                                        data-session-id="<%= row.id %>"
                                         data-pop-up-type="confirm"
                                         data-pop-up-message="<%= row.judul %>"
                                         class="btn-delete-session max-[381px]:grow flex justify-center items-center gap-2 py-2 px-2 border border-solid border-rose-300 text-[11px] rounded-md bg-rose-50 text-rose-600 cursor-pointer transition-colors duration-150 ease-in hover:not-disabled:bg-rose-100 hover:not-disabled:border-rose-400 disabled:opacity-40 disabled:cursor-not-allowed">
