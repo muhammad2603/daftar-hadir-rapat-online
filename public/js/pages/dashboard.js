@@ -11,6 +11,8 @@ const { octagonX } = IconsNotification;
 
 document.addEventListener("DOMContentLoaded", () => {
     const popUpBtn = document.querySelectorAll(".pop-up-btn[data-pop-up-type]");
+    /** @type {string} Token CSRF */
+    const csrfToken = document.querySelector('meta[name=X-CSRF-TOKEN]').getAttribute("content");
     popUpBtn.forEach(btn => {
         btn.addEventListener("click", async function () {
             /** @type {HTMLElement} */
@@ -26,21 +28,38 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             if (confirmed) {
                 popUp.closePopUp(popUpWindowEl);
-                // __COMMENT__ Loading state yang sedang menunggu response
+                const sessionId = currBtn.dataset.sessionId;
                 currBtn.disabled = true;
                 currBtn.querySelector("svg").classList.add("hidden");
                 currBtn.insertAdjacentHTML("afterbegin", loadingSvg);
-                console.log("Sedang mengakhiri sesi...");
-                // __COMMENT__ State saat request telah mendapatkan response dari server
-                /**
-                 * Server akan memberikan response OK dan list sesi yang telah diperbarui
-                */
-                setTimeout(() => {
-                    currBtn.firstElementChild.remove();
-                    currBtn.querySelector("svg").classList.remove("hidden");
-                    currBtn.removeAttribute("disabled");
-                    notification.success("Sesi telah berakhir.", octagonX);
-                }, 5000);
+                fetch(`/api/meeting/${sessionId}/end-session`, {
+                    method: "PATCH",
+                    headers: {
+                        "x-csrf-token": csrfToken,
+                    },
+                })
+                    .then(async resp => {
+                        const text = await resp.text();
+                        const response = text ? JSON.parse(text) : {};
+                        if (!resp.ok) {
+                            const error = new Error(response.error || "Terjadi kesalahan pada server.");
+                            error.status = resp.status;
+                            throw error;
+                        }
+                        return response;
+                    })
+                    .then(() => {
+                        notification.success("Sesi telah berakhir. Tunggu halaman selesai memuat ulang!", octagonX)
+                        setTimeout(() => window.location.reload(), 3800);
+                    })
+                    .catch(err => {
+                        notification.error(err.message);
+                    })
+                    .finally(() => {
+                        currBtn.firstElementChild.remove();
+                        currBtn.firstElementChild.classList.remove("hidden")
+                        currBtn.removeAttribute("disabled");
+                    });
             }
         });
     });
