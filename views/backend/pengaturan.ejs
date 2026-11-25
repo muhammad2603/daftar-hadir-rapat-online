@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="X-CSRF-TOKEN" content="<%= csrfToken %>" />
     <title>.:: <%= title %> ::.</title>
     <link rel="stylesheet" href="/css/base.css">
 </head>
@@ -24,8 +25,8 @@
                         <p class="text-sm text-gray-400 mb-4">Unggah kop surat resmi instansi Anda sebagai kop default. Gambar akan
                             ditampilkan di bagian atas formulir absensi peserta.</p>
                         <div>
-                            <div class="kop-surat-upload">
-                                <input type="file" accept="image/*" class="hidden" id="kopSuratDefault" hidden>
+                            <div id="kopSuratInputWrapper" class="kop-surat-upload <%= (isKopDefaultExist) ? 'hidden' : '' %>">
+                                <input type="file" accept="image/jpeg" class="hidden" id="kopSuratDefault" hidden>
                                 <label for="kopSuratDefault" id="dropFileZone" class="block border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all border-gray-200 hover:border-blue-700/70 hover:bg-gray-50">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -40,9 +41,9 @@
                                     <p class="text-xs text-gray-400 mt-1 pointer-events-none">PNG, JPG, hingga 5MB. Disarankan rasio 4:1.</p>
                                 </label>
                             </div>
-                            <div id="previewKopSurat" class="w-fit mx-auto hidden">
-                                <img id="previewImg" alt="Kop Surat Default"
-                                    class="w-full h-40 aspect-4/1 object-contain border border-slate-200 rounded-lg p-2 bg-slate-50">
+                            <div id="previewKopSurat" class="w-fit mx-auto">
+                                <img id="previewImg" src="/uploads/kop-surat/default.jpg" alt="Kop Surat Default"
+                                    class="w-full h-40 aspect-4/1 object-contain border border-slate-200 rounded-lg p-2 bg-slate-50 <%= (!isKopDefaultExist) ? 'hidden' : '' %>">
                                 <div class="btn-kop-surat-actions flex justify-end gap-3">
                                     <button type="button"
                                         id="hapusKopSurat"
@@ -60,7 +61,7 @@
                                     <button
                                         type="button"
                                         id="submitKopSurat"
-                                        class="flex justify-center items-center gap-2 mt-4 py-1 px-2 border border-solid text-sm rounded-md bg-blue-900 text-white cursor-pointer transition-colors duration-150 ease-in hover:not-disabled::bg-blue-hover disabled:opacity-40 disabled:cursor-not-allowed">
+                                        class="flex justify-center items-center gap-2 mt-4 py-1 px-2 border border-solid text-sm rounded-md bg-blue-900 text-white cursor-pointer transition-colors duration-150 ease-in hover:not-disabled:bg-blue-hover disabled:opacity-40 disabled:cursor-not-allowed <%= (isKopDefaultExist) ? 'hidden' : '' %>">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                             class="lucide lucide-file-pen preview-icon size-3">
@@ -159,7 +160,6 @@
             </div>
         </div>
     </div>
-    <script src="/js/drag-n-drop.js"></script>
     <script type="module" src="/js/pages/pengaturan.js"></script>
 </body>
 
