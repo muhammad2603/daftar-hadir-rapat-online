@@ -24,6 +24,7 @@ export const getTotalPresencesOnMeetingsCompleted = async () => {
 export const getListParticipants = async (meetingId) => {
     return db(TABLE)
         .select([
+            "id",
             "nama_pegawai",
             "nomor_hp",
             "jabatan",
@@ -32,4 +33,18 @@ export const getListParticipants = async (meetingId) => {
             "waktu_kehadiran",
         ])
         .where("sesi_rapat_id", meetingId);
+}
+
+/**
+ * Mengambil file tanda tangan peserta
+ * 
+ * @param {number} id
+ * 
+ * @returns {Promise<{ file_ttd: string }>}
+ */
+export const getSignatureParticipant = async (id) => {
+    return await db(TABLE)
+        .select("file_ttd")
+        .where("id", id)
+        .first();
 }
