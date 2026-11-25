@@ -26,6 +26,10 @@
 - [ ] Setelah menambahkan sesi rapat, server tercatat pernah mengembalikan kegagalan dalam melakukan parsing JSON. Temukan sumber masalahnya.
 - [ ] Enkripsi data sensitif (PII) saat masuk ke-record Database.
 
+# REFACTOR
+
+- [ ] Fungsi replaceNonAscii memiliki duplikat. Pecah menjadi modul agar dapat reusability.
+
 # REVISI DARI DANIEL PRAKASA (PROGRAMMER DISKOMINFO BATANG HARI)
 
 - [ ] Sesuaikan tema dengan warna khas Kabupaten Batang Hari. Lihat desain website buatan Diskominfo Batang Hari sebagai referensi.
