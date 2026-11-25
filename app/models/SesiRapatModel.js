@@ -106,6 +106,7 @@ export const getMeetingsHighlight = async (date = false, state = false, withPart
  * @returns {Promise<Object[]>}
  */
 export const getAllMeetingsHighlightWithoutCompleted = async (date = false) => {
+    // TODO Kenapa byDate tidak digunakan?
     let byDate;
     if (date === false) {
         byDate = DateTimeParser(new Date()).toLocalizedString("yyyy-MM-dd");
@@ -177,5 +178,18 @@ export const getMeetingsInProgressWithAttendanceLink = async () => {
 export const getMeetingBySlug = async (slug) => {
     return db(TABLE)
         .where("slug", slug)
+        .first();
+}
+
+/**
+ * Mengambil data sesi rapat berdasarkan slug kehadiran
+ * 
+ * @param {string} slug
+ * 
+ * @returns {Promise<Object>}
+ */
+export const getMeetingBySlugAttendance = async (slug) => {
+    return db(TABLE)
+        .where("slug_kehadiran", slug)
         .first();
 }
