@@ -5,54 +5,49 @@ const loadingSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="2
 <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
 </svg>`;
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     const popUpQr = new PopUp(document.getElementById("qrCode"));
     const btnShowQr = document.getElementById("btnShowQrCode");
     const btnCloseQrCode = document.getElementById("btnCloseQrCode");
+    /** @type {string} Token CSRF */
+    const csrfToken = document.querySelector('meta[name=X-CSRF-TOKEN]').getAttribute("content");
+    /** @type {string} Session ID */
+    const sessionId = document.querySelector('meta[name=SESSION-ID]').getAttribute("content");
     btnShowQr.addEventListener("click", () => popUpQr.showPopUp());
     btnCloseQrCode.addEventListener("click", () => popUpQr.closePopUp());
     const btnEndSession = document.getElementById("btnEndSession");
-    // __COMMENT__ Aksi untuk mengakhiri sesi tidak butuh Pop Up, aksi akan langsung dilakukan.
     btnEndSession.addEventListener("click", function () {
-        // __COMMENT__ Animasi loading state
         /** @type {HTMLButtonElement} */
         const currBtn = this;
+        const sessionId = currBtn.dataset.sessionId;
         const defaultTextBtn = currBtn.textContent;
         currBtn.innerHTML = loadingSvg;
         currBtn.disabled = true;
-        console.log("Sedang mengakhiri sesi...");
-        // __COMMENT__ State ketika request telah mendapat response dari server
-        /**
-         * Setelah mendapat response OK dari server, user akan diarahkan ke uri /dashboard/sesi-rapat/riwayat.
-         * User tidak dapat kembali ke-halaman ini setelah diarahkan ke uri tersebut karena sesi telah berakhir.
-         */
-        setTimeout(() => {
-            currBtn.innerText = defaultTextBtn;
-            currBtn.removeAttribute("disabled");
-            console.log("Sesi telah berakhir.")
-            window.location.replace('/dashboard/sesi-rapat/riwayat');
-        }, 5000);
+        fetch(`/api/meeting/${sessionId}/end-session`, {
+            method: "PATCH",
+            headers: {
+                "x-csrf-token": csrfToken,
+            },
+        })
+            .then(async resp => {
+                const text = await resp.text();
+                const response = text ? JSON.parse(text) : {};
+                if (!resp.ok) {
+                    const error = new Error(response.error || "Terjadi kesalahan pada server.");
+                    error.status = resp.status;
+                    throw error;
+                }
+                return response;
+            })
+            .then(() => window.location.reload())
+            .catch(err => {
+                console.error(err.message);
+            })
+            .finally(() => {
+                currBtn.innerText = defaultTextBtn;
+                currBtn.removeAttribute("disabled");
+            });
     });
-    const popUpTtdEl = document.getElementById("popUpTtdImage");
-    const popUpTtdImage = new PopUp(popUpTtdEl);
-    /** @type {NodeListOf<HTMLImageElement>} */
-    const ttdImages = document.querySelectorAll("table td img.ttd-image");
-    const btnCloseTtdImage = document.getElementById('btnCloseTtdImage');
-    ttdImages.forEach((img) => {
-        img.addEventListener("click", function () {
-            const tbRow = this.closest("tr");
-            const rowParticipantName = tbRow.querySelector("p.participant-name");
-            const rowTimePresence = tbRow.querySelector("td.time-presence");
-            const popUpImgEl = popUpTtdEl.querySelector("img");
-            const participantName = popUpTtdEl.querySelector("span#participantName");
-            const timePresence = popUpTtdEl.querySelector("span#timePresence");
-            popUpImgEl.src = this.src;
-            participantName.textContent = rowParticipantName.textContent;
-            timePresence.textContent = rowTimePresence.textContent;
-            popUpTtdImage.showPopUp();
-        });
-    });
-    btnCloseTtdImage.addEventListener("click", () => popUpTtdImage.closePopUp());
     const canvas = document.querySelector("canvas");
     const ttdText = document.getElementById("ttdText");
     const resetTtdBtn = document.getElementById("resetTtd");
@@ -93,8 +88,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
+    const resizeObserver = new ResizeObserver(() => {
+        resizeCanvas();
+    });
+    resizeObserver.observe(canvas);
 
     signaturePad.addEventListener("beginStroke", () => {
         ttdText.classList.add("hidden");
@@ -242,7 +239,6 @@ document.addEventListener("DOMContentLoaded", () => {
         for (let i = 0; i < inputsConfigEl.length; i++) {
             const inputEl = inputsConfigEl[i];
             const inputValue = inputEl.value.trim();
-            // Cek apakah NIP telah tersimpan diconfig
             if (configLength > 0 && inputEl.id === "personChargeIdNumber") {
                 const isPersonIdNumberExist = configArray.some(config => config.personChargeIdNumber === inputValue);
                 if (isPersonIdNumberExist) {
@@ -270,4 +266,50 @@ document.addEventListener("DOMContentLoaded", () => {
         configSavedSelectEl.appendChild(new Option(`${createRow.personChargeName} - ${createRow.personChargeIdNumber}`, createRow.personChargeIdNumber));
         alert("Informasi penanggung jawab berhasil disimpan!");
     });
+
+    const participantsWrapper = document.getElementById("participants");
+    const participantsTableHead = participantsWrapper.querySelector("table thead");
+    const participantsTableBody = participantsWrapper.querySelector("table tbody");
+    const emptyAttendancesWrapper = document.getElementById("emptyAttendances");
+
+    const renderedParticipantIds = new Set();
+    const createParticipantRow = (row, idx) => {
+        const cell = `<tr class="hover:bg-gray-50/50 transition-colors group">
+        <td class="py-3 px-3 text-gray-400 text-sm print:hidden print:text-black/75">${idx}</td>
+        <td class="py-3 px-3">
+            <p class="participant-name font-medium text-gray-600 text-sm print:text-black/75">${row.nama_pegawai}</p>
+        </td>
+        <td class="py-3 px-3 text-gray-600 text-sm leading-snug max-w-40 print:text-black/75">${row.jabatan}</td>
+        <td class="py-3 px-3 text-gray-600 text-sm print:text-black/75">${row.nama_opd}</td>
+        <td class="py-3 px-3 text-gray-600 text-sm tracking-wider print:text-black/75">${row.nomor_hp}</td>
+        <td class="py-3 px-3">
+            <img src="/api/meeting/attendance/${row.id}/signature" alt="Tanda Tangan ${row.nama_pegawai}" class="ttd-image h-10 w-24 object-contain border border-gray-100 rounded bg-white cursor-pointer print:border-none" />
+        </td>
+        <td class="time-presence py-3 px-3 text-gray-500 text-sm print:hidden">${row.waktu_kehadiran}</td>
+    </tr>`;
+        participantsTableBody.insertAdjacentHTML("beforeend", cell);
+    }
+
+    const getParticipants = async () => {
+        try {
+            const resp = await fetch(`/api/meeting/${sessionId}/participants`);
+            const participants = await resp.json();
+            if (participants.totalParticipants > 0) {
+                emptyAttendancesWrapper.classList.add("hidden");
+                participantsTableHead.classList.remove("hidden");
+                participants.listParticipants.forEach((row) => {
+                    if (!renderedParticipantIds.has(row.id)) {
+                        renderedParticipantIds.add(row.id);
+                        const currentNumber = renderedParticipantIds.size;
+                        createParticipantRow(row, currentNumber);
+                    }
+                });
+            }
+        } catch (error) {
+            console.error("Gagal memuat data peserta:", error);
+        }
+    }
+
+    getParticipants();
+    setInterval(getParticipants, 3000);
 });
