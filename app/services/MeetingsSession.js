@@ -2,6 +2,8 @@ import * as SesiRapatModel from "../models/SesiRapatModel.js";
 import * as SesiRapatKehadiranModel from "../models/SesiRapatKehadiranModel.js";
 import { DateTimeParser } from "../services/DateTimeParser.js";
 import 'dotenv/config';
+import { HttpError } from "../error_handlers/HttpError.js";
+import { ERR } from "../error_handlers/ErrorCodes.js";
 
 const STATE = {
     INPROGRESS: "Sedang Berlangsung",
@@ -120,6 +122,9 @@ export const meetingSession = async (slug) => {
  */
 export const meetingSessionWithListParticipants = async (slug) => {
     const meeting = await SesiRapatModel.getMeetingBySlug(slug);
+    if (!meeting) {
+        throw new HttpError(404, "Sesi rapat tidak ditemukan.", ERR.NOT_FOUND);
+    }
     const listParticipants = (await SesiRapatKehadiranModel.getListParticipants(meeting.id)).map((row) => ({
         ...row,
         waktu_kehadiran: DateTimeParser(row.waktu_kehadiran).toLocalizedString("d MMM yyyy, 'Pukul' HH:mm"),
