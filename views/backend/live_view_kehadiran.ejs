@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="X-CSRF-TOKEN" content="<%= csrfToken %>" />
+    <meta name="SESSION-ID" content="<%= meetingData.id %>" />
     <title>.:: <%= title %> ::.</title>
     <link rel="stylesheet" href="/css/base.css">
 </head>
@@ -48,15 +50,6 @@
                                 </svg>
                                 <span><%= meetingData.ruang %></span>
                             </span>
-                            <span class="inline-flex gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                    class="lucide lucide-user-round preview-icon size-3 print:size-4.5">
-                                    <circle cx="12" cy="8" r="5" />
-                                    <path d="M20 21a8 8 0 0 0-16 0" />
-                                </svg>
-                                <span><%= meetingData.pimpinan_rapat %></span>
-                            </span>
                         </div>
                     </div>
                     <div class="flex items-center gap-3 shrink-0 print:hidden">
@@ -72,7 +65,7 @@
                             </svg>
                             <span>Bagikan</span>
                         </button>
-                        <button id="btnEndSession" data-meeting-id="<%= meetingData.id %>" type="button" class="flex items-center gap-1.5 px-3 py-2 bg-red-50 text-red-600 text-xs font-semibold border border-solid border-red-300 rounded-xl cursor-pointer transition-colors duration-150 ease-in hover:not-disabled:bg-red-100 hover:not-disabled:border-red-400 disabled:opacity-60 disabled:cursor-not-allowed" <%= (meetingData.state !== "Sedang Berlangsung") ? "disabled" : "" %>>Akhiri Sesi</button>
+                        <button id="btnEndSession" data-session-id="<%= meetingData.id %>" type="button" class="flex items-center gap-1.5 px-3 py-2 bg-red-50 text-red-600 text-xs font-semibold border border-solid border-red-300 rounded-xl cursor-pointer transition-colors duration-150 ease-in hover:not-disabled:bg-red-100 hover:not-disabled:border-red-400 disabled:opacity-60 disabled:cursor-not-allowed" <%= (meetingData.state !== "Sedang Berlangsung") ? "disabled" : "" %>>Akhiri Sesi</button>
                     </div>
                 </div>
                 <% if(meetingData.state === "Sedang Berlangsung") { %>
@@ -97,57 +90,34 @@
                         <span class="text-xs text-gray-400 bg-gray-50 border border-gray-100 px-3 py-1 rounded-full font-semibold"><%= totalParticipants %> Peserta</span>
                     </div>
                     <div class="p-6 print:py-3.5 print:px-2">
-                        <% if(totalParticipants > 0) { %>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-sm">
-                                    <thead class="text-gray-400 print:text-black">
-                                        <tr class="border-b border-gray-100 print:border-gray-200">
-                                            <th class="text-left py-2.5 px-3 text-xs font-semibold  uppercase tracking-wider w-10 print:hidden">No
-                                            </th>
-                                            <th class="text-left py-2.5 px-3 text-xs font-semibold  uppercase tracking-wider">Nama Pegawai</th>
-                                            <th class="text-left py-2.5 px-3 text-xs font-semibold  uppercase tracking-wider">Jabatan</th>
-                                            <th class="text-left py-2.5 px-3 text-xs font-semibold  uppercase tracking-wider">OPD</th>
-                                            <th class="text-left py-2.5 px-3 text-xs font-semibold  uppercase tracking-wider">Nomor HP</th>
-                                            <th class="text-left py-2.5 px-3 text-xs font-semibold  uppercase tracking-wider">Tanda Tangan</th>
-                                            <th class="text-left py-2.5 px-3 text-xs font-semibold  uppercase tracking-wider print:hidden">Waktu
-                                                Hadir</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-gray-50">
-                                        <% listParticipants.forEach((row, idx) => { %>
-                                            <tr class="hover:bg-gray-50/50 transition-colors group">
-                                                <td class="py-3 px-3 text-gray-400 text-sm print:hidden print:text-black/75"><%= ++idx %></td>
-                                                <td class="py-3 px-3">
-                                                    <p class="participant-name font-medium text-gray-600 text-sm print:text-black/75"><%= row.nama_pegawai %></p>
-                                                </td>
-                                                <td class="py-3 px-3 text-gray-600 text-sm leading-snug max-w-40 print:text-black/75"><%= row.jabatan %></td>
-                                                <td class="py-3 px-3 text-gray-600 text-sm print:text-black/75"><%= row.nama_opd %></td>
-                                                <td class="py-3 px-3 text-gray-600 text-sm tracking-wider print:text-black/75"><%= row.nomor_hp %></td>
-                                                <td class="py-3 px-3">
-                                                    <!-- TODO Source tanda tangan peserta harus diambil melalui endpoint -->
-                                                    <img src="https://i.pinimg.com/736x/f0/a9/93/f0a993fdc4e1d81651f1d820c746fc3f.jpg"
-                                                        alt="Tanda Tangan <%= row.nama_pegawai %>" title="Klik untuk melihat full view"
-                                                        class="ttd-image h-10 w-24 object-contain border border-gray-100 rounded bg-white cursor-pointer print:border-none" />
-                                                </td>
-                                                <td class="time-presence py-3 px-3 text-gray-500 text-sm print:hidden"><%= row.waktu_kehadiran %></td>
-                                            </tr>
-                                        <% }) %>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <% } else { %>
-                            <div class="text-center py-16 text-gray-400 hidden">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                    class="lucide lucide-users-round preview-icon size-16 mx-auto mb-3 opacity-30">
-                                    <path d="M18 21a8 8 0 0 0-16 0" />
-                                    <circle cx="10" cy="8" r="5" />
-                                    <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" />
-                                </svg>
-                                <p class="text-sm font-medium">Belum Ada Peserta yang Hadir</p>
-                                <p class="text-xs mt-1">Bagikan tautan absensi kepada peserta rapat</p>
-                            </div>
-                        <% } %>
+                        <div id="participants" class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead class="text-gray-400 print:text-black <%= (totalParticipants === 0) ? 'hidden' : '' %>">
+                                    <tr class="border-b border-gray-100 print:border-gray-200">
+                                        <th class="text-left py-2.5 px-3 text-xs font-semibold uppercase tracking-wider w-10 print:hidden">No</th>
+                                        <th class="text-left py-2.5 px-3 text-xs font-semibold uppercase tracking-wider">Nama Pegawai</th>
+                                        <th class="text-left py-2.5 px-3 text-xs font-semibold uppercase tracking-wider">Jabatan</th>
+                                        <th class="text-left py-2.5 px-3 text-xs font-semibold uppercase tracking-wider">OPD</th>
+                                        <th class="text-left py-2.5 px-3 text-xs font-semibold uppercase tracking-wider">Nomor HP</th>
+                                        <th class="text-left py-2.5 px-3 text-xs font-semibold uppercase tracking-wider">Tanda Tangan</th>
+                                        <th class="text-left py-2.5 px-3 text-xs font-semibold uppercase tracking-wider print:hidden">Waktu Hadir</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-50">
+                                    <div id="emptyAttendances" class="text-center py-16 text-gray-400 <%= (totalParticipants > 0) ? 'hidden' : '' %>">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-users-round preview-icon size-16 mx-auto mb-3 opacity-30">
+                                            <path d="M18 21a8 8 0 0 0-16 0" />
+                                            <circle cx="10" cy="8" r="5" />
+                                            <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" />
+                                        </svg>
+                                        <p class="text-sm font-medium">Belum Ada Peserta yang Hadir</p>
+                                        <p class="text-xs mt-1">Bagikan tautan absensi kepada peserta rapat</p>
+                                    </div>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
