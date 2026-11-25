@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="X-CSRF-TOKEN" content="<%= csrfToken %>" />
+    <meta name="SESSION-ID" content="<%= meetingData.id %>" />
     <title>.:: <%= title %> ::.</title>
     <link rel="stylesheet" href="/css/base.css">
 </head>
@@ -53,49 +55,6 @@
                         <textarea id="agendaRapat" rows="4" placeholder="Masukkan Topik yang Akan Dibahas..."
                             class="w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors resize-none"><%= meetingData.agenda %></textarea>
                     </div>
-                    <div>
-                        <span class="block text-xs font-medium text-slate-600 mb-1.5">Kop Surat
-                            (Opsional)</span>
-                        <input type="file" id="kopSuratDefault" accept="image/*" class="hidden">
-                        <label for="kopSuratDefault" id="dropFileZone"
-                            class="hidden border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all border-gray-200 hover:border-blue-700/70 hover:bg-gray-50">
-                            <div class="cursor-pointer flex flex-col items-center gap-2 pointer-events-none">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                    class="lucide lucide-arrow-up-from-line preview-icon text-slate-400 pointer-events-none">
-                                    <path d="m18 9-6-6-6 6" />
-                                    <path d="M12 3v14" />
-                                    <path d="M5 21h14" />
-                                </svg>
-                                <span class="text-xs text-slate-500 pointer-events-none">Klik atau seret gambar kop surat ke sini</span>
-                                <span class="text-xs text-slate-400 pointer-events-none">PNG, JPG, hingga 5MB. Disarankan rasio 4:1.</span>
-                                <span class="text-xs text-slate-400 pointer-events-none">Catatan: Jika kop tidak diupload, maka akan diisi dengan kop default.</span>
-                            </div>
-                        </label>
-                        <%
-                        const kopSuratPath = "/uploads/kop-surat";
-                        const fileKopSurat = meetingData.file_kop_surat;
-                        const fileKopSuratPath = (fileKopSurat === null) ? `${kopSuratPath}/contoh-kop-surat.png` : `${kopSuratPath}/${fileKopSurat}`;
-                        %>
-                        <div id="previewKopSurat" class="w-fit mx-auto">
-                            <img id="previewImg" src="<%= fileKopSuratPath %>" alt="Kop Surat Rapat"
-                                class="w-full h-40 aspect-4/1 object-contain border border-slate-200 rounded-lg p-2 bg-slate-50">
-                            <div class="btn-kop-surat-actions flex justify-end gap-3">
-                                <button type="button" id="hapusKopSurat"
-                                    class="flex justify-center items-center gap-2 mt-4 py-1 px-2 border border-solid border-red-300 text-sm rounded-md bg-red-50 text-red-600 cursor-pointer transition-colors duration-150 ease-in hover:bg-red-100 hover:border-red-400">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        class="lucide lucide-file-minus preview-icon size-3">
-                                        <path
-                                            d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
-                                        <path d="M14 2v5a1 1 0 0 0 1 1h5" />
-                                        <path d="M9 15h6" />
-                                    </svg>
-                                    <span>Hapus</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
                     <div class="flex gap-3 pt-2">
                         <a
                             href="/dashboard/sesi-rapat/kelola"
@@ -110,7 +69,6 @@
             </div>
         </main>
     </div>
-    <script src="/js/drag-n-drop.js"></script>
     <script src="/js/pages/edit_sesi_rapat.js"></script>
 </body>
 
